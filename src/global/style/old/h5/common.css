@@ -1,0 +1,53 @@
+
+html {font-size: 100px;}
+
+body {
+    color: #333333;
+    font-size: 0.12rem;
+    font-family: Helvetica Neue,Helvetica,Arial,Sans-serif;
+    -webkit-touch-callout:none ;
+    -webkit-user-select:none ;
+}
+
+::-webkit-scrollbar {width: 0;}
+
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+.iconfont {
+    vertical-align: middle;
+    position: relative;
+    font-size: 0.16rem;
+}
+
+#wx_pic{
+    position: absolute;
+    top: -100000px;
+}
+.iwjw-max {
+   width: 640px;
+   margin: auto;
+   border: 1px solid #d3d3d3
+}
+
+#iwjw {
+    min-height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.mod-h5-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
