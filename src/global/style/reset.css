@@ -4,6 +4,12 @@ body {
   background: #fff;
 }
 
+html,
+body,
+#app {
+  height: 100%;
+}
+
 body,
 h1,
 h2,
@@ -134,12 +140,12 @@ audio:not([controls]) {
 a {
   text-decoration: none;
   cursor: pointer;
-  color: #408cdf;
+  color: #fff;
   outline: 0 none;
 }
 
 a:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 abbr[title],
@@ -341,3 +347,4 @@ textarea:focus,
 * {
   box-sizing: border-box;
 }
+

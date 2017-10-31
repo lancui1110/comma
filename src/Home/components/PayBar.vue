@@ -14,7 +14,7 @@
         <p v-else class="no-choose">还未选购商品</p>
       </div>
     </div>
-    <div class="pay-btn">去支付</div>
+    <div class="pay-btn"><router-link to="pay">去支付</router-link></div>
   </div>
 </template>
 

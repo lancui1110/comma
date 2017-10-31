@@ -58,7 +58,7 @@
 // import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Demo',
+  name: 'SelProducts',
   props: {
     show: {
       type: Boolean,

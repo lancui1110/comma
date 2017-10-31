@@ -86,7 +86,6 @@ audio:not([controls]) {
 a {
     text-decoration: none;
     cursor: pointer;
-    color: #408cdf;
     outline: 0 none;
 }
 

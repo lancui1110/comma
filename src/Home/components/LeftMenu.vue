@@ -10,15 +10,21 @@
       <div class="menus">
         <div class="menu-item">
           <span class="icon-panel"><i class="icon icon-order"></i></span>
-          <span class="word">订单</span>
+          <span class="word">
+            <router-link to="orderList">订单</router-link>
+          </span>
         </div>
         <div class="menu-item">
           <span class="icon-panel"><i class="icon icon-coupon"></i></span>
-          <span class="word">优惠券</span>
+          <span class="word">
+            <router-link to="orderList">优惠券</router-link>
+          </span>
         </div>
         <div class="menu-item">
           <span class="icon-panel"><i class="icon icon-service"></i></span>
-          <span class="word">客服</span>
+          <span class="word">
+            <router-link to="orderList">客服</router-link>
+          </span>
         </div>
       </div>
       <div class="logo-word">
@@ -116,6 +122,9 @@ export default {
         padding-left: 73/@R;
         font-size: 36/@R;
         color: #593C38;
+        a {
+          color: #333;
+        }
         .menu-item {
           padding: 26/@R 0;
         }

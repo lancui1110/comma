@@ -1,0 +1,101 @@
+<template>
+  <div class="before-pay-panel">
+    <div class="remaining-time">
+      <div class="circle">
+        <p class="word">剩余时间</p>
+        <p class="times">13:28</p>
+      </div>
+    </div>
+    <div class="pay-word">
+      <i class="icon icon-wx"></i>
+      <span class="word">微信支付</span>
+      <i class="icon icon-choose"></i>
+    </div>
+    <div class="go-pay">
+      <router-link to="paySuc">去支付 ¥178.50</router-link>
+    </div>
+  </div>
+</template>
+
+<script>
+// import { mapGetters } from 'vuex'
+
+export default {
+  name: 'BeforePay',
+  props: {
+  },
+  data () {
+    return {
+      
+    }
+  }
+}
+</script>
+
+<style lang="less">
+  @import "../global/style/theme.less";
+  .before-pay-panel {
+    position: relative;
+    background: #F2F2F2;
+    padding-top: 30/@R;
+    height: 100%;
+    .word {
+      font-size: 28/@R;
+    }
+    .remaining-time {
+      height: 352/@R;
+      background: #fff;
+      margin-bottom: 30/@R;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .circle {
+        height: 284/@R;
+        width: 284/@R;
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 142/@R;
+        display: inline-block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .word {
+        line-height: 50/@R;
+      }
+      .times {
+        font-size: 60/@R;
+        font-weight: bold;
+        line-height: 90/@R;
+      }
+    }
+    .pay-word {
+      display: flex;
+      background: #fff;
+      height: 100/@R;
+      line-height: 100/@R;
+      line-height: 100/@R;
+      padding: 25/@R 39/@R 25/@R 51/@R;
+      .word {
+        display: inline-block;
+        font-size: 36/@R;
+        line-height: 50/@R;
+        padding-left: 30/@R;
+        flex: 1;
+      }
+    }
+    .go-pay {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #26100D;
+      text-align: center;
+      color: #fff;
+      font-size: 36/@R;
+      height: 100/@R;
+      line-height: 100/@R;
+    }
+  }
+</style>
