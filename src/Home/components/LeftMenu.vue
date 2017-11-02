@@ -11,19 +11,19 @@
         <div class="menu-item">
           <span class="icon-panel"><i class="icon icon-order"></i></span>
           <span class="word">
-            <router-link to="orderList">订单</router-link>
+            <router-link to="order/list">订单</router-link>
           </span>
         </div>
         <div class="menu-item">
           <span class="icon-panel"><i class="icon icon-coupon"></i></span>
           <span class="word">
-            <router-link to="orderList">优惠券</router-link>
+            <router-link to="coupons">优惠券</router-link>
           </span>
         </div>
         <div class="menu-item">
           <span class="icon-panel"><i class="icon icon-service"></i></span>
           <span class="word">
-            <router-link to="orderList">客服</router-link>
+            <router-link to="customer">客服</router-link>
           </span>
         </div>
       </div>

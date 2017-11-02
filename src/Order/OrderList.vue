@@ -20,7 +20,7 @@
       <div class="word">下单时间：2017-09-09  20:48:12</div>
       <div class="word">实际支付：<span class="price">¥20.00</span></div>
       <div class="detail-btn">
-        <router-link to="orderDetail">订单详情</router-link>
+        <router-link to="detail">订单详情</router-link>
       </div>
     </div>
 

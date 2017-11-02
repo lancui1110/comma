@@ -12,7 +12,7 @@
       <i class="icon icon-choose"></i>
     </div>
     <div class="go-pay">
-      <router-link to="paySuc">去支付 ¥178.50</router-link>
+      <router-link to="pay/success">去支付 ¥178.50</router-link>
     </div>
   </div>
 </template>
