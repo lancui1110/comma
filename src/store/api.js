@@ -1,23 +1,25 @@
 const apiMapping = {
-  // 用户 api
-  userDetail: 'user/detail',
-  // 二手房 区域相关 api
-  secAreaList: 'area/list',
-  secAreaSearch: 'area/estate/search',
-  secUserQueryHistory: 'user/estateQueryHistory',
-  // 二手房 房源相关 api
-  secHouseList: 'house/sell/search',
-  secHouseDetail: 'house/sell/detail',
-  secHouseQRCode: 'house/qrCode.jpg',
-  secHouseLink: 'house/otherHouseUrl',
-  secAddRemark: 'house/addUserRemark',
-  secUserRemark: 'house/getUserRemark',
-  secEstateImg: 'area/estate/img',
-  getMemberInfo: 'user/getMemberInfo',
-  getEstateTraffic: 'area/estate/traffic',
+  
+  homePage: '/api/homePage', // 首页数据
 
-  secHouseGroupList: 'house/sell/searchGroup'
-  // 其他模块的 api 依次加，注意写注释归类就行了
+  shelfRecommend: '/api/shelf/recommendShelf', // 货架推荐
+  ShelfCategory: '/api/shelf/getCategory', // 货架分类
+  getAllArea: '/api/shelf/getAllArea', // 城市列表接口
+  
+  orderDetail: '/api/order/detail', // 订单详情
+  addOrder: '/api/order/addOrder', // 订单提交
+  orderList: '/api/order/page', // 订单列表
+  orderStatus: '/api/order/getOrderStatus', // 订单付款结果查询
+
+  userLogin: '/api/user/login', // 短信登录
+  sendVerifyCode: '/api/user/sendVerifyCode', // 短信发送
+  userFeedback: '/api/user/feedback', // 用户反馈
+
+  getGoodsByName: '/api/getGoodsByName', // 商品搜索
+  getGoodsByType: '/api/getGoodsByType', // 商品分类展示
+
+  couponList: '/api/user/pageCoupon' // 优惠券列表
+
 }
 
 export default {
