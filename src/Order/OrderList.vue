@@ -1,5 +1,5 @@
 <template>
-  <div v-if="list.length <= 0" class="order-list-panel no-data">
+  <div v-if="orderList.length <= 0" class="order-list-panel no-data">
     <div class="content">
       <p class="pic"><img :src="require('../assets/img_order_none.png')"/></p>
       <p class="word">暂无订单</p>
@@ -8,8 +8,8 @@
 
   <div v-else class="order-list-panel">
     <div class="head">已完成订单</div>
-
-    <div class="order-item" v-for="(item, key) in 3" :key="key">
+    {{orderList}}
+    <div class="order-item" v-for="(item, key) in orderList" :key="key">
       <p class="word">货柜编号：xd99908</p>
       <div class="product-pics">
         <div class="pro-pic" v-for="(item, key) in 8" :key="key">
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'OrderList',
@@ -36,7 +36,17 @@ export default {
   },
   data () {
     return {
-      list: [{}]
+      
+    }
+  },
+  computed: {
+    ...mapGetters({
+      orderList: 'order/orderList'
+    })
+  },
+  methods: {
+    loadList () {
+      this.$store.commit('order/getDataList')
     }
   }
 }
