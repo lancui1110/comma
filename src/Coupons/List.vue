@@ -1,10 +1,9 @@
 <template>
-  <div class="coupons-list-panel">
-    <mt-loadmore 
-      :top-method="loadTop" 
+  <!-- <mt-loadmore 
       :bottom-method="loadBottom" 
       :bottom-all-loaded="allLoaded" 
-      ref="loadmore">
+      ref="loadmore"> -->
+    <div class="coupons-list-panel">
       <div v-for="(item, key) in couponList.data" :key="key" class="coupons-item-panel">
         <div class="coupons-item" :class="{'gray': item.status !== 1}">
           <div class="word red">
@@ -20,8 +19,8 @@
         <img v-if="item.status === 4" class="state-pic" :src="require('../assets/icon_coupon_gq.png')" />
         <img v-if="item.status === 2" class="state-pic" :src="require('../assets/icon_coupon_sy.png')" />
       </div>
-    </mt-loadmore>  
-  </div>
+    </div>
+  <!-- </mt-loadmore>   -->
 </template>
 
 <script>
@@ -45,10 +44,10 @@ export default {
   computed: {
     ...mapGetters({
       couponList: 'coupons/couponList'
-    }),
-    allLoaded () {
-      return this.couponList.end
-    }
+    })
+    // allLoaded () {
+    //   // return this.couponList.end || false
+    // }
   },
   mounted () {
     this.loadData()
@@ -60,9 +59,12 @@ export default {
     },
     loadTop () {
       this.$refs.loadmore.onTopLoaded()
+      // this.loadData()
     },
     loadBottom () {
+      this.allLoaded = this.couponList.end
       this.$refs.loadmore.onBottomLoaded()
+      // this.loadData()      
     }
   }
 }
