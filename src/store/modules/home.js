@@ -3,6 +3,7 @@ import API from '../api'
 
 const state = {
   user: null,
+  banner: null,
   search: '',
   category: {
     current: null,
@@ -26,16 +27,6 @@ const state = {
 }
 
 const actions = {
-  getUserInfo ({ commit }, cb) {
-    iwjw.ajax({
-      url: API.getUrl('userDetail')
-    }).then(res => {
-      if (res.code === 1) {
-        commit('setUser', res.data.userVo)
-      }
-      cb && cb()
-    })
-  },
   changeSearchKeyword ({ commit }, v) {
     commit('setSearch', v)
   },
@@ -60,8 +51,9 @@ const actions = {
       url: API.getUrl('homePage')
     }).then(res => {
       if (res.code === 1) {
-        const { userInfo, categories, firstCategoryInfo } = res.data
+        const { userInfo, banner, categories, firstCategoryInfo } = res.data
         commit('setUser', userInfo)
+        commit('setBanner', banner)
         commit('setCategory', { current: categories[0], list: categories })
         const { total, page, pageSize, allPage, end, data } = firstCategoryInfo
         commit('setProductList', data)
@@ -188,6 +180,9 @@ const mutations = {
   setUser (state, payload) {
     state.user = payload
   },
+  setBanner (state, payload) {
+    state.banner = payload
+  },
   setSearch (state, payload) {
     state.search = payload
   },
@@ -208,6 +203,9 @@ const mutations = {
 const getters = {
   getUser (state) {
     return state.user
+  },
+  getBanner (state) {
+    return state.banner
   },
   getSearch (state) {
     return state.search

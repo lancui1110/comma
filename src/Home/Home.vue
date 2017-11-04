@@ -1,13 +1,16 @@
 <template>
   <div class="home">
     <div class="header">
-      <img class="banner" :src="require('../assets/header-banner.png')"/>
+      <a v-if="banner" :href="banner.linkUrl">
+        <img class="banner" :src="banner.picUrl"/>
+      </a>
+      <img v-else class="banner" :src="require('../assets/header-banner.png')"/>
     </div>
     <!-- 搜索 -->
     <div class="search">
       <div class="logo-user">
-        <i class="icon icon-head-top" @click="showLeftMenu"></i>
-        <span class="user-phone">139****2276</span>
+        <i class="icon icon-head-top-border" @click="showLeftMenu"></i>
+        <span class="user-phone" v-if="user">{{user.mobile}}</span>
       </div>
       <div class="search-input">
         <i class="icon icon-search"></i>
@@ -63,7 +66,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'user/getUser',
+      user: 'home/getUser',
+      banner: 'home/getBanner',
       search: 'home/getSearch'
     }),
     searchKeyword: {
