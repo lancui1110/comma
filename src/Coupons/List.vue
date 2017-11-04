@@ -1,24 +1,35 @@
 <template>
   <div class="coupons-list-panel">
-    <div v-for="(item, key) in 4" :key="key" class="coupons-item-panel">
-      <div class="coupons-item" :class="{'gray': false}">
-        <div class="word red">
-          <span class="left word large">10元</span>
-          <span class="word">10元</span>
+    <mt-loadmore 
+      :top-method="loadTop" 
+      :bottom-method="loadBottom" 
+      :bottom-all-loaded="allLoaded" 
+      ref="loadmore">
+      <div v-for="(item, key) in couponList.data" :key="key" class="coupons-item-panel">
+        <div class="coupons-item" :class="{'gray': item.status !== 1}">
+          <div class="word red">
+            <span class="left word large">{{item.price}}元</span>
+            <span class="word">{{item.name}}</span>
+          </div>
+          <div class="word">
+            <span class="left word">满{{item.lowPrice}}元立减</span>
+            <span class="word">{{item.startDate}}~{{item.endDate}}</span>
+          </div>
         </div>
-        <div class="word">
-          <span class="left word">新手满减</span>
-          <span class="word">17.09.09～17.10.10</span>
-        </div>
+        <!-- 1待使用 2已使用  4：过期 -->
+        <img v-if="item.status === 4" class="state-pic" :src="require('../assets/icon_coupon_gq.png')" />
+        <img v-if="item.status === 2" class="state-pic" :src="require('../assets/icon_coupon_sy.png')" />
       </div>
-      <!-- <img class="state-pic" :src="require('../assets/icon_coupon_gq.png')" /> -->
-      <img class="state-pic" :src="require('../assets/icon_coupon_sy.png')" />
-    </div>
+    </mt-loadmore>  
   </div>
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import Vue from 'vue'
+import { mapGetters } from 'vuex'
+import { Loadmore } from 'mint-ui'
+
+Vue.component(Loadmore.name, Loadmore)
 
 export default {
   name: 'CouponsList',
@@ -26,7 +37,32 @@ export default {
   },
   data () {
     return {
-      
+      page: 1,
+      pageSize: 10,
+      allLoaded: false
+    }
+  },
+  computed: {
+    ...mapGetters({
+      couponList: 'coupons/couponList'
+    }),
+    allLoaded () {
+      return this.couponList.end
+    }
+  },
+  mounted () {
+    this.loadData()
+  },
+  methods: {
+    loadData () {
+      const params = {page: this.page, pageSize: this.pageSize}
+      this.$store.dispatch('coupons/getCouponList', params)
+    },
+    loadTop () {
+      this.$refs.loadmore.onTopLoaded()
+    },
+    loadBottom () {
+      this.$refs.loadmore.onBottomLoaded()
     }
   }
 }

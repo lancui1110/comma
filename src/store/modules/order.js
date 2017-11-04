@@ -33,7 +33,6 @@ const actions = {
 const mutations = {
   setOrderList (state, data) {
     state.orderList = data
-    console.log(state.orderList)
   },
   setOrderDetail (state, data) {
     state.orderDetail = data
