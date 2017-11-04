@@ -1,5 +1,5 @@
 <template>
-  <div class="pay-bar" :class="{'no-choose-any': counts <= 0}">
+  <div class="pay-bar" :class="{'no-choose-any': cart.count <= 0}">
     <div class="order-detail">
       <div class="logo" @click="toggleSelProducts">
         <i v-if="cart.count > 0" class="icon icon-head-top"></i>

@@ -22,7 +22,7 @@
     <menu-tabs></menu-tabs>
 
     <!-- 商品列表 -->
-    <product-list class="product-list" :list="productList"></product-list>
+    <product-list></product-list>
 
     <!-- 支付条 -->
     <pay-bar @toggleSelProducts="toggleSelProducts"></pay-bar>
@@ -34,10 +34,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-// import TopNav from '../components/TopNav.vue'
-// import HomeFooter from '../components/HomeFooter'
-// import PartBanner from './components/PartBanner'
-// import { Message } from 'element-ui'
 
 import ProductList from './components/ProductList'
 import MenuTabs from './components/MenuTabs'
@@ -67,19 +63,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'user/getUser',
-      productList: 'home/getProductList'
-    }),
-    // 选择商品数
-    counts () {
-      return 10
-    },
-    discounts () {
-      return 15.00
-    },
-    total () {
-      return 129.03
-    }
+      user: 'user/getUser'
+    })
   },
   methods: {
     showLeftMenu () {

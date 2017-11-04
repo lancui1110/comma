@@ -1,4 +1,4 @@
-import { find, filter, cloneDeep } from 'lodash'
+import { find, filter, cloneDeep, concat } from 'lodash'
 import API from '../api'
 
 const state = {
@@ -8,9 +8,11 @@ const state = {
     list: []
   },
   pageInfo: {
-    current: 1,
+    total: 0,
+    page: 1,
     pageSize: 20,
-    allPage: 10
+    allPage: 0,
+    end: false
   },
   categoryList: [],
   productList: [],
@@ -50,24 +52,46 @@ const actions = {
       if (res.code === 1) {
         commit('setUser', res.data.userInfo)
         commit('setCategoryList', res.data.categories)
-        // for test no discount item
-        // res.data.firstCategoryInfo.data[0].discountPrice = null
-        commit('setProductList', res.data.firstCategoryInfo.data)
+        const { total, page, pageSize, allPage, end, data } = res.data.firstCategoryInfo
+        commit('setProductList', data)
+        commit('setPageInfo', Object.assign(
+          {},
+          state.pageInfo,
+          { total, page, pageSize, allPage, end }
+        ))
       }
       cb && cb()
     })
+  },
+  refreshGoods ({ commit, dispatch }, cb) {
+    commit('setPageInfo', Object.assign({}, state.pageInfo, { page: 1 }))
+    dispatch('getGoodsByType', cb)
+  },
+  loadMoreGoods ({ commit, dispatch }, cb) {
+    commit('setPageInfo', Object.assign({}, state.pageInfo, { page: state.pageInfo.page + 1 }))
+    dispatch('getGoodsByType', cb)
   },
   getGoodsByType ({ commit }, cb) {
     iwjw.ajax({
       url: API.getUrl('getGoodsByType'),
       data: {
         typeId: state.category.current,
-        page: state.pageInfo.current,
+        page: state.pageInfo.page,
         pageSize: state.pageInfo.pageSize
       }
     }).then(res => {
       if (res.code === 1) {
-        commit('setProductList', res.data.data)
+        const { total, page, pageSize, allPage, end, data } = res.data
+        commit('setPageInfo', Object.assign(
+          {},
+          state.pageInfo,
+          { total, page, pageSize, allPage, end }
+        ))
+        if (res.data.page > 1) {
+          commit('setProductList', concat(state.productList, data))
+        } else {
+          commit('setProductList', data)
+        }
       }
       cb && cb()
     })
@@ -118,6 +142,9 @@ const mutations = {
   setUser (state, payload) {
     state.user = payload
   },
+  setPageInfo (state, payload) {
+    state.pageInfo = payload
+  },
   setCategoryList (state, payload) {
     state.categoryList = payload
   },
@@ -132,6 +159,9 @@ const mutations = {
 const getters = {
   getUser (state) {
     return state.user
+  },
+  getPageInfo (state) {
+    return state.pageInfo
   },
   getCategoryList (state) {
     return state.categoryList
