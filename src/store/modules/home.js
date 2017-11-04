@@ -1,3 +1,4 @@
+import { find, filter, cloneDeep } from 'lodash'
 import API from '../api'
 
 const state = {
@@ -12,7 +13,13 @@ const state = {
     allPage: 10
   },
   categoryList: [],
-  productList: []
+  productList: [],
+  cart: {
+    list: [],
+    count: 0,
+    discount: 0,
+    total: 0
+  }
 }
 
 const actions = {
@@ -43,6 +50,8 @@ const actions = {
       if (res.code === 1) {
         commit('setUser', res.data.userInfo)
         commit('setCategoryList', res.data.categories)
+        // for test no discount item
+        // res.data.firstCategoryInfo.data[0].discountPrice = null
         commit('setProductList', res.data.firstCategoryInfo.data)
       }
       cb && cb()
@@ -62,6 +71,46 @@ const actions = {
       }
       cb && cb()
     })
+  },
+  addToCart ({ commit }, product) {
+    const { id, price, discountPrice } = product
+    const p = find(state.cart.list, item => item.product.id === id)
+    if (p) {
+      p.count += 1
+    } else {
+      state.cart.list.push(Object.assign(
+        {},
+        { product: cloneDeep(product) },
+        { count: 1 }
+      ))
+    }
+    // calculate for cart.count, cart.discount, cart.total
+    state.cart.count += 1
+    if (discountPrice) {
+      state.cart.discount += price - discountPrice
+      state.cart.total += discountPrice
+    } else {
+      state.cart.total += price
+    }
+    commit('setCart', cloneDeep(state.cart))
+  },
+  removeFromCart ({ commit }, product) {
+    const { id, price, discountPrice } = product
+    const p = find(state.cart.list, item => item.product.id === id)
+    if (p.count > 1) {
+      p.count -= 1
+    } else {
+      state.cart.list = filter(state.cart.list, item => item.product.id !== id)
+    }
+    // calculate for cart.count, cart.discount, cart.total
+    state.cart.count -= 1
+    if (discountPrice) {
+      state.cart.discount -= price - discountPrice
+      state.cart.total -= discountPrice
+    } else {
+      state.cart.total -= price
+    }
+    commit('setCart', cloneDeep(state.cart))
   }
 }
 
@@ -74,6 +123,9 @@ const mutations = {
   },
   setProductList (state, payload) {
     state.productList = payload
+  },
+  setCart (state, payload) {
+    state.cart = payload
   }
 }
 
@@ -86,6 +138,9 @@ const getters = {
   },
   getProductList (state) {
     return state.productList
+  },
+  getCart (state) {
+    return state.cart
   }
 }
 

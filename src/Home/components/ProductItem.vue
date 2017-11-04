@@ -6,10 +6,12 @@
     <p class="title">{{data.name}}</p>
     <div class="price-panel">
       <div class="price-info">
-        <p class="price" :class="{'twoline' : data.price}">¥  {{data.discountPrice.toFixed(2)}}</p>
-        <p class="orig-price" v-if="data.price">¥  {{data.price.toFixed(2)}}</p>
+        <p class="price" :class="{'twoline' : data.discountPrice}">
+          ¥ {{(data.discountPrice || data.price).toFixed(2)}}
+        </p>
+        <p class="orig-price" v-if="data.discountPrice">¥ {{data.price.toFixed(2)}}</p>
       </div>
-      <div class="buy"><i class="icon icon-buy"></i></div>
+      <div class="buy" @click="clickBuy"><i class="icon icon-buy"></i></div>
     </div>
   </div>
 </template>
@@ -27,6 +29,11 @@ export default {
   data () {
     return {
 
+    }
+  },
+  methods: {
+    clickBuy () {
+      this.$store.dispatch('home/addToCart', this.data)
     }
   }
 }

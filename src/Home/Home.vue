@@ -25,7 +25,7 @@
     <product-list class="product-list" :list="productList"></product-list>
 
     <!-- 支付条 -->
-    <pay-bar @showSelProducts="showSelProducts"></pay-bar>
+    <pay-bar @toggleSelProducts="toggleSelProducts"></pay-bar>
 
     <!-- 所选商品 -->
     <sel-products :show.sync="isShowSelProducts"></sel-products>
@@ -85,8 +85,8 @@ export default {
     showLeftMenu () {
       this.isShowLeftMenu = true
     },
-    showSelProducts () {
-      this.isShowSelProducts = true
+    toggleSelProducts () {
+      this.isShowSelProducts = !this.isShowSelProducts
     },
     initEvent () {
 

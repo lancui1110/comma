@@ -70,7 +70,7 @@ export default {
   @import "../../global/style/theme.less";
 
   .product-list {
-    padding-bottom: 60px;
+    padding-bottom: 120/@R;
     .list-panel {
       width: 100%;
       display: flex;

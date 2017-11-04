@@ -1,15 +1,15 @@
 <template>
   <div class="pay-bar" :class="{'no-choose-any': counts <= 0}">
     <div class="order-detail">
-      <div class="logo" @click="showSelProducts">
-        <i v-if="counts > 0" class="icon icon-head-top"></i>
+      <div class="logo" @click="toggleSelProducts">
+        <i v-if="cart.count > 0" class="icon icon-head-top"></i>
         <i v-else class="icon icon-head-top-none"></i>
-        <span class="product-count">{{counts}}</span>
+        <span v-if="cart.count > 0" class="product-count">{{cart.count}}</span>
       </div>
       <div class="pay-info">
-        <div v-if="counts > 0">
-          <p class="discounts">已优惠：- ¥{{discounts}}</p>
-          <p class="total-price">合计：¥{{total}}</p>
+        <div v-if="cart.count > 0">
+          <p v-if="cart.discount" class="discounts">已优惠：- ¥{{cart.discount}}</p>
+          <p class="total-price">合计：¥{{cart.total}}</p>
         </div>
         <p v-else class="no-choose">还未选购商品</p>
       </div>
@@ -19,37 +19,28 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'PayBar',
   props: {
-    
+
   },
   data () {
     return {
-      
+
     }
   },
   computed: {
-    // ...mapGetters({
-    //   user: 'user/getUser'
-    // })
-    // 选择商品数
-    counts () { 
-      return 10
-    },
-    discounts () {
-      return 15.00
-    },
-    total () {
-      return 129.03
-    }
+    ...mapGetters({
+      cart: 'home/getCart'
+    })
   },
   methods: {
-    showSelProducts () {
-      console.log(111)
-      this.$emit('showSelProducts')
+    toggleSelProducts () {
+      if (this.cart.count) {
+        this.$emit('toggleSelProducts')
+      }
     }
   }
 }
@@ -57,7 +48,7 @@ export default {
 
 <style lang="less">
   @import "../../global/style/theme.less";
-  
+
   // 支付条
   .pay-bar {
     position: fixed;
@@ -67,9 +58,10 @@ export default {
     width: 100%;
     height: 100/@R;
     line-height: 100/@R;
-    background: #593C38; 
+    background: #593C38;
     color: #fff;
     font-size: 30/@R;
+    z-index: 1000;
     &.no-choose-any {
       color: #999;
     }
@@ -103,6 +95,8 @@ export default {
       }
       .pay-info {
         flex: 1;
+        display: flex;
+        align-items: center;
       }
       .no-choose {
 
