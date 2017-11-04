@@ -36,6 +36,9 @@ const actions = {
       cb && cb()
     })
   },
+  changeSearchKeyword ({ commit }, v) {
+    commit('setSearch', v)
+  },
   getCategory ({ commit }, cb) {
     iwjw.ajax({
       url: API.getUrl('shelfCategory')
@@ -47,6 +50,8 @@ const actions = {
     })
   },
   changeCategoryType ({ commit, dispatch }, cat) {
+    // reset search
+    commit('setSearch', '')
     commit('setCategory', Object.assign({}, state.category, { current: cat }))
     dispatch('refreshGoods')
   },
@@ -71,11 +76,46 @@ const actions = {
   },
   refreshGoods ({ commit, dispatch }, cb) {
     commit('setPageInfo', Object.assign({}, state.pageInfo, { page: 1 }))
-    dispatch('getGoodsByType', cb)
+    if (state.search) {
+      dispatch('searchGoods', cb)
+      // reset category
+      commit('setCategory', Object.assign({}, state.category, { current: state.category.list[0] }))
+    } else {
+      dispatch('getGoodsByType', cb)
+    }
   },
   loadMoreGoods ({ commit, dispatch }, cb) {
     commit('setPageInfo', Object.assign({}, state.pageInfo, { page: state.pageInfo.page + 1 }))
-    dispatch('getGoodsByType', cb)
+    if (state.search) {
+      dispatch('searchGoods', cb)
+    } else {
+      dispatch('getGoodsByType', cb)
+    }
+  },
+  searchGoods ({ commit }, cb) {
+    iwjw.ajax({
+      url: API.getUrl('getGoodsByName'),
+      data: {
+        q: state.search,
+        page: state.pageInfo.page,
+        pageSize: state.pageInfo.pageSize
+      }
+    }).then(res => {
+      if (res.code === 1) {
+        const { total, page, pageSize, allPage, end, data } = res.data
+        commit('setPageInfo', Object.assign(
+          {},
+          state.pageInfo,
+          { total, page, pageSize, allPage, end }
+        ))
+        if (res.data.page > 1) {
+          commit('setProductList', concat(state.productList, data))
+        } else {
+          commit('setProductList', data)
+        }
+      }
+      cb && cb()
+    })
   },
   getGoodsByType ({ commit }, cb) {
     iwjw.ajax({
@@ -148,6 +188,9 @@ const mutations = {
   setUser (state, payload) {
     state.user = payload
   },
+  setSearch (state, payload) {
+    state.search = payload
+  },
   setCategory (state, payload) {
     state.category = payload
   },
@@ -165,6 +208,9 @@ const mutations = {
 const getters = {
   getUser (state) {
     return state.user
+  },
+  getSearch (state) {
+    return state.search
   },
   getCategory (state) {
     return state.category

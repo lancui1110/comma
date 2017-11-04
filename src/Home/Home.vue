@@ -11,7 +11,7 @@
       </div>
       <div class="search-input">
         <i class="icon icon-search"></i>
-        <input type="text" v-model="searchName" placeholder="搜索">
+        <input type="text" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch" />
       </div>
     </div>
 
@@ -63,8 +63,17 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'user/getUser'
-    })
+      user: 'user/getUser',
+      search: 'home/getSearch'
+    }),
+    searchKeyword: {
+      get () {
+        return this.search
+      },
+      set (value) {
+        this.$store.dispatch('home/changeSearchKeyword', value)
+      }
+    }
   },
   methods: {
     showLeftMenu () {
@@ -75,6 +84,10 @@ export default {
     },
     initEvent () {
 
+    },
+    doSearch (e) {
+      e.target.blur()
+      this.$store.dispatch('home/refreshGoods')
     }
   }
 }
