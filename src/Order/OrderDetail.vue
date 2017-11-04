@@ -1,25 +1,25 @@
 <template>
   <div class="order-detail-panel">
     <div class="content-panel">
-      <p class="word">订单状态：成功</p>
-      <p class="word">支付方式：在线支付</p>
-      <p class="word">订单编号：794750374850</p>
-      <p class="word">订单时间：2017-09-09  20:48:12</p>
+      <p class="word">订单状态：{{orderDetail.statusInfo}}</p>
+      <p class="word">支付方式：{{orderDetail.payMethod}}</p>
+      <p class="word">订单编号：{{orderDetail.orderNum}}</p>
+      <p class="word">订单时间：{{orderDetail.payTime}}</p>
     </div>
     <div class="content-panel">
-      <p class="word">商品金额：￥40.00</p>
-      <p class="word">实际支付：￥35.00</p>
-      <p class="word red">优惠:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥5.00</p>
+      <p class="word">商品金额：￥{{orderDetail.totalMoney}}</p>
+      <p class="word">实际支付：￥{{orderDetail.realPay}}</p>
+      <p class="word red">优惠:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥{{orderDetail.disCount}}</p>
     </div>
     <div class="content-panel products">
-      <div class="pro-info" v-for="(item, key) in 4" :key="key">
-        <img class="pic" :src="require('../assets/pic_motu.png')"/>
+      <div class="pro-info" v-for="(item, key) in orderDetail.goodsInfos" :key="key">
+        <img class="pic" :src="item.picUrl"/>
         <div class="infos">
-          <p class="small">Dip炼乳味蛋卷橙子味  850g…</p>
-          <p class="word red">¥ 20.00</p>
+          <p class="small">{{item.name}}  {{item.specification}}…</p>
+          <p class="word red">¥ {{item.price}}</p>
         </div>
         <div class="count">
-          <span class="word small">x1</span>
+          <span class="word small">x{{item.num}}</span>
         </div>
       </div>
     </div>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'OrderDetail',
@@ -36,6 +36,19 @@ export default {
   data () {
     return {
       
+    }
+  },
+  computed: {
+    ...mapGetters({
+      orderDetail: 'order/orderDetail'
+    })
+  },
+  mounted () {
+    this.loadData()
+  },
+  methods: {
+    loadData () {
+      this.$store.dispatch('order/getOrderDetail')
     }
   }
 }

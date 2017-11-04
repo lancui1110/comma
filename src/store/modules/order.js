@@ -6,11 +6,12 @@ const state = {
 }
 
 const actions = {
-  getDataList ({ commit }, cb) {
+  getOrderList ({ commit }, cb) {
     iwjw.ajax({
       url: API.getUrl('orderList')
     }).then(res => {
-      if (res.status === 1) {
+      res = res.data
+      if (res.code === 1) {
         commit('setOrderList', res.data)
       }
       cb && cb()
@@ -20,8 +21,9 @@ const actions = {
     iwjw.ajax({
       url: API.getUrl('orderDetail')
     }).then(res => {
-      if (res.status === 1) {
-        commit('setOrderList', res.data)
+      res = res.data
+      if (res.code === 1) {
+        commit('setOrderDetail', res.data)
       }
       cb && cb()
     })
@@ -31,6 +33,7 @@ const actions = {
 const mutations = {
   setOrderList (state, data) {
     state.orderList = data
+    console.log(state.orderList)
   },
   setOrderDetail (state, data) {
     state.orderDetail = data
@@ -38,10 +41,10 @@ const mutations = {
 }
 
 const getters = {
-  getOrderList (state) {
+  orderList (state) {
     return state.orderList
   },
-  getOrderDetail (state) {
+  orderDetail (state) {
     return state.orderDetail
   }
 }

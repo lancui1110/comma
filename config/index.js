@@ -29,14 +29,10 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       mockServer: {
-        target: 'http://fe.iwjw.com:8888/api/fete_api/w1rAvi/5taOSg/mock',
+        target: 'http://localhost:3888/api/fete_api/4F1IoD/wbJMez/mock',
         filter: function (pathname, req) {
           // 因为接口url定义的时候，没有统一规范，比如 /api/ 打头之类的，所以只能一个个加了。。。
-          return /user/.test(req.url)
-            || /login/.test(req.url)
-            || /logout/.test(req.url)
-            || /area/.test(req.url)
-            || /\/house/.test(req.url)
+          return /api/.test(req.url)
         }
       }
     },

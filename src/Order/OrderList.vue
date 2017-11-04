@@ -1,24 +1,23 @@
 <template>
-  <div v-if="orderList.length <= 0" class="order-list-panel no-data">
+  <div v-if="list.length <= 0" class="order-list-panel no-data">
     <div class="content">
       <p class="pic"><img :src="require('../assets/img_order_none.png')"/></p>
       <p class="word">暂无订单</p>
     </div>
   </div>
-
+  
   <div v-else class="order-list-panel">
     <div class="head">已完成订单</div>
-    {{orderList}}
-    <div class="order-item" v-for="(item, key) in orderList" :key="key">
-      <p class="word">货柜编号：xd99908</p>
+    <div class="order-item" v-for="(item, key) in list" :key="key">
+      <p class="word">货柜编号：{{item.shelfNum}}</p>
       <div class="product-pics">
-        <div class="pro-pic" v-for="(item, key) in 8" :key="key">
-          <img :src="require('../assets/pic_motu.png')"/>
+        <div class="pro-pic" v-for="(pro, k) in item.goodsInfos" :key="k">
+          <img :src="pro.picUrl"/>
         </div>
-        <span class="word small">共2件 ></span>
+        <span class="word small">共{{item.count}}件 ></span>
       </div>
-      <div class="word">下单时间：2017-09-09  20:48:12</div>
-      <div class="word">实际支付：<span class="price">¥20.00</span></div>
+      <div class="word">下单时间：{{item.payTime}}</div>
+      <div class="word">实际支付：<span class="price">¥{{item.realPay}}</span></div>
       <div class="detail-btn">
         <router-link to="detail">订单详情</router-link>
       </div>
@@ -42,11 +41,17 @@ export default {
   computed: {
     ...mapGetters({
       orderList: 'order/orderList'
-    })
+    }),
+    list () {
+      return this.orderList.data || []
+    }
+  },
+  mounted () {
+    this.loadList()
   },
   methods: {
     loadList () {
-      this.$store.commit('order/getDataList')
+      this.$store.dispatch('order/getOrderList')
     }
   }
 }
