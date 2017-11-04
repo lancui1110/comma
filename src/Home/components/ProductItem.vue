@@ -1,13 +1,13 @@
 <template>
   <div class="product-item">
     <div class="pic">
-      <img :src="require('../../assets/pic_motu.png')">
+      <img :src="data.picUrl || require('../../assets/pic_motu.png')">
     </div>
-    <p class="title">{{data.title}}</p>
+    <p class="title">{{data.name}}</p>
     <div class="price-panel">
       <div class="price-info">
-        <p class="price" :class="{'twoline' : data.origPrice}">¥  {{data.price.toFixed(2)}}</p>
-        <p class="orig-price" v-if="data.origPrice">¥  {{data.origPrice.toFixed(2)}}</p>
+        <p class="price" :class="{'twoline' : data.price}">¥  {{data.discountPrice.toFixed(2)}}</p>
+        <p class="orig-price" v-if="data.price">¥  {{data.price.toFixed(2)}}</p>
       </div>
       <div class="buy"><i class="icon icon-buy"></i></div>
     </div>
@@ -26,7 +26,7 @@ export default {
   },
   data () {
     return {
-      
+
     }
   }
 }

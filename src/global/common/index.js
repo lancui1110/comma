@@ -29,7 +29,7 @@ function checkCode (res) {
     store.commit('user/setIsLogged', false)
     window.location.href = `${pageConfig.siteUrl}?errorCode=${res.data.code}`
   }
-  return res
+  return res.data
 }
 
 /**

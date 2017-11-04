@@ -109,6 +109,7 @@ export default {
     clickTab (index, item) {
       this.curTabIndex = index
       this.curId = item.id
+      this.$store.dispatch('home/getGoodsByType')
     },
     showMoreMenus () {
       this.isShowMoreMenus = true
