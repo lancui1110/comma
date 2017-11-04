@@ -59,7 +59,7 @@ export default {
     showPanel () {
       this.isShow = true
       this.$emit('update:show', true)
-    }, 
+    },
     hidePanel () {
       this.isShow = false
       this.$emit('update:show', false)
@@ -94,7 +94,7 @@ export default {
     }
     .left-menu {
       position: fixed;
-      transition: 1s;
+      transition: 0.5s;
       // left: 0;
       transform: translateX(0);
       top: 0;
@@ -136,7 +136,7 @@ export default {
           text-align: center;
         }
         .icon {
-          
+
         }
         .word{
 

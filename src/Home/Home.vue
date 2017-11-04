@@ -22,7 +22,7 @@
     <menu-tabs></menu-tabs>
 
     <!-- 商品列表 -->
-    <product-list class="product-list"></product-list>
+    <product-list class="product-list" :list="productList"></product-list>
 
     <!-- 支付条 -->
     <pay-bar @showSelProducts="showSelProducts"></pay-bar>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 // import TopNav from '../components/TopNav.vue'
 // import HomeFooter from '../components/HomeFooter'
 // import PartBanner from './components/PartBanner'
@@ -63,13 +63,15 @@ export default {
   },
   mounted () {
     this.initEvent()
+    this.$store.dispatch('home/getHomePage')
   },
   computed: {
-    // ...mapGetters({
-    //   user: 'user/getUser'
-    // })
+    ...mapGetters({
+      user: 'user/getUser',
+      productList: 'home/getProductList'
+    }),
     // 选择商品数
-    counts () { 
+    counts () {
       return 10
     },
     discounts () {
@@ -87,7 +89,7 @@ export default {
       this.isShowSelProducts = true
     },
     initEvent () {
-      
+
     }
   }
 }
@@ -97,7 +99,7 @@ export default {
   @import "../global/style/theme.less";
 
   @logoWidth: 94/@R;
-  
+
   .home {
     font-family: PingFangHK-Regular;
     .header {

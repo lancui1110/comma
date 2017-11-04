@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import global from './modules/global'
+import home from './modules/home'
 import order from './modules/order'
 import coupons from './modules/coupons'
 
@@ -11,6 +12,10 @@ export default new Vuex.Store({
     global: {
       namespaced: true,
       ...global
+    },
+    home: {
+      namespaced: true,
+      ...home
     },
     order: {
       namespaced: true,

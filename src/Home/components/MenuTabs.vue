@@ -2,24 +2,24 @@
   <div class="menu-tabs">
     <ul class="menus">
       <li class="menu-ink-bar">
-        <span class="menu-ink-bar-inner"></span>
+        <span class="menu-ink-bar-inner">{{menus.length}}</span>
       </li>
       <li class="menu-item" :id="'menu-item-' + key"
           :class="{ 'active': curTabIndex === key }"
           v-for="(item, key) in menus" :key="key"
           @click="clickTab(key, item)">
-        <span class="menu-item-text">{{item.value}}</span>
+        <span class="menu-item-text">{{item.name}}</span>
       </li>
     </ul>
     <div v-if="isShowMore" class="menu-item-more" @click="showMoreMenus">
       <i class="icon icon-more"></i>
     </div>
-    
+
     <ul v-if="isShowMoreMenus" class="menu-items">
       <li class="one-item"
           v-for="(item, key) in menus" :key="key"
-          @click="clickTab(key)">
-        {{item.value}}
+          @click="clickTab(key, item)">
+        {{item.name}}
       </li>
     </ul>
   </div>
@@ -27,14 +27,14 @@
 
 <script>
 /**
- * 1.如果本来的分类 就是一行可以展示的话   这个图标可以隐藏起来 ； 
- * 2.点击分类  直接筛选  ； 
+ * 1.如果本来的分类 就是一行可以展示的话   这个图标可以隐藏起来 ；
+ * 2.点击分类  直接筛选  ；
  * 3. 非一行可以展示，显示此图标 ；
  * 4.点击此图标，展开 其它行的分类
  * 5.选择了 第二行 或者 第三行的  分类   展示效果 如选择了 之后  ， 展开的 折叠回去
  */
 
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'MenuTabs',
@@ -44,21 +44,22 @@ export default {
     return {
       curTabIndex: null,
       curId: null,
-      isShowMoreMenus: false,
-      menus: [
-        { key: 0, value: '全部' },
-        { key: 1, value: '饮品' },
-        { key: 2, value: '卤味' },
-        { key: 3, value: '饼干' },
-        { key: 4, value: '膨化' },
-        { key: 5, value: '饮料' }, 
-        { key: 6, value: '干果' }, 
-        { key: 7, value: '牛奶' }, 
-        { key: 8, value: '巧克力' }
-      ]
+      isShowMoreMenus: false
+      // menus: [
+      //   { key: 0, value: '全部' },
+      //   { key: 1, value: '饮品' },
+      //   { key: 2, value: '卤味' },
+      //   { key: 3, value: '饼干' },
+      //   { key: 4, value: '膨化' },
+      //   { key: 5, value: '饮料' },
+      //   { key: 6, value: '干果' },
+      //   { key: 7, value: '牛奶' },
+      //   { key: 8, value: '巧克力' }
+      // ]
     }
   },
   mounted () {
+    this.loadMenus()
     this.$nextTick(() => {
       setTimeout(() => {
         this.curTabIndex = 0
@@ -72,23 +73,28 @@ export default {
       const $ink = document.querySelector('.menu-ink-bar')
       const $inkInner = document.querySelector('.menu-ink-bar-inner')
       const $curMenuItem = document.getElementById(`menu-item-${val}`)
-      const $curMenuItemText = $curMenuItem.querySelector('.menu-item-text')
-      
-      const left = $curMenuItem.offsetLeft
-      const innerWidth = $curMenuItemText.clientWidth
+      if ($curMenuItem) {
+        const $curMenuItemText = $curMenuItem.querySelector('.menu-item-text')
 
-      $ink.style.left = `${left}px`
-      $inkInner.style.width = `${innerWidth}px`
+        const left = $curMenuItem.offsetLeft
+        const innerWidth = $curMenuItemText.clientWidth
 
-      const addFwd = val > old ? 'menu-ink-foreward' : 'menu-ink-backward'
-      const removeFwd = val < old ? 'menu-ink-foreward' : 'menu-ink-backward'
-      $ink.classList.remove(removeFwd)
-      $ink.classList.add(addFwd)
+        $ink.style.left = `${left}px`
+        $inkInner.style.width = `${innerWidth}px`
 
-      $curMenuItem.scrollIntoView(true)
+        const addFwd = val > old ? 'menu-ink-foreward' : 'menu-ink-backward'
+        const removeFwd = val < old ? 'menu-ink-foreward' : 'menu-ink-backward'
+        $ink.classList.remove(removeFwd)
+        $ink.classList.add(addFwd)
+
+        $curMenuItem.scrollIntoView(true)
+      }
     }
   },
   computed: {
+    ...mapGetters({
+      menus: 'home/getCategoryList'
+    }),
     curMenuItems () {
       return this.menus[this.curTabIndex]
     },
@@ -97,9 +103,13 @@ export default {
     }
   },
   methods: {
+    loadMenus () {
+      this.$store.dispatch('home/getCategoryList')
+    },
     clickTab (index, item) {
       this.curTabIndex = index
-      this.curId = item.key
+      this.curId = item.id
+      this.$store.dispatch('home/getGoodsByType')
     },
     showMoreMenus () {
       this.isShowMoreMenus = true
@@ -170,7 +180,7 @@ export default {
       padding: 0 21/@R 0 10/@R;
     }
     .icon-more {
-      
+
     }
 
     .menu-items {
@@ -187,5 +197,5 @@ export default {
       }
     }
   }
-  
+
 </style>
