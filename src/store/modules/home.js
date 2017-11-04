@@ -3,8 +3,9 @@ import API from '../api'
 
 const state = {
   user: null,
+  search: '',
   category: {
-    current: 0,
+    current: null,
     list: []
   },
   pageInfo: {
@@ -35,24 +36,29 @@ const actions = {
       cb && cb()
     })
   },
-  getCategoryList ({ commit }, cb) {
+  getCategory ({ commit }, cb) {
     iwjw.ajax({
       url: API.getUrl('shelfCategory')
     }).then(res => {
       if (res.code === 1) {
-        commit('setCategoryList', res.data)
+        commit('setCategory', { current: res.data[0], list: res.data })
       }
       cb && cb()
     })
+  },
+  changeCategoryType ({ commit, dispatch }, cat) {
+    commit('setCategory', Object.assign({}, state.category, { current: cat }))
+    dispatch('refreshGoods')
   },
   getHomePage ({ commit }, cb) {
     iwjw.ajax({
       url: API.getUrl('homePage')
     }).then(res => {
       if (res.code === 1) {
-        commit('setUser', res.data.userInfo)
-        commit('setCategoryList', res.data.categories)
-        const { total, page, pageSize, allPage, end, data } = res.data.firstCategoryInfo
+        const { userInfo, categories, firstCategoryInfo } = res.data
+        commit('setUser', userInfo)
+        commit('setCategory', { current: categories[0], list: categories })
+        const { total, page, pageSize, allPage, end, data } = firstCategoryInfo
         commit('setProductList', data)
         commit('setPageInfo', Object.assign(
           {},
@@ -75,7 +81,7 @@ const actions = {
     iwjw.ajax({
       url: API.getUrl('getGoodsByType'),
       data: {
-        typeId: state.category.current,
+        typeId: state.category.current.id,
         page: state.pageInfo.page,
         pageSize: state.pageInfo.pageSize
       }
@@ -142,11 +148,11 @@ const mutations = {
   setUser (state, payload) {
     state.user = payload
   },
+  setCategory (state, payload) {
+    state.category = payload
+  },
   setPageInfo (state, payload) {
     state.pageInfo = payload
-  },
-  setCategoryList (state, payload) {
-    state.categoryList = payload
   },
   setProductList (state, payload) {
     state.productList = payload
@@ -160,11 +166,11 @@ const getters = {
   getUser (state) {
     return state.user
   },
+  getCategory (state) {
+    return state.category
+  },
   getPageInfo (state) {
     return state.pageInfo
-  },
-  getCategoryList (state) {
-    return state.categoryList
   },
   getProductList (state) {
     return state.productList

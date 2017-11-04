@@ -2,23 +2,23 @@
   <div class="menu-tabs">
     <ul class="menus">
       <li class="menu-ink-bar">
-        <span class="menu-ink-bar-inner">{{menus.length}}</span>
+        <span class="menu-ink-bar-inner"></span>
       </li>
-      <li class="menu-item" :id="'menu-item-' + key"
-          :class="{ 'active': curTabIndex === key }"
-          v-for="(item, key) in menus" :key="key"
-          @click="clickTab(key, item)">
+      <li class="menu-item" :id="'menu-item-' + item.id"
+          :class="{ 'active': item.id === category.current.id }"
+          v-for="(item, key) in category.list" :key="key"
+          @click="clickTab(item)">
         <span class="menu-item-text">{{item.name}}</span>
       </li>
     </ul>
-    <div v-if="isShowMore" class="menu-item-more" @click="showMoreMenus">
+    <div v-if="isShowMore" class="menu-item-more" @click="toggleMoreMenus">
       <i class="icon icon-more"></i>
     </div>
 
     <ul v-if="isShowMoreMenus" class="menu-items">
       <li class="one-item"
-          v-for="(item, key) in menus" :key="key"
-          @click="clickTab(key, item)">
+          v-for="(item, key) in category.list" :key="key"
+          @click="clickTab(item)">
         {{item.name}}
       </li>
     </ul>
@@ -38,41 +38,29 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'MenuTabs',
-  props: {
-  },
   data () {
     return {
-      curTabIndex: null,
-      curId: null,
       isShowMoreMenus: false
-      // menus: [
-      //   { key: 0, value: '全部' },
-      //   { key: 1, value: '饮品' },
-      //   { key: 2, value: '卤味' },
-      //   { key: 3, value: '饼干' },
-      //   { key: 4, value: '膨化' },
-      //   { key: 5, value: '饮料' },
-      //   { key: 6, value: '干果' },
-      //   { key: 7, value: '牛奶' },
-      //   { key: 8, value: '巧克力' }
-      // ]
     }
   },
-  mounted () {
-    this.loadMenus()
-    this.$nextTick(() => {
-      setTimeout(() => {
-        this.curTabIndex = 0
-      }, 0)
-    })
+  computed: {
+    ...mapGetters({
+      category: 'home/getCategory'
+    }),
+    curMenuItem () {
+      return this.category.current
+    },
+    isShowMore () {
+      return this.category.list.length > 5
+    }
   },
   watch: {
-    curTabIndex (val, old) {
+    curMenuItem (val, old) {
       this.isShowMoreMenus = false
 
       const $ink = document.querySelector('.menu-ink-bar')
       const $inkInner = document.querySelector('.menu-ink-bar-inner')
-      const $curMenuItem = document.getElementById(`menu-item-${val}`)
+      const $curMenuItem = document.getElementById(`menu-item-${val.id}`)
       if ($curMenuItem) {
         const $curMenuItemText = $curMenuItem.querySelector('.menu-item-text')
 
@@ -87,33 +75,33 @@ export default {
         $ink.classList.remove(removeFwd)
         $ink.classList.add(addFwd)
 
-        $curMenuItem.scrollIntoView(true)
+        if (val && old) {
+          $curMenuItem.scrollIntoView(true)
+        }
       }
     }
   },
-  computed: {
-    ...mapGetters({
-      menus: 'home/getCategoryList'
-    }),
-    curMenuItems () {
-      return this.menus[this.curTabIndex]
-    },
-    isShowMore () {
-      return this.menus.length > 5
-    }
-  },
+  // mounted () {
+  //   this.$nextTick(() => {
+  //     setTimeout(() => {
+  //       this.loadMenus()
+  //     }, 0)
+  //   })
+  // },
   methods: {
-    loadMenus () {
-      this.$store.dispatch('home/getCategoryList')
+    resetActiveBar () {
+
     },
-    clickTab (index, item) {
-      this.curTabIndex = index
-      this.curId = item.id
-      this.$store.dispatch('home/getGoodsByType')
+    clickTab (item) {
+      this.$store.dispatch('home/changeCategoryType', item)
     },
-    showMoreMenus () {
-      this.isShowMoreMenus = true
+    toggleMoreMenus () {
+      this.isShowMoreMenus = !this.isShowMoreMenus
     }
+    // this method not been used now, maybe use for someday
+    // loadMenus () {
+    //   this.$store.dispatch('home/getCategory')
+    // }
   }
 
 }
@@ -157,7 +145,7 @@ export default {
       .menu-ink-bar-inner {
         display: block;
         background-color: #333;
-        margin: auto;
+        width: 100%;
         height: 100%;
         margin: 0 @itemPadding;
       }
