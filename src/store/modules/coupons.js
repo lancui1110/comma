@@ -10,7 +10,6 @@ const actions = {
       url: API.getUrl('couponList'),
       data: params
     }).then(res => {
-      res = res.data
       if (res.code === 1) {
         commit('setCouponList', res.data)
       }
@@ -22,7 +21,6 @@ const actions = {
 const mutations = {
   setCouponList (state, data) {
     state.couponList = data
-    console.log(state.couponList)
   }
 }
 
