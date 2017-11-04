@@ -18,6 +18,8 @@ const Home = r => require.ensure([], () => r(require('../Home/Home.vue')), 'Home
 // 支付
 const Pay = r => require.ensure([], () => r(require('../Pay/BeforePay.vue')), 'Pay')
 const PaySuccess = r => require.ensure([], () => r(require('../Pay/PaySuccess.vue')), 'Pay')
+// 验证码
+const VerificationCode = r => require.ensure([], () => r(require('../Pay/VerificationCode.vue')), 'Pay')
 // 订单
 const OrderList = r => require.ensure([], () => r(require('../Order/OrderList.vue')), 'Order')
 const OrderDetail = r => require.ensure([], () => r(require('../Order/OrderDetail.vue')), 'Order')
@@ -34,6 +36,7 @@ const router = new Router({
     { name: 'home', path: '', component: Home },
     { name: 'pay', path: '/pay', component: Pay },
     { name: 'paySuc', path: '/pay/success', component: PaySuccess },
+    { name: 'veriCode', path: '/pay/verificationCode', component: VerificationCode },
     { name: 'orderList', path: '/order/list', component: OrderList },
     { name: 'orderDetail', path: '/order/detail', component: OrderDetail },
     { name: 'customerMain', path: '/customer', component: CustomerMain },
