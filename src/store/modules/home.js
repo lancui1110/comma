@@ -1,4 +1,4 @@
-import { find, filter, cloneDeep, concat } from 'lodash'
+import { find, map, filter, cloneDeep, concat, sum, orderBy } from 'lodash'
 import API from '../api'
 
 const state = {
@@ -22,7 +22,8 @@ const state = {
     list: [],
     count: 0,
     discount: 0,
-    total: 0
+    total: 0,
+    coupon: null
   }
 }
 
@@ -134,9 +135,8 @@ const actions = {
       cb && cb()
     })
   },
-  addToCart ({ commit }, product) {
-    const { id, price, discountPrice } = product
-    const p = find(state.cart.list, item => item.product.id === id)
+  addToCart ({ commit, rootState }, product) {
+    const p = find(state.cart.list, item => item.product.id === product.id)
     if (p) {
       p.count += 1
     } else {
@@ -146,32 +146,63 @@ const actions = {
         { count: 1 }
       ))
     }
-    // calculate for cart.count, cart.discount, cart.total
+    // calculate for cart.count, cart.discount, cart.total, cart.coupon
     state.cart.count += 1
-    if (discountPrice) {
-      state.cart.discount += price - discountPrice
-      state.cart.total += discountPrice
+    const originTotal = sum(map(state.cart.list, item => item.count * item.product.price))
+    const discountTotal = sum(map(state.cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
+
+    const coupon = find(
+      orderBy(
+        filter(rootState.coupons.couponList, { status: 1 }),
+        ['lowPrice'],
+        ['desc']
+      ),
+      item => item.lowPrice <= discountTotal
+    )
+
+    if (coupon) {
+      state.cart.coupon = coupon
+      state.cart.discount = originTotal - discountTotal + coupon.price
+      state.cart.total = discountTotal - coupon.price
     } else {
-      state.cart.total += price
+      state.cart.coupon = null
+      state.cart.discount = originTotal - discountTotal
+      state.cart.total = discountTotal
     }
+
     commit('setCart', cloneDeep(state.cart))
   },
-  removeFromCart ({ commit }, product) {
-    const { id, price, discountPrice } = product
-    const p = find(state.cart.list, item => item.product.id === id)
+  removeFromCart ({ commit, rootState }, product) {
+    const p = find(state.cart.list, item => item.product.id === product.id)
     if (p.count > 1) {
       p.count -= 1
     } else {
-      state.cart.list = filter(state.cart.list, item => item.product.id !== id)
+      state.cart.list = filter(state.cart.list, item => item.product.id !== product.id)
     }
-    // calculate for cart.count, cart.discount, cart.total
+    // calculate for cart.count, cart.discount, cart.total, cart.coupon
     state.cart.count -= 1
-    if (discountPrice) {
-      state.cart.discount -= price - discountPrice
-      state.cart.total -= discountPrice
+    const originTotal = sum(map(state.cart.list, item => item.count * item.product.price))
+    const discountTotal = sum(map(state.cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
+
+    const coupon = find(
+      orderBy(
+        filter(rootState.coupons.couponList, { status: 1 }),
+        ['lowPrice'],
+        ['desc']
+      ),
+      item => item.lowPrice <= discountTotal
+    )
+
+    if (coupon) {
+      state.cart.coupon = coupon
+      state.cart.discount = originTotal - discountTotal + coupon.price
+      state.cart.total = discountTotal - coupon.price
     } else {
-      state.cart.total -= price
+      state.cart.coupon = null
+      state.cart.discount = originTotal - discountTotal
+      state.cart.total = discountTotal
     }
+
     commit('setCart', cloneDeep(state.cart))
   }
 }
