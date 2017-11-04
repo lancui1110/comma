@@ -9,7 +9,7 @@ const actions = {
     iwjw.ajax({
       url: API.getUrl('userDetail')
     }).then(res => {
-      if (res.status === 1) {
+      if (res.code === 1) {
         commit('setUser', res.data.userVo)
       }
       cb && cb()

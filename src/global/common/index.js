@@ -22,12 +22,12 @@ function checkStatus (response) {
 }
 
 function checkCode (res) {
-  if (res.data.status === 1) {
+  if (res.data.code === 1) {
     return res.data
-  } else if (res.data.status > 1) {
+  } else if (res.data.code > 1) {
     // 登录超时，自动跳转登出
     store.commit('user/setIsLogged', false)
-    window.location.href = `${pageConfig.siteUrl}?errorCode=${res.data.status}`
+    window.location.href = `${pageConfig.siteUrl}?errorCode=${res.data.code}`
   }
   return res
 }
@@ -55,7 +55,7 @@ export function ajax (options) {
 (function () {
   const html = document.documentElement
   const hWidth = html.getBoundingClientRect().width
-  
+
   let fontSize = hWidth / 7.5 + 'px' // 设计稿宽度是750，所以fontSize=100
   html.style.fontSize = fontSize
   // 1rem=100px
