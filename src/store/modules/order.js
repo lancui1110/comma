@@ -65,7 +65,7 @@ const actions = {
       data: params
     }).then(res => {
       if (res.code === 1) {
-        cb && cb()
+        cb && cb(res.data.orderNum)
       }
     })
   },

@@ -44,11 +44,11 @@ export default {
       }
       this.$store.dispatch('order/addOrder', {
         params,
-        cb: () => {
+        cb: (orderNum) => {
           // reset cart
           this.$store.dispatch('home/clearCart')
           // go to '/pay'
-          this.$router.push({ name: 'pay' })
+          this.$router.push({ name: 'pay', query: { orderNum } })
         }
       })
     },
