@@ -4,6 +4,7 @@ import global from './modules/global'
 import home from './modules/home'
 import order from './modules/order'
 import coupons from './modules/coupons'
+import customer from './modules/customer'
 
 Vue.use(Vuex)
 
@@ -24,6 +25,10 @@ export default new Vuex.Store({
     coupons: {
       namespaced: true,
       ...coupons
+    },
+    customer: {
+      namespaced: true,
+      ...customer
     }
   }
 })

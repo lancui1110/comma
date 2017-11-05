@@ -27,7 +27,9 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
-      'iwjw': resolve('src/global/common/index.js')
+      'iwjw': resolve('src/global/common/index.js'),
+      'weixin': resolve('src/global/wx/wxsa.js'),
+      'uploadPic': resolve('src/global/wx/uploadPic.js'),
     }
   },
   module: {

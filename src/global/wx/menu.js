@@ -5,8 +5,8 @@
  * @Last modified time: 2016-05-10 18:05:89
  */
 
-'use strict';
-var menu = {
+'use strict'
+const menu = {
   friend: function (param) {
     wx.ready(function () {
       wx.checkJsApi({
@@ -20,36 +20,36 @@ var menu = {
             trigger: function (t) {},
             complete: function (t) {},
             success: function (t) {
-              // smallnote('分享成功');
+              // smallnote('分享成功')
               if (param.log) {
-                Log.clickTrigger(param.log.act_k, param.log.act_v, param.log.id);
+                Log.clickTrigger(param.log.act_k, param.log.act_v, param.log.id)
               }
             },
             cancel: function (t) {},
             fail: function (t) {
-              alert(t);
+              alert(t)
             }
-          };
-          param = _.extend(defaultParam, param);
+          }
+          param = _.extend(defaultParam, param)
 
-          wx.onMenuShareAppMessage(param);
+          wx.onMenuShareAppMessage(param)
           wx.onMenuShareTimeline(param)
         }
-      });
-    });
+      })
+    })
   },
   showShareMenu: function (hideMenu) {
     wx.ready(function () {
       wx.hideMenuItems({
         menuList: hideMenu || ['menuItem:share:timeline', 'menuItem:share:qq', 'menuItem:share:weiboApp'] // 要隐藏的菜单项，所有menu项见附录3
-      });
-    });
+      })
+    })
   },
   registerUrl: function (url, callback, name) {
-    var data = {};
-    data.currentUrl = url;
+    let data = {}
+    data.currentUrl = url
     if (name) {
-      data.app = name;
+      data.app = name
     }
     h5Common.ajax({
       url: pageConfig.siteUrl + 'main/getSign',
@@ -67,15 +67,15 @@ var menu = {
             'previewImage'
           ]
         }
-        var config;
-        res && res.data && (config = _.extend(defaultConfig, res.data));
-        config && wx.config(config);
-        callback && callback();
+        let config
+        res && res.data && (config = _.extend(defaultConfig, res.data))
+        config && wx.config(config)
+        callback && callback()
       },
       error: function () {
-        // smallnote('微信注册url服务报错');
+        // smallnote('微信注册url服务报错')
       }
-    });
+    })
   }
-};
-module.exports = menu;
+}
+export default menu

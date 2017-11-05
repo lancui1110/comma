@@ -18,10 +18,10 @@ var provide = require('./config/provide')
 var env = config.build.env
 
 
-var h5Assets = []
-h5Assets = h5Assets.concat(fs.readdirSync(path.resolve('src/H5/h5/css')).map(item => 'h5/css/' + item))
-h5Assets = h5Assets.concat(fs.readdirSync(path.resolve('src/H5/h5/js')).map(item => 'h5/js/' + item))
-h5Assets = h5Assets.concat(fs.readdirSync(path.resolve('src/H5/h5/img')).map(item => 'h5/img/' + item))
+// var h5Assets = []
+// h5Assets = h5Assets.concat(fs.readdirSync(path.resolve('src/H5/h5/css')).map(item => 'h5/css/' + item))
+// h5Assets = h5Assets.concat(fs.readdirSync(path.resolve('src/H5/h5/js')).map(item => 'h5/js/' + item))
+// h5Assets = h5Assets.concat(fs.readdirSync(path.resolve('src/H5/h5/img')).map(item => 'h5/img/' + item))
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -42,12 +42,12 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
-      sourceMap: true
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false
+    //   },
+    //   sourceMap: true
+    // }),
     // extract css into its own file
     new ExtractTextPlugin({
       filename: utils.assetsPath('[name].css')
@@ -104,11 +104,11 @@ var webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       },
-      {
-        from: path.resolve(__dirname, '../src/H5'),
-        to: config.build.assetsSubDirectory,
-        ignore: ['.*']
-      }
+      // {
+      //   from: path.resolve(__dirname, '../src/H5'),
+      //   to: config.build.assetsSubDirectory,
+      //   ignore: ['.*']
+      // }
     ]),
     // 懒加载静态上传需要处理的, 注意：ManifestPlugin必须放在ZipWebpackPlugin之前
     new ManifestPlugin({
@@ -119,7 +119,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         'app.js',
         'favicon.ico',
         // h5 首页，特殊处理
-        ...h5Assets
+        // ...h5Assets
       ],
       hashNum: 7
     }),
