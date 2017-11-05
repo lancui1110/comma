@@ -19,11 +19,6 @@ export default {
   components: {
     ProductItem
   },
-  data () {
-    return {
-
-    }
-  },
   computed: {
     ...mapGetters({
       pageInfo: 'home/getPageInfo',

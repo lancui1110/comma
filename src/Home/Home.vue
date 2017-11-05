@@ -55,7 +55,6 @@ export default {
   },
   data () {
     return {
-      searchName: '',
       isShowLeftMenu: false,
       isShowSelProducts: false
     }

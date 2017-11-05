@@ -26,11 +26,6 @@ export default {
       type: Object
     }
   },
-  data () {
-    return {
-
-    }
-  },
   methods: {
     clickBuy () {
       this.$store.dispatch('home/addToCart', this.data)

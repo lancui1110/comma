@@ -24,14 +24,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'PayBar',
-  props: {
-
-  },
-  data () {
-    return {
-
-    }
-  },
   computed: {
     ...mapGetters({
       cart: 'home/getCart'

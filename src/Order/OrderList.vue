@@ -1,5 +1,5 @@
 <template>
-  <div v-if="list.length <= 0" class="order-list-panel no-data">
+  <div v-if="orderList.length <= 0" class="order-list-panel no-data">
     <div class="content">
       <p class="pic"><img :src="require('../assets/img_order_none.png')"/></p>
       <p class="word">暂无订单</p>
@@ -10,7 +10,7 @@
     <div class="head">已完成订单</div>
     <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
       <div>
-        <div class="order-item" v-for="(item, key) in list" :key="key">
+        <div class="order-item" v-for="(item, key) in orderList" :key="key">
           <p class="word">货柜编号：{{item.shelfNum}}</p>
           <div class="product-pics">
             <div class="pro-pic" v-for="(pro, k) in item.goodsInfos" :key="k">
@@ -34,21 +34,11 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'OrderList',
-  props: {
-  },
-  data () {
-    return {
-
-    }
-  },
   computed: {
     ...mapGetters({
       orderList: 'order/orderList',
       pageInfo: 'order/pageInfo'
-    }),
-    list () {
-      return this.orderList || []
-    }
+    })
   },
   mounted () {
     this.loadList()
@@ -71,7 +61,6 @@ export default {
   @import "../global/style/theme.less";
 
   .order-list-panel {
-    height: 100%;
     background: #F2F2F2;
     &.no-data {
       text-align: center;
