@@ -3,7 +3,7 @@
     <div class="remaining-time">
       <div class="circle">
         <p class="word">剩余时间</p>
-        <p class="times">13:28</p>
+        <p class="times">{{displayTime}}</p>
       </div>
     </div>
     <div class="pay-word">
@@ -22,11 +22,35 @@
 
 export default {
   name: 'BeforePay',
-  props: {
-  },
   data () {
     return {
-      
+      disablePay: false,
+      min: 1,
+      sec: 0
+    }
+  },
+  computed: {
+    displayTime () {
+      return `${this.min < 10 ? '0' : ''}${this.min}:${this.sec < 10 ? '0' : ''}${this.sec}`
+    }
+  },
+  mounted () {
+    this.countDown()
+  },
+  methods: {
+    countDown () {
+      setTimeout(() => {
+        this.sec -= 1
+        if (this.sec <= 0 && this.min > 0) {
+          this.min -= 1
+          this.sec = 59
+        }
+        if (this.min <= 0 && this.sec <= 0) {
+          this.disablePay = true
+        } else {
+          this.countDown()
+        }
+      }, 1000)
     }
   }
 }
