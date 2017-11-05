@@ -27,7 +27,7 @@ function checkCode (res) {
   } else if (res.data.code > 1) {
     // 登录超时，自动跳转登出
     store.commit('user/setIsLogged', false)
-    window.location.href = `${pageConfig.siteUrl}?errorCode=${res.data.code}`
+    // window.location.href = `${pageConfig.siteUrl}?errorCode=${res.data.code}`
   }
   return res.data
 }
