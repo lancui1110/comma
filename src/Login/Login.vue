@@ -27,7 +27,7 @@
 // import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Demo',
+  name: 'Login',
   props: {
   },
   data () {

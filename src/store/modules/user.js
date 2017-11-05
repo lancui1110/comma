@@ -6,6 +6,7 @@ const state = {
 
 const actions = {
   getUserInfo ({ commit }, cb) {
+    // TODO: change to real fetch user
     iwjw.ajax({
       url: API.getUrl('userDetail')
     }).then(res => {
