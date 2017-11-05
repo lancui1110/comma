@@ -21,7 +21,7 @@
           <div class="word">下单时间：{{item.payTime}}</div>
           <div class="word">实际支付：<span class="price">¥{{item.realPay}}</span></div>
           <div class="detail-btn">
-            <router-link to="detail">订单详情</router-link>
+            <router-link :to="{ name: 'orderDetail', query: { orderNum: item.orderNum } }">订单详情</router-link>
           </div>
         </div>
       </div>

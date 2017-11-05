@@ -67,7 +67,7 @@ export default {
         wxPicIds: this.serverPics
       }
       this.$store.dispatch('customer/submit', {
-        params: params, 
+        params: params,
         cb: (res) => {
           if (res.code === 1) {
             alert('反馈成功')
@@ -84,7 +84,7 @@ export default {
 
 <style lang="less">
   @import "../global/style/theme.less";
-  
+
   .custermer-feedback {
     width: 100%;
     height: 100%;
