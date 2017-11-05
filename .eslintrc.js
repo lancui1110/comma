@@ -32,6 +32,8 @@ module.exports = {
   },
   globals: Object.assign({
     localStoreage: true,
-    pageConfig: true
+    pageConfig: true,
+    wx: true,
+    WeixinJSBridge: true
   }, provide)
 }

@@ -19,8 +19,8 @@ inquirer.prompt({
   type: 'list',
   name: 'env',
   message: '\n\n选择编译到哪个环境?',
-  choices: ['test', 'beta', 'prod'],
-  default: ['test']
+  choices: ['local', 'test', 'beta', 'prod'],
+  default: ['local']
 }).then((res) => {
   webpackConfig.output.publicPath = publicEnv[res.env].publicPath
   if (yargs.argv.watch) {
