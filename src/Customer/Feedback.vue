@@ -3,9 +3,11 @@
     <div class="content">
       <textarea v-model="feedback" cols="30" rows="10" placeholder="请留下您的宝贵建议，促使我们进步~"></textarea>
       <div class="addbtns">
-        <img v-for="(item, key) in localPics" :key="key" 
-          @click="previewImages(item)" :src="item" class="addbtn" >
-        <img v-show="localPics.length < 4" @click="uploadImg(key)"  :src="defaultPic" class="addbtn">
+        <div v-for="(item, key) in localPics" :key="key" class="img">
+          <img @click="previewImages(item)" :src="item" class="addbtn" />
+          <i class="icon icon-delete" @click="delPic(key)"></i>
+        </div>
+        <img v-show="localPics.length < 4" @click="uploadImg(key)"  :src="defaultPic" class="addbtn" />
       </div>
       <div class="subBtn" @click="submit">提交</div>
     </div>
@@ -26,7 +28,7 @@ export default {
     const defaultPic = require('../assets/img_upload.png')
     return {
       defaultPic: defaultPic,
-      localPics: [defaultPic],
+      localPics: [],
       feedback: '',
       serverPics: []
     }
@@ -35,23 +37,20 @@ export default {
     weixin.init()
   },
   computed: {
-    ...mapGetters({
-      subResult: 'cutomer/subResult'
-    })
   },
   methods: {
-    uploadImg (index) {
+    uploadImg () {
       const self = this
       uploadPic.selectedPic((localId, serverId) => {
-        self.addPics(index, {localId, serverId})
-      }, 1)
+        self.addPics({localId, serverId})
+      }, 4)
     },
-    addPics (index, {localId, serverId}) {
-      this.localPics[index] = localId
-      this.serverPics[index] = serverId
+    addPics ({localId, serverId}) {
+      this.localPics.push(localId)
+      this.serverPics.push(serverId)
     },
-    delPic () {
-      const i = this.index
+    delPic (i) {
+      // const i = this.index
       this.localPics.splice(i, 1)
       this.serverPics.splice(i, 1)
       uploadPic.serverIds.splice(i, 1)
@@ -67,8 +66,16 @@ export default {
         feedback: this.feedback,
         wxPicIds: this.serverPics
       }
-      this.$store.dispatch('customer/submit', params, () => {
-        history.back(-1)
+      this.$store.dispatch('customer/submit', {
+        params: params, 
+        cb: (res) => {
+          if (res.code === 1) {
+            alert('反馈成功')
+            window.history.go(-1)
+          } else {
+            alert('提交失败啦')
+          }
+        }
       })
     }
   }
@@ -100,15 +107,20 @@ export default {
       margin: 40/@R 0 171/@R 0;
       display: flex;
       flex-direction: row;
-      img {
+      .img {
+        position: relative;
         width: 150/@R;
         height: 150/@R;
         margin-right: 30/@R;
       }
+      img {
+        width: 150/@R;
+        height: 150/@R;
+      }
       .icon {
         position: absolute;
-        right: 0;
-        top: 0;
+        right: -10/@R;
+        top: -10/@R;
       }
     }
     .subBtn {

@@ -51,6 +51,7 @@ export default {
     toPay () {
       weixin.weixinPay(this.orderSign, (res) => {
         alert(res)
+        
       })
     },
     countDown () {
