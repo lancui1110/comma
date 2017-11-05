@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { map } from 'lodash'
+import { map, sum } from 'lodash'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -39,7 +39,11 @@ export default {
             price: item.product.price,
             discount: item.product.discountPrice,
             num: item.count
-          }))
+          })),
+          amount: sum(map(this.cart.list, item => item.count * item.product.price)),
+          discounts: this.cart.discount,
+          realMoney: this.cart.total,
+          number: this.cart.count
         }
         if (this.cart.coupon) {
           params.couponCode = this.cart.coupon.numberCode
