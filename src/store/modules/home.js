@@ -68,7 +68,13 @@ const actions = {
     })
   },
   refreshGoods ({ commit, dispatch }, cb) {
-    commit('setPageInfo', Object.assign({}, state.pageInfo, { page: 1 }))
+    commit('setPageInfo', commit('setPageInfo', {
+      total: 0,
+      page: 1,
+      pageSize: 20,
+      allPage: 0,
+      end: false
+    }))
     if (state.search) {
       dispatch('searchGoods', cb)
       // reset category
@@ -159,7 +165,7 @@ const actions = {
       ),
       item => item.lowPrice <= discountTotal
     )
-    const coupon =orderBy(matchCoupons, ['price'], ['desc'])[0]
+    const coupon = orderBy(matchCoupons, ['price'], ['desc'])[0]
 
     if (coupon) {
       state.cart.coupon = coupon
@@ -193,7 +199,7 @@ const actions = {
       ),
       item => item.lowPrice <= discountTotal
     )
-    const coupon =orderBy(matchCoupons, ['price'], ['desc'])[0]
+    const coupon = orderBy(matchCoupons, ['price'], ['desc'])[0]
 
     if (coupon) {
       state.cart.coupon = coupon
