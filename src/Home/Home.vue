@@ -1,17 +1,20 @@
 <template>
   <div class="home">
     <div class="header">
-      <img class="banner" :src="require('../assets/header-banner.png')"/>
+      <a v-if="banner" :href="banner.linkUrl">
+        <img class="banner" :src="banner.picUrl"/>
+      </a>
+      <img v-else class="banner" :src="require('../assets/header-banner.png')"/>
     </div>
     <!-- 搜索 -->
     <div class="search">
       <div class="logo-user">
-        <i class="icon icon-head-top" @click="showLeftMenu"></i>
-        <span class="user-phone">139****2276</span>
+        <i class="icon icon-head-top-border" @click="showLeftMenu"></i>
+        <span class="user-phone" v-if="user">{{user.mobile}}</span>
       </div>
       <div class="search-input">
         <i class="icon icon-search"></i>
-        <input type="text" v-model="searchName" placeholder="搜索">
+        <input type="text" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch" />
       </div>
     </div>
 
@@ -22,10 +25,10 @@
     <menu-tabs></menu-tabs>
 
     <!-- 商品列表 -->
-    <product-list class="product-list" :list="productList"></product-list>
+    <product-list></product-list>
 
     <!-- 支付条 -->
-    <pay-bar @showSelProducts="showSelProducts"></pay-bar>
+    <pay-bar @toggleSelProducts="toggleSelProducts"></pay-bar>
 
     <!-- 所选商品 -->
     <sel-products :show.sync="isShowSelProducts"></sel-products>
@@ -34,10 +37,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-// import TopNav from '../components/TopNav.vue'
-// import HomeFooter from '../components/HomeFooter'
-// import PartBanner from './components/PartBanner'
-// import { Message } from 'element-ui'
 
 import ProductList from './components/ProductList'
 import MenuTabs from './components/MenuTabs'
@@ -56,7 +55,6 @@ export default {
   },
   data () {
     return {
-      searchName: '',
       isShowLeftMenu: false,
       isShowSelProducts: false
     }
@@ -64,32 +62,36 @@ export default {
   mounted () {
     this.initEvent()
     this.$store.dispatch('home/getHomePage')
+    // TODO: send request to fetch avaliable couponList
   },
   computed: {
     ...mapGetters({
-      user: 'user/getUser',
-      productList: 'home/getProductList'
+      user: 'home/getUser',
+      banner: 'home/getBanner',
+      search: 'home/getSearch'
     }),
-    // 选择商品数
-    counts () {
-      return 10
-    },
-    discounts () {
-      return 15.00
-    },
-    total () {
-      return 129.03
+    searchKeyword: {
+      get () {
+        return this.search
+      },
+      set (value) {
+        this.$store.dispatch('home/changeSearchKeyword', value)
+      }
     }
   },
   methods: {
     showLeftMenu () {
       this.isShowLeftMenu = true
     },
-    showSelProducts () {
-      this.isShowSelProducts = true
+    toggleSelProducts () {
+      this.isShowSelProducts = !this.isShowSelProducts
     },
     initEvent () {
 
+    },
+    doSearch (e) {
+      e.target.blur()
+      this.$store.dispatch('home/refreshGoods')
     }
   }
 }

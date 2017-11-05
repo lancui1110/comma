@@ -1,28 +1,31 @@
 <template>
-  <div v-if="list.length <= 0" class="order-list-panel no-data">
+  <div v-if="orderList.length <= 0" class="order-list-panel no-data">
     <div class="content">
       <p class="pic"><img :src="require('../assets/img_order_none.png')"/></p>
       <p class="word">暂无订单</p>
     </div>
   </div>
-  
+
   <div v-else class="order-list-panel">
     <div class="head">已完成订单</div>
-    <div class="order-item" v-for="(item, key) in list" :key="key">
-      <p class="word">货柜编号：{{item.shelfNum}}</p>
-      <div class="product-pics">
-        <div class="pro-pic" v-for="(pro, k) in item.goodsInfos" :key="k">
-          <img :src="pro.picUrl"/>
+    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
+      <div>
+        <div class="order-item" v-for="(item, key) in orderList" :key="key">
+          <p class="word">货柜编号：{{item.shelfNum}}</p>
+          <div class="product-pics">
+            <div class="pro-pic" v-for="(pro, k) in item.goodsInfos" :key="k">
+              <img :src="pro.picUrl"/>
+            </div>
+            <span class="word small">共{{item.count}}件 ></span>
+          </div>
+          <div class="word">下单时间：{{item.payTime}}</div>
+          <div class="word">实际支付：<span class="price">¥{{item.realPay}}</span></div>
+          <div class="detail-btn">
+            <router-link to="detail">订单详情</router-link>
+          </div>
         </div>
-        <span class="word small">共{{item.count}}件 ></span>
       </div>
-      <div class="word">下单时间：{{item.payTime}}</div>
-      <div class="word">实际支付：<span class="price">¥{{item.realPay}}</span></div>
-      <div class="detail-btn">
-        <router-link to="detail">订单详情</router-link>
-      </div>
-    </div>
-
+    </mt-loadmore>
   </div>
 </template>
 
@@ -31,20 +34,11 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'OrderList',
-  props: {
-  },
-  data () {
-    return {
-      
-    }
-  },
   computed: {
     ...mapGetters({
-      orderList: 'order/orderList'
-    }),
-    list () {
-      return this.orderList.data || []
-    }
+      orderList: 'order/orderList',
+      pageInfo: 'order/pageInfo'
+    })
   },
   mounted () {
     this.loadList()
@@ -52,6 +46,12 @@ export default {
   methods: {
     loadList () {
       this.$store.dispatch('order/getOrderList')
+    },
+    loadTop () {
+      this.$store.dispatch('order/refreshOrders', this.$refs.loadmore.onTopLoaded)
+    },
+    loadBottom () {
+      this.$store.dispatch('order/loadMoreOrders', this.$refs.loadmore.onBottomLoaded)
     }
   }
 }
@@ -59,9 +59,8 @@ export default {
 
 <style lang="less">
   @import "../global/style/theme.less";
-  
+
   .order-list-panel {
-    height: 100%;
     background: #F2F2F2;
     &.no-data {
       text-align: center;

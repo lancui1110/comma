@@ -5,47 +5,17 @@
     <div class="sel-products">
       <div class="title">已选商品</div>
       <div class="product-list">
-        <div class="product-item">
-          <img class="pic" :src="require('../../assets/redpackt.png')">
+        <div class="product-item" v-for="(item, key) in cart.list" :key="key">
+          <img class="pic" :src="item.product.picUrl || require('../../assets/pic_motu.png')">
           <div class="content">
-            <p class="word">Dip炼乳味蛋卷橙子味  850g…</p>
-            <p class="price">¥ 20.00</p>
+            <p class="word">{{item.product.name}}</p>
+            <p class="price">¥ {{item.product.discountPrice || item.product.price}}</p>
           </div>
           <div class="counter-panel">
             <p class="counter-line">
-              <i class="icon icon-minus"></i>
-              <span class="count" >1</span>
-              <i class="icon icon-plus"></i>
-            </p>
-          </div>
-        </div>
-
-        <div class="product-item">
-          <img class="pic" :src="require('../../assets/redpackt.png')">
-          <div class="content">
-            <p class="word">Dip炼乳味蛋卷橙子味  850g…</p>
-            <p class="price">¥ 20.00</p>
-          </div>
-          <div class="counter-panel">
-            <p class="counter-line">
-              <i class="icon icon-minus"></i>
-              <span class="count" >1</span>
-              <i class="icon icon-plus"></i>
-            </p>
-          </div>
-        </div>
-
-        <div class="product-item">
-          <img class="pic" :src="require('../../assets/redpackt.png')">
-          <div class="content">
-            <p class="word">Dip炼乳味蛋卷橙子味  850g…</p>
-            <p class="price">¥ 20.00</p>
-          </div>
-          <div class="counter-panel">
-            <p class="counter-line">
-              <i class="icon icon-minus"></i>
-              <span class="count" >1</span>
-              <i class="icon icon-plus"></i>
+              <i class="icon icon-minus" @click="removeFromCart(item.product)"></i>
+              <span class="count" >{{item.count}}</span>
+              <i class="icon icon-plus" @click="addToCart(item.product)"></i>
             </p>
           </div>
         </div>
@@ -55,7 +25,7 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'SelProducts',
@@ -70,6 +40,11 @@ export default {
       isShow: this.show
     }
   },
+  computed: {
+    ...mapGetters({
+      cart: 'home/getCart'
+    })
+  },
   watch: {
     show (val) {
       this.isShow = val
@@ -79,10 +54,19 @@ export default {
     showPanel () {
       this.isShow = true
       this.$emit('update:show', true)
-    }, 
+    },
     hidePanel () {
       this.isShow = false
       this.$emit('update:show', false)
+    },
+    addToCart (product) {
+      this.$store.dispatch('home/addToCart', product)
+    },
+    removeFromCart (product) {
+      this.$store.dispatch('home/removeFromCart', product)
+      if (!this.cart.count) {
+        this.hidePanel()
+      }
     }
   }
 }
@@ -92,7 +76,7 @@ export default {
   @import "../../global/style/theme.less";
 
   .sel-products-panel {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     width: 100%;
@@ -123,8 +107,9 @@ export default {
       left: 0;
       width: 100%;
       max-height: 695/@R;
-      background: #fff;
-      transition: 1s;
+      padding-bottom: 100/@R;
+      background: transparent;
+      transition: 0.4s;
       .title {
         height: 100/@R;
         line-height: 100/@R;
@@ -134,7 +119,8 @@ export default {
         color: #593C38;
       }
       .product-list {
-        margin-bottom: 28/@R;
+        padding-bottom: 28/@R;
+        background-color: #fff;
       }
       .product-item{
         display: flex;
@@ -186,6 +172,6 @@ export default {
         }
       }
     }
-    
+
   }
 </style>

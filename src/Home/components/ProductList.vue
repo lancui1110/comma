@@ -1,16 +1,17 @@
 <template>
-  <div class="product-list">
-    <ul class="list-panel">
-      <li class="list-item" v-for="(item, key) in list" :key="key">
-        <product-item :data="item"></product-item>
-      </li>
-    </ul>
-
-  </div>
+  <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
+    <div class="product-list">
+      <ul class="list-panel">
+        <li class="list-item" v-for="(item, key) in productList" :key="key">
+          <product-item :data="item"></product-item>
+        </li>
+      </ul>
+    </div>
+  </mt-loadmore>
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import ProductItem from './ProductItem.vue'
 
 export default {
@@ -18,49 +19,18 @@ export default {
   components: {
     ProductItem
   },
-  props: {
-    list: Array
+  computed: {
+    ...mapGetters({
+      pageInfo: 'home/getPageInfo',
+      productList: 'home/getProductList'
+    })
   },
-  data () {
-    return {
-      // list: [
-      //   {
-      //     url: '../../assets/pic_motu.png',
-      //     title: 'Dip炼乳味蛋卷橙子味 850g每盒',
-      //     price: 20.00,
-      //     origPrice: 30.00 // 原价
-      //   },
-      //   {
-      //     url: '../../assets/pic_motu.png',
-      //     title: 'Dip炼乳味蛋卷橙子味 850g每盒',
-      //     price: 20.00
-      //     // origPrice: 30.00 // 原价
-      //   },
-      //   {
-      //     url: '../../assets/pic_motu.png',
-      //     title: 'Dip炼乳味蛋卷橙子味 850g每盒',
-      //     price: 20.00,
-      //     origPrice: 30.00 // 原价
-      //   },
-      //   {
-      //     url: '../../assets/pic_motu.png',
-      //     title: 'Dip炼乳味蛋卷橙子味 850g每盒',
-      //     price: 20.00
-      //     // origPrice: 30.00 // 原价
-      //   },
-      //   {
-      //     url: '../../assets/pic_motu.png',
-      //     title: 'Dip炼乳味蛋卷橙子味 850g每盒',
-      //     price: 20.00,
-      //     origPrice: 30.00 // 原价
-      //   },
-      //   {
-      //     url: '../../assets/pic_motu.png',
-      //     title: 'Dip炼乳味蛋卷橙子味 850g每盒',
-      //     price: 20.00
-      //     // origPrice: 30.00 // 原价
-      //   }
-      // ]
+  methods: {
+    loadTop () {
+      this.$store.dispatch('home/refreshGoods', this.$refs.loadmore.onTopLoaded)
+    },
+    loadBottom () {
+      this.$store.dispatch('home/loadMoreGoods', this.$refs.loadmore.onBottomLoaded)
     }
   }
 }
@@ -70,7 +40,7 @@ export default {
   @import "../../global/style/theme.less";
 
   .product-list {
-    padding-bottom: 60px;
+    padding-bottom: 120/@R;
     .list-panel {
       width: 100%;
       display: flex;

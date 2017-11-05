@@ -1,10 +1,7 @@
 <template>
-  <!-- <mt-loadmore 
-      :bottom-method="loadBottom" 
-      :bottom-all-loaded="allLoaded" 
-      ref="loadmore"> -->
+  <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
     <div class="coupons-list-panel">
-      <div v-for="(item, key) in couponList.data" :key="key" class="coupons-item-panel">
+      <div v-for="(item, key) in couponList" :key="key" class="coupons-item-panel">
         <div class="coupons-item" :class="{'gray': item.status !== 1}">
           <div class="word red">
             <span class="left word large">{{item.price}}元</span>
@@ -20,51 +17,32 @@
         <img v-if="item.status === 2" class="state-pic" :src="require('../assets/icon_coupon_sy.png')" />
       </div>
     </div>
-  <!-- </mt-loadmore>   -->
+  </mt-loadmore>
 </template>
 
 <script>
-import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import { Loadmore } from 'mint-ui'
-
-Vue.component(Loadmore.name, Loadmore)
 
 export default {
   name: 'CouponsList',
-  props: {
-  },
-  data () {
-    return {
-      page: 1,
-      pageSize: 10,
-      allLoaded: false
-    }
-  },
   computed: {
     ...mapGetters({
-      couponList: 'coupons/couponList'
+      couponList: 'coupons/couponList',
+      pageInfo: 'coupons/pageInfo'
     })
-    // allLoaded () {
-    //   // return this.couponList.end || false
-    // }
   },
   mounted () {
     this.loadData()
   },
   methods: {
     loadData () {
-      const params = {page: this.page, pageSize: this.pageSize}
-      this.$store.dispatch('coupons/getCouponList', params)
+      this.$store.dispatch('coupons/getCouponList')
     },
     loadTop () {
-      this.$refs.loadmore.onTopLoaded()
-      // this.loadData()
+      this.$store.dispatch('coupons/refreshOrders', this.$refs.loadmore.onTopLoaded)
     },
     loadBottom () {
-      this.allLoaded = this.couponList.end
-      this.$refs.loadmore.onBottomLoaded()
-      // this.loadData()      
+      this.$store.dispatch('coupons/loadMoreOrders', this.$refs.loadmore.onBottomLoaded)
     }
   }
 }
@@ -72,7 +50,7 @@ export default {
 
 <style lang="less">
   @import "../global/style/theme.less";
-  
+
   .coupons-list-panel {
     position: relative;
     width: 100%;
