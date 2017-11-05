@@ -14,11 +14,12 @@
         <p v-else class="no-choose">还未选购商品</p>
       </div>
     </div>
-    <div class="pay-btn"><router-link to="pay">去支付</router-link></div>
+    <div class="pay-btn" @click="addOrder">去支付</div>
   </div>
 </template>
 
 <script>
+import { map } from 'lodash'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -37,6 +38,28 @@ export default {
     })
   },
   methods: {
+    addOrder () {
+      const params = {
+        goods: map(this.cart.list, item => ({
+          id: item.product.id,
+          price: item.product.price,
+          discount: item.product.discountPrice,
+          num: item.count
+        }))
+      }
+      if (this.cart.coupon) {
+        params.couponCode = this.cart.coupon.numberCode
+      }
+      this.$store.dispatch('order/addOrder', {
+        params,
+        cb: () => {
+          // reset cart
+          this.$store.dispatch('home/clearCart')
+          // go to '/pay'
+          this.$router.push({ name: 'pay' })
+        }
+      })
+    },
     toggleSelProducts () {
       if (this.cart.count) {
         this.$emit('toggleSelProducts')

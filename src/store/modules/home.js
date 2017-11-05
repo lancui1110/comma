@@ -151,7 +151,7 @@ const actions = {
     const originTotal = sum(map(state.cart.list, item => item.count * item.product.price))
     const discountTotal = sum(map(state.cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
 
-    const coupon = find(
+    const matchCoupons = filter(
       orderBy(
         filter(rootState.coupons.couponList, { status: 1 }),
         ['lowPrice'],
@@ -159,6 +159,7 @@ const actions = {
       ),
       item => item.lowPrice <= discountTotal
     )
+    const coupon =orderBy(matchCoupons, ['price'], ['desc'])[0]
 
     if (coupon) {
       state.cart.coupon = coupon
@@ -184,7 +185,7 @@ const actions = {
     const originTotal = sum(map(state.cart.list, item => item.count * item.product.price))
     const discountTotal = sum(map(state.cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
 
-    const coupon = find(
+    const matchCoupons = filter(
       orderBy(
         filter(rootState.coupons.couponList, { status: 1 }),
         ['lowPrice'],
@@ -192,6 +193,7 @@ const actions = {
       ),
       item => item.lowPrice <= discountTotal
     )
+    const coupon =orderBy(matchCoupons, ['price'], ['desc'])[0]
 
     if (coupon) {
       state.cart.coupon = coupon
@@ -204,6 +206,15 @@ const actions = {
     }
 
     commit('setCart', cloneDeep(state.cart))
+  },
+  clearCart ({ commit }) {
+    commit('setCart', {
+      list: [],
+      count: 0,
+      discount: 0,
+      total: 0,
+      coupon: null
+    })
   }
 }
 

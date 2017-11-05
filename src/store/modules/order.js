@@ -10,7 +10,6 @@ const actions = {
     iwjw.ajax({
       url: API.getUrl('orderList')
     }).then(res => {
-      res = res.data
       if (res.code === 1) {
         commit('setOrderList', res.data)
       }
@@ -21,11 +20,21 @@ const actions = {
     iwjw.ajax({
       url: API.getUrl('orderDetail')
     }).then(res => {
-      res = res.data
       if (res.code === 1) {
         commit('setOrderDetail', res.data)
       }
       cb && cb()
+    })
+  },
+  addOrder ({ commit }, { params, cb }) {
+    iwjw.ajax({
+      method: 'post',
+      url: API.getUrl('addOrder'),
+      data: params
+    }).then(res => {
+      if (res.code === 1) {
+        cb && cb()
+      }
     })
   },
   // 发短信获取验证码

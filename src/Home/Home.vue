@@ -63,6 +63,7 @@ export default {
   mounted () {
     this.initEvent()
     this.$store.dispatch('home/getHomePage')
+    // TODO: send request to fetch avaliable couponList
   },
   computed: {
     ...mapGetters({
