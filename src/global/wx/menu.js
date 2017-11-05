@@ -1,12 +1,27 @@
-/*
- * @Author: MengYue
- * @Date:   2015-11-09 15:56:53
- * @Last modified by:   chenjiangsong
- * @Last modified time: 2016-05-10 18:05:89
- */
+import API from '../../store/api'
+import weixin from './wxsa'
 
-'use strict'
 const menu = {
+  share: function (data = {}) {
+    const self = this
+    iwjw.ajax({
+      url: API.getUrl('getShelfShare'),
+      data: data
+    }).then(res => {
+      if (res && res.code === 1) {
+        const shareConfig = {
+          title: res.data.title,
+          desc: res.data.desc,
+          imgUrl: res.data.imgUrl,
+          link: res.data.link
+        }
+        
+        weixin.init({
+          cb: () => { self.friend(shareConfig) }
+        })
+      }
+    })
+  },
   friend: function (param) {
     wx.ready(function () {
       wx.checkJsApi({
@@ -21,16 +36,13 @@ const menu = {
             complete: function (t) {},
             success: function (t) {
               // smallnote('分享成功')
-              if (param.log) {
-                Log.clickTrigger(param.log.act_k, param.log.act_v, param.log.id)
-              }
             },
             cancel: function (t) {},
             fail: function (t) {
               alert(t)
             }
           }
-          param = _.extend(defaultParam, param)
+          param = Object.assign({}, defaultParam, param)
 
           wx.onMenuShareAppMessage(param)
           wx.onMenuShareTimeline(param)
@@ -51,7 +63,7 @@ const menu = {
     if (name) {
       data.app = name
     }
-    h5Common.ajax({
+    iwjw.ajax({
       url: pageConfig.siteUrl + 'main/getSign',
       data: data,
       success: function (res) {
@@ -68,7 +80,7 @@ const menu = {
           ]
         }
         let config
-        res && res.data && (config = _.extend(defaultConfig, res.data))
+        res && res.data && (config = Object.assign({}, defaultConfig, res.data))
         config && wx.config(config)
         callback && callback()
       },

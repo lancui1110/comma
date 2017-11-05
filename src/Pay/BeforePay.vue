@@ -23,10 +23,8 @@ import weixin from 'weixin'
 export default {
   name: 'BeforePay',
   data () {
-    const query = this.$route.query
-    alert(query.orderNum)
     return {
-      orderNum: query.orderNum,
+      orderNum: this.$route.query.orderNum,
       disablePay: false,
       min: 15,
       sec: 0
@@ -41,18 +39,19 @@ export default {
     }
   },
   mounted () {
+    weixin.init()
     this.loadData()
     this.countDown()
   },
   methods: {
     loadData () {
-      this.$store.dispatch('pay/getOrderSign', { orderNum })
+      this.$store.dispatch('pay/getOrderSign', { orderNum: this.orderNum })
     },
     toPay () {
       weixin.weixinPay(this.orderSign, (res) => {
         alert(res)
         // go 支付成功
-        this.$router.push({ name: 'paySuc', query: {  } })
+        this.$router.push({ name: 'paySuc', query: { orderNum: this.orderNum } })
       })
     },
     countDown () {

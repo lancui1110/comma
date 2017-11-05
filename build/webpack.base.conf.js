@@ -30,6 +30,7 @@ module.exports = {
       'iwjw': resolve('src/global/common/index.js'),
       'weixin': resolve('src/global/wx/wxsa.js'),
       'uploadPic': resolve('src/global/wx/uploadPic.js'),
+      'wxMenu': resolve('src/global/wx/menu.js'),
     }
   },
   module: {

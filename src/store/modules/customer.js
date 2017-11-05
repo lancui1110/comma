@@ -8,7 +8,7 @@ const actions = {
     iwjw.ajax({
       url: API.getUrl('userFeedback'),
       data: params,
-      method: 'POST',
+      method: 'POST'
     }).then(res => {
       cb && cb(res)
     })

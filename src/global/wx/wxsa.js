@@ -63,11 +63,11 @@ const weixin = {
           let config = Object.assign(
             {},
             {
-              title: '逗号mini',
+              title: '逗号迷你超市',
               link: window.pageConfig.mobileSiteUrl,
               type: 'link',
               imgUrl: window.pageConfig.staticUrl + 'common/img/logo_wx.png',
-              desc: '逗号mini',
+              desc: '逗号迷你超市',
               dataUrl: ''
             },
             opt
@@ -86,6 +86,8 @@ const weixin = {
             type: config.type,
             dataUrl: config.dataUrl
           })
+
+          opt.cb && opt.cb()
         })
         wx.error(function (err) {
           console.log(err.errMsg)
