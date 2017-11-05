@@ -10,6 +10,10 @@ router.beforeEach((route, redirect, next) => {
   next()
 })
 
+router.afterEach((to, from) => {
+  store.dispatch('global/gProgress', 100)
+})
+
 router.onReady(() => {
   app.$mount('#app')
 })

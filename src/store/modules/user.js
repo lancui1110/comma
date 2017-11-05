@@ -7,12 +7,33 @@ const state = {
 const actions = {
   getUserInfo ({ commit }, cb) {
     iwjw.ajax({
-      url: API.getUrl('userDetail')
+      url: API.getUrl('userInfo')
     }).then(res => {
       if (res.code === 1) {
-        commit('setUser', res.data.userVo)
+        commit('setUser', res.data)
       }
       cb && cb()
+    })
+  },
+  userLogin ({ commit }, { mobile, code, cb }) {
+    iwjw.ajax({
+      url: API.getUrl('userLogin'),
+      data: { mobile, code }
+    }).then(res => {
+      if (res.code === 1) {
+        commit('setUser', Object.assign({}, state.user, res.data))
+      }
+      cb && cb()
+    })
+  },
+  // 发短信获取验证码
+  sendVerifyCode ({ commit }, mobile) {
+    iwjw.ajax({
+      url: API.getUrl('sendVerifyCode'),
+      data: { mobile }
+    }).then(res => {
+      if (res.code === 1) {
+      }
     })
   }
 }

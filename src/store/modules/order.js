@@ -68,15 +68,6 @@ const actions = {
         cb && cb(res.data.orderNum)
       }
     })
-  },
-  // 发短信获取验证码
-  sendVerifyCode ({ commit }, mobile) {
-    iwjw.ajax({
-      url: API.getUrl('sendVerifyCode')
-    }).then(res => {
-      if (res.code === 1) {
-      }
-    })
   }
 }
 

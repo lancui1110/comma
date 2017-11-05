@@ -13,15 +13,16 @@ const apiMapping = {
   addOrder: 'api/order/addOrder', // 订单提交
   orderStatus: 'api/order/getOrderStatus', // 订单付款结果查询
 
+  userInfo: 'api/user/userInfo', // 用户信息
   userLogin: 'api/user/login', // 短信登录
   sendVerifyCode: 'api/user/sendVerifyCode', // 短信发送
   userFeedback: 'api/user/feedback', // 用户反馈
 
   couponList: 'api/user/pageCoupon', // 优惠券列表
+  availableCouponList: 'api/user/getAvailableCoupon'  // 可用的优惠券
 
   getSign: 'api/wx/getSign', // 获取微信签名
   getOrderSign: 'api/wx/getOrderSign' // 获取微信订单签名
-
 }
 
 export default {

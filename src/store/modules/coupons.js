@@ -46,6 +46,16 @@ const actions = {
       }
       cb && cb()
     })
+  },
+  getAvailableCouponList ({ commit }, cb) {
+    iwjw.ajax({
+      url: API.getUrl('availableCouponList')
+    }).then(res => {
+      if (res.code === 1) {
+        commit('setCouponList', res.data)
+      }
+      cb && cb()
+    })
   }
 }
 
