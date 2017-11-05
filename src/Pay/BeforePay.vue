@@ -25,7 +25,7 @@ export default {
   data () {
     return {
       disablePay: false,
-      min: 1,
+      min: 15,
       sec: 0
     }
   },
