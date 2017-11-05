@@ -48,14 +48,14 @@ const actions = {
       cb && cb()
     })
   },
-  getOrderDetail ({ commit }, cb) {
+  getOrderDetail ({ commit }, orderNum) {
     iwjw.ajax({
-      url: API.getUrl('orderDetail')
+      url: API.getUrl('orderDetail'),
+      data: { orderNum }
     }).then(res => {
       if (res.code === 1) {
         commit('setOrderDetail', res.data)
       }
-      cb && cb()
     })
   },
   addOrder ({ commit }, { params, cb }) {

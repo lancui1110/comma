@@ -35,7 +35,7 @@ export default {
   },
   data () {
     return {
-      
+
     }
   },
   computed: {
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     loadData () {
-      this.$store.dispatch('order/getOrderDetail')
+      this.$store.dispatch('order/getOrderDetail', this.$route.query.orderNum)
     }
   }
 }
@@ -56,7 +56,7 @@ export default {
 
 <style lang="less">
   @import "../global/style/theme.less";
-  
+
   .order-detail-panel {
     height: 100%;
     background: #F2F2F2;
@@ -111,5 +111,5 @@ export default {
     }
   }
 
-  
+
 </style>
