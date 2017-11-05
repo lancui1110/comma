@@ -62,11 +62,12 @@ export default {
   mounted () {
     this.initEvent()
     this.$store.dispatch('home/getHomePage')
-    // TODO: send request to fetch avaliable couponList
+    this.$store.dispatch('user/getUserInfo')
+    this.$store.dispatch('coupons/getAvailableCouponList')
   },
   computed: {
     ...mapGetters({
-      user: 'home/getUser',
+      user: 'user/getUser',
       banner: 'home/getBanner',
       search: 'home/getSearch'
     }),

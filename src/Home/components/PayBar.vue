@@ -26,31 +26,36 @@ export default {
   name: 'PayBar',
   computed: {
     ...mapGetters({
-      cart: 'home/getCart'
+      cart: 'home/getCart',
+      user: 'user/getUser'
     })
   },
   methods: {
     addOrder () {
-      const params = {
-        goods: map(this.cart.list, item => ({
-          id: item.product.id,
-          price: item.product.price,
-          discount: item.product.discountPrice,
-          num: item.count
-        }))
-      }
-      if (this.cart.coupon) {
-        params.couponCode = this.cart.coupon.numberCode
-      }
-      this.$store.dispatch('order/addOrder', {
-        params,
-        cb: (orderNum) => {
-          // reset cart
-          this.$store.dispatch('home/clearCart')
-          // go to '/pay'
-          this.$router.push({ name: 'pay', query: { orderNum } })
+      if (this.user && this.user.mobile) {
+        const params = {
+          goods: map(this.cart.list, item => ({
+            id: item.product.id,
+            price: item.product.price,
+            discount: item.product.discountPrice,
+            num: item.count
+          }))
         }
-      })
+        if (this.cart.coupon) {
+          params.couponCode = this.cart.coupon.numberCode
+        }
+        this.$store.dispatch('order/addOrder', {
+          params,
+          cb: (orderNum) => {
+            // reset cart
+            this.$store.dispatch('home/clearCart')
+            // go to '/pay'
+            this.$router.push({ name: 'pay', query: { orderNum } })
+          }
+        })
+      } else {
+        this.$router.push({ name: 'login', query: { to: 'home' } })
+      }
     },
     toggleSelProducts () {
       if (this.cart.count) {

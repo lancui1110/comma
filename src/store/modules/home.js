@@ -68,13 +68,13 @@ const actions = {
     })
   },
   refreshGoods ({ commit, dispatch }, cb) {
-    commit('setPageInfo', commit('setPageInfo', {
+    commit('setPageInfo', {
       total: 0,
       page: 1,
       pageSize: 20,
       allPage: 0,
       end: false
-    }))
+    })
     if (state.search) {
       dispatch('searchGoods', cb)
       // reset category

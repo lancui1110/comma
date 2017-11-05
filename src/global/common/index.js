@@ -17,17 +17,16 @@ function checkStatus (response) {
     return response
   }
   // TODO: 检查 500, 400 等 code
-  console.log(response)
+  // console.log(response)
   return response
 }
 
 function checkCode (res) {
   if (res.data.code === 1) {
     return res.data
-  } else if (res.data.code > 1) {
-    // 登录超时，自动跳转登出
-    store.commit('user/setIsLogged', false)
-    // window.location.href = `${pageConfig.siteUrl}?errorCode=${res.data.code}`
+  } else {
+    // code != 1, 弹 toastr 提示错误
+    // toastr(res.data.msg)
   }
   return res.data
 }

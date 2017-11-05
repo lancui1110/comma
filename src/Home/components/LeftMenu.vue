@@ -5,19 +5,19 @@
     <div class="left-menu">
       <div class="top-logo-user">
         <p class="line"><i class="icon icon-head-top"></i></p>
-        <span class="user-phone">139****2276</span>
+        <span class="user-phone" v-if="user">{{user.mobile}}</span>
       </div>
       <div class="menus">
         <div class="menu-item">
           <span class="icon-panel"><i class="icon icon-order"></i></span>
           <span class="word">
-            <router-link to="order/list">订单</router-link>
+            <a @click="gotoPage('orderList')">订单</a>
           </span>
         </div>
         <div class="menu-item">
           <span class="icon-panel"><i class="icon icon-coupon"></i></span>
           <span class="word">
-            <router-link to="coupons">优惠券</router-link>
+            <a @click="gotoPage('coupons')">优惠券</a>
           </span>
         </div>
         <div class="menu-item">
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'LeftMenu',
@@ -50,6 +50,11 @@ export default {
       isShow: this.show
     }
   },
+  computed: {
+    ...mapGetters({
+      user: 'user/getUser'
+    })
+  },
   watch: {
     show (val) {
       this.isShow = val
@@ -63,6 +68,13 @@ export default {
     hidePanel () {
       this.isShow = false
       this.$emit('update:show', false)
+    },
+    gotoPage (type) {
+      if (this.user && this.user.mobile) {
+        this.$router.push({ name: type })
+      } else {
+        this.$router.push({ name: 'login', query: { to: type } })
+      }
     }
   }
 }

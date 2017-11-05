@@ -5,7 +5,7 @@
       <input type="tel" class="tel-num" v-model="mobile" placeholder="请输入手机号">
     </div>
     <div class="veri-code-box">
-      <input type="number" class="code-input" v-model="verificationCode" placeholder="请输入验证码">
+      <input type="number" class="code-input" v-model="code" placeholder="请输入验证码">
       <button class="code-btn" :class="{'disabled': !mobile}" v-if="!isWaiting" @click="getVerificationCode()">验证码</button>
       <button class="timeout-btn" v-else>{{waitingNum}}s</button>
     </div>
@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="submit-btn-box">
-      <button class="submit" :class="{ 'disabled': !verificationCode }" :disabled="!verificationCode" @click="handleOnSubmitCode()">提交</button>
+      <button class="submit" :disabled="!mobile || !code" @click="handleOnSubmitCode()">提交</button>
     </div>
   </div>
 </template>
@@ -28,22 +28,19 @@
 
 export default {
   name: 'Login',
-  props: {
-  },
   data () {
     return {
       isWaiting: false,
-      waitingNum: 5,
+      waitingNum: 60,
       isSubmit: false,
-      verificationCode: '',
-      mobile: ''
+      mobile: '',
+      code: ''
     }
   },
   methods: {
     // 发请求获取验证码
     getVerificationCode () {
-      // todos: 发请求拿验证码
-      this.$store.dispach('order/sendVerifyCode')
+      this.$store.dispatch('user/sendVerifyCode', this.mobile)
       this.isWaiting = true
       this.handleOnTimeOut()
     },
@@ -54,7 +51,6 @@ export default {
         if (this.waitingNum >= 0) {
           this.handleOnTimeOut()
         } else {
-          this.waitingNum = 5
           this.isWaiting = false
         }
       }, 1000)
@@ -62,7 +58,14 @@ export default {
     // 提交验证码
     handleOnSubmitCode () {
       this.isSubmit = true
-      console.log('asd')
+      this.$store.dispatch('user/userLogin', {
+        mobile: this.mobile,
+        code: this.code,
+        cb: () => {
+          this.isSubmit = false
+          this.$router.replace({ name: this.$route.query.to })
+        }
+      })
     }
   }
 }
@@ -130,14 +133,14 @@ export default {
       }
     }
     .code-btn {
-        flex: 1;
-        margin-left: 20/@R;
-        height: 100%;
-        color: #fff;
-        outline: none;
-        border: none;
-        background: #593C38;
-      }
+      flex: 1;
+      margin-left: 20/@R;
+      height: 100%;
+      color: #fff;
+      outline: none;
+      border: none;
+      background: #593C38;
+    }
     .pay-tips-box {
       display: flex;
       flex-direction: row;
@@ -157,15 +160,16 @@ export default {
       margin-top: 196/@R;
     }
     .submit {
-        width: 100%;
-        height: 100%;
-        color: #fff;
-        background: #593C38;
-        border: none;
-        border-radius: 10/@R;
-        outline: none;
-      }
-    .disabled {
+      width: 100%;
+      height: 100%;
+      color: #fff;
+      background: #593C38;
+      border: none;
+      border-radius: 10/@R;
+      outline: none;
+    }
+    .disabled,
+    button[disabled] {
       background: #a1a1a1;
     }
   }
