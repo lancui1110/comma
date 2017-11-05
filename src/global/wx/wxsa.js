@@ -15,7 +15,7 @@ const weixin = {
       console.log(res)
       if (res && res.code === 1) {
         wx.config({
-          debug: true,
+          debug: false,
           appId: res.data.appId,
           timestamp: res.data.timestamp,
           nonceStr: res.data.nonceStr,
