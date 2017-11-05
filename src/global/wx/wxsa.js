@@ -12,10 +12,9 @@ const weixin = {
         url: location.href.split('#')[0]
       }
     }).then(res => {
-      console.log(res)
       if (res && res.code === 1) {
         wx.config({
-          debug: false,
+          debug: true,
           appId: res.data.appId,
           timestamp: res.data.timestamp,
           nonceStr: res.data.nonceStr,

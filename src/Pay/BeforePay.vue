@@ -11,9 +11,8 @@
       <span class="word">微信支付</span>
       <i class="icon icon-choose"></i>
     </div>
-    <div class="go-pay" @click="toPay">
-      <router-link to="pay/success">去支付 ¥178.50</router-link>
-    </div>
+    <!-- <div v-show="orderSign.amount > 0" class="go-pay" @click="toPay">去支付 ¥{{orderSign.amount}}</div> -->
+    <div class="go-pay" @click="toPay">去支付 ¥{{orderSign.amount}}</div>
   </div>
 </template>
 
@@ -24,9 +23,10 @@ import weixin from 'weixin'
 export default {
   name: 'BeforePay',
   data () {
-    const params = this.$route.query
+    const query = this.$route.query
+    alert(query.orderNum)
     return {
-      orderNum: params.orderNum,
+      orderNum: query.orderNum,
       disablePay: false,
       min: 15,
       sec: 0
@@ -46,12 +46,13 @@ export default {
   },
   methods: {
     loadData () {
-      this.$store.dispatch('pay/getOrderSign')
+      this.$store.dispatch('pay/getOrderSign', { orderNum })
     },
     toPay () {
       weixin.weixinPay(this.orderSign, (res) => {
         alert(res)
-        
+        // go 支付成功
+        this.$router.push({ name: 'paySuc', query: {  } })
       })
     },
     countDown () {
