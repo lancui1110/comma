@@ -13,7 +13,7 @@ const weixin = {
       }
     }).then(res => {
       console.log(res)
-      if (res && res.status === 1) {
+      if (res && res.code === 1) {
         wx.config({
           debug: true,
           appId: res.data.appId,
