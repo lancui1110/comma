@@ -1,9 +1,10 @@
+import API from '../../store/api'
 
 const weixin = {
   init: function (opt) {
     opt = opt || ''
-    const url = 'http://weixinentbeta.iwjwagent.com:8134/main/getSign'
-    // const url = pageConfig.siteUrl + 'api/wx/getSign'
+    // const url = 'http://weixinentbeta.iwjwagent.com:8134/main/getSign'
+    const url = API.getUrl('getSign')
     
     iwjw.ajax({
       url: url,

@@ -17,7 +17,10 @@ const apiMapping = {
   sendVerifyCode: 'api/user/sendVerifyCode', // 短信发送
   userFeedback: 'api/user/feedback', // 用户反馈
 
-  couponList: 'api/user/pageCoupon' // 优惠券列表
+  couponList: 'api/user/pageCoupon', // 优惠券列表
+
+  getSign: 'api/wx/getSign', // 获取微信签名
+  getOrderSign: 'api/wx/getOrderSign' // 获取微信订单签名
 
 }
 

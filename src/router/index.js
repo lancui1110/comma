@@ -30,7 +30,7 @@ const CustomerFeedback = r => require.ensure([], () => r(require('../Customer/Fe
 const Coupons = r => require.ensure([], () => r(require('../Coupons/List.vue')), 'Coupons')
 
 const router = new Router({
-  base: pageConfig.siteUrl,
+  base: pageConfig.siteUrl + 'index',
   mode: 'history',
   routes: [
     { name: 'home', path: '', component: Home },

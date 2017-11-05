@@ -11,33 +11,48 @@
       <span class="word">微信支付</span>
       <i class="icon icon-choose"></i>
     </div>
-    <div class="go-pay">
+    <div class="go-pay" @click="toPay">
       <router-link to="pay/success">去支付 ¥178.50</router-link>
     </div>
   </div>
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
+import weixin from 'weixin'
 
 export default {
   name: 'BeforePay',
   data () {
+    const params = this.$route.query
     return {
+      orderNum: params.orderNum,
       disablePay: false,
       min: 15,
       sec: 0
     }
   },
   computed: {
+    ...mapGetters({
+      orderSign: 'pay/orderSign'
+    }),
     displayTime () {
       return `${this.min < 10 ? '0' : ''}${this.min}:${this.sec < 10 ? '0' : ''}${this.sec}`
     }
   },
   mounted () {
+    this.loadData()
     this.countDown()
   },
   methods: {
+    loadData () {
+      this.$store.dispatch('pay/getOrderSign')
+    },
+    toPay () {
+      weixin.weixinPay(this.orderSign, (res) => {
+        alert(res)
+      })
+    },
     countDown () {
       setTimeout(() => {
         this.sec -= 1
