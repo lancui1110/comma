@@ -25,6 +25,7 @@
 
 <script>
 // import { mapGetters } from 'vuex'
+import { Toast } from 'mint-ui'
 
 export default {
   name: 'Login',
@@ -40,9 +41,17 @@ export default {
   methods: {
     // 发请求获取验证码
     getVerificationCode () {
-      this.$store.dispatch('user/sendVerifyCode', this.mobile)
-      this.isWaiting = true
-      this.handleOnTimeOut()
+      this.$store.dispatch('user/sendVerifyCode', {
+        mobile: this.mobile,
+        cb: (res) => {
+          if (res.code === 1) {
+            this.isWaiting = true
+            this.handleOnTimeOut()
+          } else {
+            Toast(res.msg)
+          }
+        }
+      })
     },
     // 验证码倒计时
     handleOnTimeOut () {

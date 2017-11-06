@@ -27,13 +27,12 @@ const actions = {
     })
   },
   // 发短信获取验证码
-  sendVerifyCode ({ commit }, mobile) {
+  sendVerifyCode ({ commit }, { mobile, cb }) {
     iwjw.ajax({
       url: API.getUrl('sendVerifyCode'),
       data: { mobile }
     }).then(res => {
-      if (res.code === 1) {
-      }
+      cb && cb(res)
     })
   }
 }
