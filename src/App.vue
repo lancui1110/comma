@@ -7,6 +7,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import NProgress from 'nprogress'
+  import wxMenu from 'wxMenu'
 
   export default {
     name: 'app',
@@ -14,6 +15,9 @@
       ...mapGetters({
         global: 'global/getGlobal'
       })
+    },
+    mounted () {
+      wxMenu.share()
     },
     watch: {
       'global.progress' (val) {

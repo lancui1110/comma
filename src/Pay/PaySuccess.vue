@@ -12,7 +12,7 @@
     <div v-show="isShowShare" class="share-panel">
       <div class="mask" @click="showShare(false, false)"></div>
       <div v-show="isShowShareRedPacket" class="share-red-packet">
-        <p class="pic" @click="showShare(false, true)"><img :src="require('../assets/img_share.png')"/></p>
+        <p class="pic" @click="resetShare"><img :src="require('../assets/img_share.png')"/></p>
         <p class="word">分享后自己也能领取哦～</p>
         <p class="close" @click="showShare(false, false)"><i class="icon icon-close"></i></p>
       </div>
@@ -26,6 +26,8 @@
 
 <script>
 // import { mapGetters } from 'vuex'
+import weixin from 'weixin'
+import wxMenu from 'wxMenu'
 
 export default {
   name: 'PaySuccess',
@@ -33,9 +35,13 @@ export default {
   },
   data () {
     return {
-      isShowShareRedPacket: true, // 显示分享红包
+      orderNum: this.$route.query.orderNum,
+      isShowShareRedPacket: false, // 显示分享红包
       isShowShareWx: false // 显示微信分享
     }
+  },
+  mounted () {
+    weixin.init()
   },
   computed: {
     isShowShare () {
@@ -46,6 +52,10 @@ export default {
     showShare (isShowShareRedPacket, isShowShareWx) {
       this.isShowShareRedPacket = isShowShareRedPacket
       this.isShowShareWx = isShowShareWx
+    },
+    resetShare () {
+      this.showShare(false, true)
+      wxMenu.share({orderNum: this.orderNum})
     }
   }
 }
