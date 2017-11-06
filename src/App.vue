@@ -16,9 +16,6 @@
       //   global: 'global/getGlobal'
       // })
     },
-    mounted () {
-      wxMenu.share()
-    },
     watch: {
       // 'global.progress' (val) {
       //   if (val === 0) {
@@ -33,6 +30,7 @@
       // }
     },
     mounted () {
+      wxMenu.share()
       this.$store.dispatch('user/getUserInfo')
     }
   }
