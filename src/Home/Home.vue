@@ -62,7 +62,6 @@ export default {
   mounted () {
     this.initEvent()
     this.$store.dispatch('home/getHomePage')
-    this.$store.dispatch('user/getUserInfo')
     this.$store.dispatch('coupons/getAvailableCouponList')
   },
   computed: {

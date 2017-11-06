@@ -27,6 +27,9 @@
           NProgress.start()
         }
       }
+    },
+    mounted () {
+      this.$store.dispatch('user/getUserInfo')
     }
   }
 </script>
