@@ -49,7 +49,7 @@ export default {
       this.$store.dispatch('pay/getOrderSign', {
         params,
         cb: (res) => {
-          const leftSec = res.data.lastPayTime
+          const leftSec = res.data.seconds
           this.min = Math.floor(leftSec / 60)
           this.sec = leftSec % 60
         }

@@ -30,8 +30,8 @@
       // }
     },
     mounted () {
-      wxMenu.share()
       this.$store.dispatch('user/getUserInfo')
+      wxMenu.share()
     }
   }
 </script>

@@ -18,7 +18,8 @@ const actions = {
   userLogin ({ commit }, { mobile, code, cb }) {
     iwjw.ajax({
       url: API.getUrl('userLogin'),
-      data: { mobile, code }
+      data: { mobile, code },
+      method: 'POST'
     }).then(res => {
       if (res.code === 1) {
         commit('setUser', Object.assign({}, state.user, res.data))

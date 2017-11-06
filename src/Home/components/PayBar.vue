@@ -55,6 +55,7 @@ export default {
             this.$store.dispatch('home/clearCart')
             // go to '/pay'
             this.$router.push({ name: 'pay', query: { orderNum } })
+            // location.href = pageConfig.siteUrl + 'index/pay'
           }
         })
       } else {
