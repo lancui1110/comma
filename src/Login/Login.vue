@@ -52,6 +52,7 @@ export default {
           this.handleOnTimeOut()
         } else {
           this.isWaiting = false
+          this.waitingNum = 60
         }
       }, 1000)
     },
