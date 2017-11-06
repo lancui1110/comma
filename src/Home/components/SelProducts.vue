@@ -119,7 +119,9 @@ export default {
         color: #593C38;
       }
       .product-list {
+        max-height: 510/@R;
         padding-bottom: 28/@R;
+        overflow-y: auto;
         background-color: #fff;
       }
       .product-item{

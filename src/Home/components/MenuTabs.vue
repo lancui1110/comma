@@ -4,7 +4,7 @@
       <li class="menu-ink-bar">
         <span class="menu-ink-bar-inner"></span>
       </li>
-      <li class="menu-item" :id="'menu-item-' + item.id"
+      <li class="menu-item" :id="'menu-item-' + key"
           :class="{ 'active': item.id === category.current.id }"
           v-for="(item, key) in category.list" :key="key"
           @click="clickTab(item)">
@@ -34,6 +34,7 @@
  * 5.选择了 第二行 或者 第三行的  分类   展示效果 如选择了 之后  ， 展开的 折叠回去
  */
 
+import { findIndex } from 'lodash'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -58,9 +59,12 @@ export default {
     curMenuItem (val, old) {
       this.isShowMoreMenus = false
 
+      const valIndex = val ? findIndex(this.category.list, { id: val.id }) : -1
+      const oldIndex = old ? findIndex(this.category.list, { id: old.id }) : -1
+
       const $ink = document.querySelector('.menu-ink-bar')
       const $inkInner = document.querySelector('.menu-ink-bar-inner')
-      const $curMenuItem = document.getElementById(`menu-item-${val.id}`)
+      const $curMenuItem = document.getElementById(`menu-item-${valIndex}`)
       if ($curMenuItem) {
         const $curMenuItemText = $curMenuItem.querySelector('.menu-item-text')
 
@@ -70,13 +74,13 @@ export default {
         $ink.style.left = `${left}px`
         $inkInner.style.width = `${innerWidth}px`
 
-        const addFwd = val > old ? 'menu-ink-foreward' : 'menu-ink-backward'
-        const removeFwd = val < old ? 'menu-ink-foreward' : 'menu-ink-backward'
+        const addFwd = valIndex > oldIndex ? 'menu-ink-foreward' : 'menu-ink-backward'
+        const removeFwd = valIndex < oldIndex ? 'menu-ink-foreward' : 'menu-ink-backward'
         $ink.classList.remove(removeFwd)
         $ink.classList.add(addFwd)
 
         if (val && old) {
-          $curMenuItem.scrollIntoView(true)
+          $curMenuItem.scrollIntoView(false)
         }
       }
     }
