@@ -8,8 +8,8 @@
       </div>
       <div class="pay-info">
         <div v-if="cart.count > 0">
-          <p v-if="cart.discount" class="discounts">已优惠：- ¥{{cart.discount}}</p>
-          <p class="total-price">合计：¥{{cart.total}}</p>
+          <p v-if="cart.discount" class="discounts">已优惠：- ¥{{cart.discount.toFixed(2)}}</p>
+          <p class="total-price">合计：¥{{cart.total.toFixed(2)}}</p>
         </div>
         <p v-else class="no-choose">还未选购商品</p>
       </div>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { map, sum } from 'lodash'
+import { map, sum, round } from 'lodash'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -40,9 +40,9 @@ export default {
             discount: item.product.discountPrice,
             num: item.count
           })),
-          amount: sum(map(this.cart.list, item => item.count * item.product.price)),
-          discounts: this.cart.discount,
-          realMoney: this.cart.total,
+          amount: round(sum(map(this.cart.list, item => item.count * item.product.price)), 2),
+          discounts: round(this.cart.discount, 2),
+          realMoney: round(this.cart.total, 2),
           number: this.cart.count
         }
         if (this.cart.coupon) {
