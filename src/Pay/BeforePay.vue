@@ -45,11 +45,19 @@ export default {
   },
   methods: {
     loadData () {
-      this.$store.dispatch('pay/getOrderSign', { orderNum: this.orderNum })
+      const params = { orderNum: this.orderNum }
+      this.$store.dispatch('pay/getOrderSign', {
+        params,
+        cb: (res) => {
+          const leftSec = res.data.lastPayTime
+          this.min = Math.floor(leftSec / 60)
+          this.sec = leftSec % 60
+        }
+      })
     },
     toPay () {
       weixin.weixinPay(this.orderSign, (res) => {
-        alert(res)
+        alert('支付成功，跳转')
         // go 支付成功
         this.$router.push({ name: 'paySuc', query: { orderNum: this.orderNum } })
       })

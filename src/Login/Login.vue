@@ -11,7 +11,7 @@
     </div>
     <div class="pay-tips-box">
       <div class="tip-icon-box">
-        <i class="icon icon-more"></i>
+        <i class="icon icon-cue"></i>
       </div>
       <div class="tip-content">
         <p>温馨提示：首次支付需要验证您的手机号码，通过后即可微信支付下单</p>

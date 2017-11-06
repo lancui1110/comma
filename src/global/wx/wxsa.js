@@ -3,7 +3,6 @@ import API from '../../store/api'
 const weixin = {
   init: function (opt) {
     opt = opt || ''
-    // const url = 'http://weixinentbeta.iwjwagent.com:8134/main/getSign'
     const url = API.getUrl('getSign')
     
     iwjw.ajax({
@@ -14,7 +13,7 @@ const weixin = {
     }).then(res => {
       if (res && res.code === 1) {
         wx.config({
-          debug: true,
+          debug: false,
           appId: res.data.appId,
           timestamp: res.data.timestamp,
           nonceStr: res.data.nonceStr,

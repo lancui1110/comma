@@ -37,6 +37,7 @@ export default {
 <style lang="less">
   @import "../../global/style/theme.less";
   .product-item {
+    font-family: PingFangHK-Medium;
     padding: 10/@R 10/@R 15/@R 10/@R;
     font-size: 20/@R;
     .pic {
@@ -47,6 +48,7 @@ export default {
       height: 178/@R;
     }
     .title {
+      height: 74/@R;
       font-size: 24/@R;
     }
     .price-panel {

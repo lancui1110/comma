@@ -1,12 +1,12 @@
 <template>
-  <div v-if="orderList.length <= 0" class="order-list-panel no-data">
+  <div v-if="!isLoad && orderList.length <= 0" class="order-list-panel no-data">
     <div class="content">
       <p class="pic"><img :src="require('../assets/img_order_none.png')"/></p>
       <p class="word">暂无订单</p>
     </div>
   </div>
 
-  <div v-else class="order-list-panel">
+  <div v-else-if="orderList.length > 0" class="order-list-panel">
     <div class="head">已完成订单</div>
     <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
       <div>
@@ -31,13 +31,15 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { Indicator } from 'mint-ui'
 
 export default {
   name: 'OrderList',
   computed: {
     ...mapGetters({
       orderList: 'order/orderList',
-      pageInfo: 'order/pageInfo'
+      pageInfo: 'order/pageInfo',
+      isLoad: true
     })
   },
   mounted () {
@@ -45,7 +47,11 @@ export default {
   },
   methods: {
     loadList () {
-      this.$store.dispatch('order/getOrderList')
+      Indicator.open()
+      this.$store.dispatch('order/getOrderList', () => {
+        this.isLoad = false
+        Indicator.close()
+      })
     },
     loadTop () {
       this.$store.dispatch('order/refreshOrders', this.$refs.loadmore.onTopLoaded)

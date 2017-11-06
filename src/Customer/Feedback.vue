@@ -16,6 +16,7 @@
 
 <script>
 // import { mapGetters } from 'vuex'
+import { Toast } from 'mint-ui'
 
 import weixin from 'weixin'
 import uploadPic from 'uploadPic'
@@ -60,7 +61,7 @@ export default {
     },
     submit () {
       if (this.feedback === '') {
-        alert('请输入您的宝贵建议~')
+        Toast('请输入您的宝贵建议~')
       }
       const params = {
         feedback: this.feedback,
@@ -70,10 +71,10 @@ export default {
         params: params,
         cb: (res) => {
           if (res.code === 1) {
-            alert('反馈成功')
+            Toast('反馈成功')
             window.history.go(-1)
           } else {
-            alert('提交失败啦')
+            Toast('提交失败啦')
           }
         }
       })

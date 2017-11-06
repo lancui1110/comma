@@ -108,7 +108,8 @@ export default {
     .header {
       font-size: 0;
       .banner {
-        width: 750/@R;
+        // width: 750/@R;
+        width: 100%;
       }
     }
 

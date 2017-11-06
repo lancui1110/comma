@@ -5,7 +5,7 @@ const state = {
 }
 
 const actions = {
-  getOrderSign ({ commit }, params, cb) {
+  getOrderSign ({ commit }, { params, cb }) {
     iwjw.ajax({
       url: API.getUrl('getOrderSign'),
       data: params
@@ -13,7 +13,7 @@ const actions = {
       if (res.code === 1) {
         commit('setOrderSign', res.data)
       }
-      cb && cb()
+      cb && cb(res)
     })
   }
 }

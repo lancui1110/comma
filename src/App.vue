@@ -5,32 +5,32 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import NProgress from 'nprogress'
+  // import { mapGetters } from 'vuex'
+  // import NProgress from 'nprogress'
   import wxMenu from 'wxMenu'
 
   export default {
     name: 'app',
     computed: {
-      ...mapGetters({
-        global: 'global/getGlobal'
-      })
+      // ...mapGetters({
+      //   global: 'global/getGlobal'
+      // })
     },
     mounted () {
       wxMenu.share()
     },
     watch: {
-      'global.progress' (val) {
-        if (val === 0) {
-          NProgress.set(0)
-          NProgress.start()
-        } else if (val === 100) {
-          NProgress.done()
-        } else {
-          NProgress.set(val / 100)
-          NProgress.start()
-        }
-      }
+      // 'global.progress' (val) {
+      //   if (val === 0) {
+      //     NProgress.set(0)
+      //     NProgress.start()
+      //   } else if (val === 100) {
+      //     NProgress.done()
+      //   } else {
+      //     NProgress.set(val / 100)
+      //     NProgress.start()
+      //   }
+      // }
     }
   }
 </script>
