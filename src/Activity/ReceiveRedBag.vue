@@ -93,19 +93,20 @@ export default {
       .input-item, .btn {
         width: 497/@R;
         height: 101/@R;
-        line-height: 101/@R;
         text-align: center;
       }
       .input-item {
         border-radius: 20/@R;
-        padding: 20/@R;
+        font-size: 36/@R;
+        padding: 33/@R 20/@R;
       } 
       .btn {
         width: 497/@R;
         background: #F9DC57;
         border-radius: 10px;
-        font-size: 48/@R;
+        font-size: 42/@R;
         color: #A91414;
+        line-height: 101/@R;
       }
       .code-input-panel {
         width: 497/@R;
@@ -116,7 +117,7 @@ export default {
         }
         .btn {
           width: 120/@R;
-          font-size: 36/@R;
+          font-size: 32/@R;
         }
       }
     }
@@ -153,14 +154,20 @@ export default {
       margin: 0 62/@R;
       border: 1px solid #F1B06D;
       border-radius: 29/@R;
-      padding: 40/@R 0 40/@R 90/@R;
+      padding: 40/@R 0 220/@R 90/@R;
       p {
         line-height: 56/@R;
       }
     }
     .bottom {
-      position: relative;
-      top: -100/@R;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      font-size: 0;
+      line-height: 0;
+      .img {
+        width: 100%;
+      }
     }
   }
   
