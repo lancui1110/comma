@@ -3,16 +3,36 @@
   <div class="recieve-reabag-panel">
     <div class="head">
       <img :src="require('../assets/activity/bg-coupon.png')" class="bg-img"/>
-      <!-- <p class="word">红包来啦，赶快登陆领取</p> -->
+      <p class="word">红包来啦，赶快登陆领取</p>
     </div>
+    
     <div class="content">
-      <div class="user-form">
+      <!-- 登录 -->
+      <div v-if="state === 1" class="user-form">
         <div class="form-item"><input type="text" placeholder="输入手机号" class="input-item"></div>
         <div class="form-item code-input-panel">
           <input type="text" placeholder="输入验证码" class="input-item">
           <span class="btn">获取</span>
         </div>
         <div class="form-item btn">立即领取</div>
+      </div>
+
+      <!-- 已领过优惠券 -->
+      <div v-if="state === 2" class="received-panel">
+        <div class="coupons">
+          <div v-for="(item, key) in coupons" :key="key" class="coupons-panel">
+            <div class="coupons-item">
+              <div class="word red">
+                <span class="left word large">{{item.price}}元</span>
+                <span class="word">{{item.name}}</span>
+              </div>
+              <div class="word">
+                <span class="left word">满{{item.lowPrice}}元立减</span>
+                <span class="word">{{item.startDate}}~{{item.endDate}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="content-block">
@@ -55,7 +75,24 @@ export default {
   },
   data () {
     return {
-      
+      state: 1,
+      coupons: [{
+        name: '新人礼包1',
+        numberCode: 'EiVTePe5JX4',
+        price: 1,
+        lowPrice: 20,
+        startDate: '2017.10.24',
+        endDate: '2017.10.24',
+        status: 4
+      }, {
+        name: '新人礼包2',
+        numberCode: 'EiVTePe5JX4',
+        price: 1,
+        lowPrice: 20,
+        startDate: '2017.10.24',
+        endDate: '2017.10.24',
+        status: 4
+      }]
     }
   }
 }
@@ -77,6 +114,17 @@ export default {
     .bg-img {
       width: 100%;
     }
+    .head {
+      position: relative;
+      .word {
+        position: absolute;
+        left: 0;
+        top: 464/@R;
+        width: 100%;
+        color: #333;
+        text-align: center;
+      }
+    }
     .content {
       position: relative;
       top: -50/@R;
@@ -94,16 +142,15 @@ export default {
         width: 497/@R;
         height: 101/@R;
         text-align: center;
+        border-radius: 20/@R;
       }
       .input-item {
-        border-radius: 20/@R;
         font-size: 36/@R;
         padding: 33/@R 20/@R;
       } 
       .btn {
         width: 497/@R;
         background: #F9DC57;
-        border-radius: 10px;
         font-size: 42/@R;
         color: #A91414;
         line-height: 101/@R;
@@ -163,10 +210,48 @@ export default {
       position: absolute;
       bottom: 0;
       left: 0;
+      width: 100%;
       font-size: 0;
       line-height: 0;
       .img {
         width: 100%;
+      }
+    }
+
+    .received-panel {
+      .word {
+        font-size: 28/@R;
+      }
+      .large {
+        font-size: 44/@R;
+      }
+      .red {
+        color: #D86868;
+      }
+      .gray {
+        .word, .red {
+          color: #D9D9D9;
+        }
+      }
+      .coupons {
+        position: relative;
+      }
+      .coupons-panel {
+        position: relative;
+        width: 700/@R;
+        height: 209/@R;
+        background: url(../assets/activity/coupon.png) no-repeat;
+        background-size: 700/@R 209/@R;
+        margin: -10/@R 25/@R 0;
+      }
+      .coupons-item {
+        width: 100%;
+        height: 100%;
+        border-radius: 2px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: left;
       }
     }
   }
