@@ -28,9 +28,12 @@ const CustomerMain = r => require.ensure([], () => r(require('../Customer/Main.v
 const CustomerFeedback = r => require.ensure([], () => r(require('../Customer/Feedback.vue')), 'Customer')
 // 优惠券
 const Coupons = r => require.ensure([], () => r(require('../Coupons/List.vue')), 'Coupons')
+// 活动
+const ReceiveRedBag = r => require.ensure([], () => r(require('../Activity/ReceiveRedBag.vue')), 'Activity')
+const Recommend = r => require.ensure([], () => r(require('../Activity/Recommend.vue')), 'Activity')
+const RecommendForm = r => require.ensure([], () => r(require('../Activity/RecommendForm.vue')), 'Activity')
 
 const router = new Router({
-  // base: pageConfig.siteUrl,
   base: pageConfig.siteUrl + 'index',
   mode: 'history',
   routes: [
@@ -43,8 +46,9 @@ const router = new Router({
     { name: 'customerMain', path: '/customer', component: CustomerMain },
     { name: 'customerFeedback', path: '/customer/feedBack', component: CustomerFeedback },
     { name: 'coupons', path: '/coupons', component: Coupons },
-    // { name: 'sec_house', path: '/sale', component: SecHouse, beforeEnter: guardRoute },
-    // { name: 'sec_house_group', path: '/sale/group', component: SecHouseGroup, beforeEnter: guardRoute },
+    { name: 'receiveRedBag', path: '/receiveRedBag', component: ReceiveRedBag },
+    { name: 'recommend', path: '/recommend', component: Recommend },
+    { name: 'recommendForm', path: '/recommendForm', component: RecommendForm },
 
     { path: '*', redirect: { name: 'home' } }
   ]
