@@ -98,7 +98,7 @@ export default {
     citySlot () {
       return [
         {
-          values: this.cityData,
+          values: this.cityData
         }
       ]
     }
