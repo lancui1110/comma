@@ -70,6 +70,11 @@
     </div>
     <div class="bottom">
       <img :src="require('../assets/activity/bg-btn.png')" class="bg-img"/>
+      <div class="btn">
+        <view-router to="/activity/recommendForm">
+          <div class="yellow-btn">申请零食柜</div>
+        </view-router>
+      </div>
     </div>
   </div>
 </template>
@@ -231,6 +236,16 @@ export default {
           font-family: PingFangHK-Semibold;
           font-size: 30/@R;
         }
+      }
+    }
+    .bottom {
+      position: relative;
+      .btn {
+        width: 100%;
+        text-align: center;
+        margin-top: -100/@R;
+        background: #E41E1F;
+        padding-bottom: 60/@R;
       }
     }
   }

@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="bottom">
-        <div class="yellow-btn">立即领取</div>
+       <router-link :to="{ name: 'recommendForm', params: { userId: 123 }}"><div class="yellow-btn">填写申请表</div></router-link>
     </div>
   </div>
 </template>
