@@ -3,9 +3,13 @@ import API from '../api'
 const state = {
   myRedPacket: {},
   redPackets: [],
+  cityData: [],
   recommendForm: {
-    company: '',
-    nickName: '',
+    companyName: '',
+    linkName: '',
+    referrerMobile: '',
+    cityName: '',
+    address: '',
     mobile: ''
   }
 }
@@ -22,6 +26,26 @@ const actions = {
         commit('user/setUser', Object.assign({}, rootState.user.user, userInfo), { root: true })
       }
     })
+  },
+  getCityData ({ commit }) {
+    iwjw.ajax({
+      url: API.getUrl('getAllArea')
+    }).then(res => {
+      if (res.code === 1) {
+        commit('setCityData', res.data || [])
+      }
+    })
+  },
+  submitRecommendForm ({ commit }) {
+    iwjw.ajax({
+      method: 'POST',
+      url: API.getUrl('shelfRecommend'),
+      data: state.recommendForm
+    }).then(res => {
+      if (res.code === 1) {
+        // TODO: ok then what to do? need cb to handle something?
+      }
+    })
   }
 }
 
@@ -34,6 +58,9 @@ const mutations = {
   },
   setRedPackets (state, payload) {
     state.redPackets = payload
+  },
+  setCityData (state, payload) {
+    state.cityData = payload
   }
 }
 
@@ -46,6 +73,9 @@ const getters = {
   },
   redPackets (state) {
     return state.redPackets
+  },
+  cityData (state) {
+    return state.cityData
   }
 }
 

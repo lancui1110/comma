@@ -17,8 +17,8 @@
             type="text"
             placeholder="请输入公司名称"
             class="txt-input"
-            id="company"
-            :value="form.company"
+            id="companyName"
+            :value="form.companyName"
             @input="updateFormField"
           />
         </div>
@@ -28,8 +28,8 @@
             type="text"
             placeholder="请输入公司联系人姓名"
             class="txt-input"
-            id="nickName"
-            :value="form.nickName"
+            id="linkName"
+            :value="form.linkName"
             @input="updateFormField"
           />
         </div>
@@ -39,8 +39,8 @@
             type="tel"
             placeholder="请输入联系人手机号"
             class="txt-input"
-            id="mobile"
-            :value="form.mobile"
+            id="referrerMobile"
+            :value="form.referrerMobile"
             @input="updateFormField"
           />
         </div>
@@ -58,6 +58,9 @@
             type="text"
             placeholder="请输入公司地址"
             class="txt-input"
+            id="address"
+            :value="form.address"
+            @input="updateFormField"
           />
         </div>
         <div class="row">
@@ -65,11 +68,14 @@
           <input
             type="text"
             class="txt-input"
+            id="mobile"
+            :value="form.mobile"
+            @input="updateFormField"
           />
           <!-- <p class="word small">填写您的手机号，入驻后会对您发放奖励金！</p> -->
         </div>
       </div>
-      <div class="btn">提交审核</div>
+      <div class="btn" @click="submitForm">提交审核</div>
     </form>
   </div>
 </template>
@@ -79,8 +85,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'ReceiveRedBag',
-  props: {
-  },
   data () {
     return {
 
@@ -88,8 +92,19 @@ export default {
   },
   computed: {
     ...mapGetters({
-      form: 'activity/recommendForm'
-    })
+      form: 'activity/recommendForm',
+      cityData: 'activity/cityData'
+    }),
+    citySlot () {
+      return [
+        {
+          values: this.cityData,
+        }
+      ]
+    }
+  },
+  mounted () {
+    this.$store.dispatch('activity/getCityData')
   },
   methods: {
     updateFormField (e) {
@@ -97,6 +112,10 @@ export default {
         name: e.target.id,
         value: e.target.value
       })
+    },
+    submitForm () {
+      // TODO: valid form field
+      this.$store.dispatch('activity/submitRecommendForm')
     }
   }
 }
