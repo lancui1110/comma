@@ -75,7 +75,7 @@ export default {
       display: inline-block;
       width: 250/@R;
       text-align: center;
-      margin-right: 110/@R;
+      margin-right: 100/@R;
     }
     .coupons-item-panel {
       position: relative;

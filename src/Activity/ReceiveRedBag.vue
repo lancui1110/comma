@@ -5,7 +5,7 @@
       <img :src="require('../assets/activity/bg-coupon.png')" class="bg-img"/>
       <p class="word">红包来啦，赶快登陆领取</p>
     </div>
-    
+
     <div class="content">
       <!-- 登录 -->
       <div v-if="state === 1" class="user-form">
@@ -71,16 +71,16 @@
     <div class="bottom">
       <img :src="require('../assets/activity/bg-btn.png')" class="bg-img"/>
       <div class="btn">
-        <view-router to="/activity/recommendForm">
+        <router-link to="/activity/recommendForm">
           <div class="yellow-btn">申请零食柜</div>
-        </view-router>
+        </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import Content from './content'
 
 export default {
@@ -101,6 +101,11 @@ export default {
         status: 4
       }
     }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user/getUser'
+    })
   }
 }
 </script>
@@ -152,7 +157,7 @@ export default {
       .input-item {
         font-size: 36/@R;
         padding: 33/@R 20/@R;
-      } 
+      }
       .code-input-panel {
         width: 497/@R;
         display: flex;
@@ -227,7 +232,7 @@ export default {
         .friend-word {
           flex: 1;
           color: #fff;
-          padding-left: 50/@R; 
+          padding-left: 50/@R;
         }
         .word {
           font-size: 24/@R;
@@ -249,5 +254,5 @@ export default {
       }
     }
   }
-  
+
 </style>

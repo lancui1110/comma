@@ -6,6 +6,7 @@ import user from './modules/user'
 import order from './modules/order'
 import coupons from './modules/coupons'
 import customer from './modules/customer'
+import activity from './modules/activity'
 import pay from './modules/pay'
 
 Vue.use(Vuex)
@@ -35,6 +36,10 @@ export default new Vuex.Store({
     customer: {
       namespaced: true,
       ...customer
+    },
+    activity: {
+      namespaced: true,
+      ...activity
     },
     pay: {
       namespaced: true,

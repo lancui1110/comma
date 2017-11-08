@@ -13,28 +13,60 @@
         </div>
         <div class="row">
           <span class="label">公司名称</span>
-          <input type="text" placeholder="请输入公司名称" class="txt-input"/>
+          <input
+            type="text"
+            placeholder="请输入公司名称"
+            class="txt-input"
+            id="company"
+            :value="form.company"
+            @input="updateFormField"
+          />
         </div>
         <div class="row">
           <span class="label">联系人姓名</span>
-          <input type="text" placeholder="请输入公司联系人姓名" class="txt-input"/>
+          <input
+            type="text"
+            placeholder="请输入公司联系人姓名"
+            class="txt-input"
+            id="nickName"
+            :value="form.nickName"
+            @input="updateFormField"
+          />
         </div>
         <div class="row">
           <span class="label">+86</span>
-          <input type="text" placeholder="请输入联系人手机号" class="txt-input"/>
+          <input
+            type="tel"
+            placeholder="请输入联系人手机号"
+            class="txt-input"
+            id="mobile"
+            :value="form.mobile"
+            @input="updateFormField"
+          />
         </div>
         <div class="row">
           <span class="label">所在城市</span>
-          <input type="text" placeholder="请选择所在城市" class="txt-input"/>
+          <input
+            type="text"
+            placeholder="请选择所在城市"
+            class="txt-input"
+          />
         </div>
         <div class="row">
           <span class="label">公司地址</span>
-          <input type="text" placeholder="请输入公司地址" class="txt-input"/>
+          <input
+            type="text"
+            placeholder="请输入公司地址"
+            class="txt-input"
+          />
         </div>
         <div class="row">
           <span class="label">您的手机号</span>
-          <input type="text" placeholder="该手机号用于接受奖励" class="txt-input"/>
-          <p class="word small">填写您的手机号，入驻后会对您发放奖励金！</p>
+          <input
+            type="text"
+            class="txt-input"
+          />
+          <!-- <p class="word small">填写您的手机号，入驻后会对您发放奖励金！</p> -->
         </div>
       </div>
       <div class="btn">提交审核</div>
@@ -43,7 +75,7 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ReceiveRedBag',
@@ -51,7 +83,20 @@ export default {
   },
   data () {
     return {
-      
+
+    }
+  },
+  computed: {
+    ...mapGetters({
+      form: 'activity/recommendForm'
+    })
+  },
+  methods: {
+    updateFormField (e) {
+      this.$store.commit('activity/updateRecommendFormField', {
+        name: e.target.id,
+        value: e.target.value
+      })
     }
   }
 }
@@ -124,5 +169,5 @@ export default {
 
     }
   }
-  
+
 </style>
