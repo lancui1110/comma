@@ -46,9 +46,9 @@ const router = new Router({
     { name: 'customerMain', path: '/customer', component: CustomerMain },
     { name: 'customerFeedback', path: '/customer/feedBack', component: CustomerFeedback },
     { name: 'coupons', path: '/coupons', component: Coupons },
-    { name: 'receiveRedBag', path: '/receiveRedBag', component: ReceiveRedBag },
-    { name: 'recommend', path: '/recommend', component: Recommend },
-    { name: 'recommendForm', path: '/recommendForm', component: RecommendForm },
+    { name: 'receiveRedBag', path: '/activity/receiveRedBag', component: ReceiveRedBag },
+    { name: 'recommend', path: '/activity/recommend', component: Recommend },
+    { name: 'recommendForm', path: '/activity/recommendForm', component: RecommendForm },
 
     { path: '*', redirect: { name: 'home' } }
   ]

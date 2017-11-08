@@ -12,23 +12,39 @@
         <div class="form-item"><input type="text" placeholder="输入手机号" class="input-item"></div>
         <div class="form-item code-input-panel">
           <input type="text" placeholder="输入验证码" class="input-item">
-          <span class="btn">获取</span>
+          <span class="yellow-btn">获取</span>
         </div>
-        <div class="form-item btn">立即领取</div>
+        <div class="form-item yellow-btn">立即领取</div>
       </div>
 
       <!-- 已领过优惠券 -->
       <div v-if="state === 2" class="received-panel">
         <div class="coupons">
-          <div v-for="(item, key) in coupons" :key="key" class="coupons-panel">
+          <div class="coupons-panel">
             <div class="coupons-item">
               <div class="word red">
-                <span class="left word large">{{item.price}}元</span>
-                <span class="word">{{item.name}}</span>
+                <span class="left word large">{{coupon.price}}元</span>
+                <span class="word">{{coupon.name}}</span>
               </div>
               <div class="word">
-                <span class="left word">满{{item.lowPrice}}元立减</span>
-                <span class="word">{{item.startDate}}~{{item.endDate}}</span>
+                <span class="left word">满{{coupon.lowPrice}}元立减</span>
+                <span class="word">{{coupon.startDate}}~{{coupon.endDate}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-block friend-list">
+          <div class="title">看看朋友们的运气</div>
+          <div v-for="(item, key) in 4" :key="key" class="friend-item">
+            <img :src="require('../assets/activity/user0.png')" />
+            <div class="friend-word">
+              <div class="line large">
+                <span class="word">Yolanda</span>
+                <span class="word">1元</span>
+              </div>
+              <div class="line">
+                <span class="word">10-19  09:34</span>
               </div>
             </div>
           </div>
@@ -37,27 +53,19 @@
 
       <div class="content-block">
         <div class="title">活动规则</div>
-        <p>1、每张优惠券同一设备、同一ID、同一用户每天仅限领取一次；</p>
-        <p>2、每个订单仅限使用一张优惠券；</p>
-        <p>3、优惠券金额不能兑换现金</p>
+        <p v-for="(item, i) in Content.activityRule" :key="i">{{item}}</p>
       </div>
       <div class="content-block">
         <div class="title">产品介绍</div>
-        <p>逗号mini便利，适合办公室的无人值守小超市，20步距离的能量补给站，解锁零售方式，90%的价钱解决100%的需求。</p>
+        <p v-for="(item, i) in Content.productIntroduce" :key="i">{{item}}</p>
       </div>
 
       <div class="circles">
-        <img :src="require('../assets/activity/circle.png')" alt="" />
-        <img :src="require('../assets/activity/circle.png')" alt="" />
-        <img :src="require('../assets/activity/circle.png')" alt="" />
-        <img :src="require('../assets/activity/circle.png')" alt="" />
+        <img v-for="(item, i) in Content.circlePics" :key="i" :src="require(`../assets/activity/${item}`)" alt="" />
       </div>
 
       <div class="content-box">
-        <p>精选品质，国外网红商品，1网打尽；</p>
-        <p>不交押金、丢货免赔、免费配送；</p>
-        <p>早餐、零食、宵夜、1站解决；</p>
-        <p>产品每日配送，每周上新，1马当先</p>
+        <p v-for="(item, i) in Content.content" :key="i">{{item}}</p>
       </div>
     </div>
     <div class="bottom">
@@ -68,6 +76,7 @@
 
 <script>
 // import { mapGetters } from 'vuex'
+import Content from './content'
 
 export default {
   name: 'ReceiveRedBag',
@@ -75,34 +84,25 @@ export default {
   },
   data () {
     return {
-      state: 1,
-      coupons: [{
+      Content,
+      state: 2, // 是否已登录
+      coupon: {
         name: '新人礼包1',
         numberCode: 'EiVTePe5JX4',
         price: 1,
         lowPrice: 20,
-        startDate: '2017.10.24',
-        endDate: '2017.10.24',
+        startDate: '17.10.24',
+        endDate: '17.10.24',
         status: 4
-      }, {
-        name: '新人礼包2',
-        numberCode: 'EiVTePe5JX4',
-        price: 1,
-        lowPrice: 20,
-        startDate: '2017.10.24',
-        endDate: '2017.10.24',
-        status: 4
-      }]
+      }
     }
   }
 }
 </script>
 
 <style lang="less">
-  @import "../global/style/theme.less";
+  @import "./activity.less";
 
-  @red:#E93C4D;
-  
   .recieve-reabag-panel {
     position: relative;
     width: 100%;
@@ -138,7 +138,7 @@ export default {
       .form-item {
         margin-bottom: 30/@R;
       }
-      .input-item, .btn {
+      .input-item {
         width: 497/@R;
         height: 101/@R;
         text-align: center;
@@ -148,13 +148,6 @@ export default {
         font-size: 36/@R;
         padding: 33/@R 20/@R;
       } 
-      .btn {
-        width: 497/@R;
-        background: #F9DC57;
-        font-size: 42/@R;
-        color: #A91414;
-        line-height: 101/@R;
-      }
       .code-input-panel {
         width: 497/@R;
         display: flex;
@@ -162,63 +155,15 @@ export default {
         .input-item {
           width: 350/@R;
         }
-        .btn {
+        .yellow-btn {
           width: 120/@R;
           font-size: 32/@R;
         }
       }
     }
-    .content-block {
-      position: relative;
-      border-top: 1px solid #fff;
-      font-size: 28/@R;
-      margin: 63/@R 40/@R 0 40/@R;
-      padding: 56/@R 14/@R 0 14/@R;
-      .title {
-        position: absolute;
-        top: -30/@R;
-        left: 196/@R;
-        width: 287/@R;
-        text-align: center;
-        background: @red;
-      }
-      p {
-        line-height: 56/@R;
-      }
-    }
-    .circles {
-      margin: 34/@R 30/@R;
-      img {
-        width: 160/@R;
-        height: 160/@R;
-        margin-right: 5/@R;
-        &:nth-child(4) {
-          margin-right: 0;
-        }
-      }
-    }
-    .content-box {
-      margin: 0 62/@R;
-      border: 1px solid #F1B06D;
-      border-radius: 29/@R;
-      padding: 40/@R 0 220/@R 90/@R;
-      p {
-        line-height: 56/@R;
-      }
-    }
-    .bottom {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      font-size: 0;
-      line-height: 0;
-      .img {
-        width: 100%;
-      }
-    }
 
     .received-panel {
+      color: #333;
       .word {
         font-size: 28/@R;
       }
@@ -228,13 +173,15 @@ export default {
       .red {
         color: #D86868;
       }
-      .gray {
-        .word, .red {
-          color: #D9D9D9;
-        }
-      }
       .coupons {
         position: relative;
+        margin-bottom: 20/@R;
+      }
+      .left {
+        display: inline-block;
+        width: 250/@R;
+        text-align: center;
+        margin-right: 110/@R;
       }
       .coupons-panel {
         position: relative;
@@ -246,12 +193,44 @@ export default {
       }
       .coupons-item {
         width: 100%;
-        height: 100%;
-        border-radius: 2px;
+        height: 188/@R;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: left;
+      }
+    }
+
+    .friend-list {
+      .line {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex: 1;
+      }
+      .friend-item {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 40/@R;
+        img {
+          width: 140/@R;
+          height: 140/@R;
+        }
+        .friend-word {
+          flex: 1;
+          color: #fff;
+          padding-left: 50/@R; 
+        }
+        .word {
+          font-size: 24/@R;
+        }
+        .large {
+          font-family: PingFangHK-Semibold;
+          font-size: 30/@R;
+        }
       }
     }
   }
