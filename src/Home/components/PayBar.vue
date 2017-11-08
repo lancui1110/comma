@@ -1,7 +1,7 @@
 <template>
   <div class="pay-bar" :class="{'no-choose-any': cart.count <= 0}">
-    <div class="order-detail">
-      <div class="logo" @click="toggleSelProducts">
+    <div class="order-detail" @click="toggleSelProducts">
+      <div class="logo">
         <i v-if="cart.count > 0" class="icon icon-head-top"></i>
         <i v-else class="icon icon-head-top-none"></i>
         <span v-if="cart.count > 0" class="product-count">{{cart.count}}</span>
@@ -32,6 +32,9 @@ export default {
   },
   methods: {
     addOrder () {
+      if (!this.cart.count) {
+        return
+      }
       if (this.user && this.user.mobile) {
         const params = {
           goods: map(this.cart.list, item => ({
