@@ -20,15 +20,31 @@
       <!-- 已领过优惠券 -->
       <div v-if="state === 2" class="received-panel">
         <div class="coupons">
-          <div v-for="(item, key) in coupons" :key="key" class="coupons-panel">
+          <div class="coupons-panel">
             <div class="coupons-item">
               <div class="word red">
-                <span class="left word large">{{item.price}}元</span>
-                <span class="word">{{item.name}}</span>
+                <span class="left word large">{{coupon.price}}元</span>
+                <span class="word">{{coupon.name}}</span>
               </div>
               <div class="word">
-                <span class="left word">满{{item.lowPrice}}元立减</span>
-                <span class="word">{{item.startDate}}~{{item.endDate}}</span>
+                <span class="left word">满{{coupon.lowPrice}}元立减</span>
+                <span class="word">{{coupon.startDate}}~{{coupon.endDate}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-block friend-list">
+          <div class="title">看看朋友们的运气</div>
+          <div v-for="(item, key) in 4" :key="key" class="friend-item">
+            <img :src="require('../assets/activity/user0.png')" />
+            <div class="friend-word">
+              <div class="line large">
+                <span class="word">Yolanda</span>
+                <span class="word">1元</span>
+              </div>
+              <div class="line">
+                <span class="word">10-19  09:34</span>
               </div>
             </div>
           </div>
@@ -75,24 +91,16 @@ export default {
   },
   data () {
     return {
-      state: 1,
-      coupons: [{
+      state: 2, // 是否已登录
+      coupon: {
         name: '新人礼包1',
         numberCode: 'EiVTePe5JX4',
         price: 1,
         lowPrice: 20,
-        startDate: '2017.10.24',
-        endDate: '2017.10.24',
+        startDate: '17.10.24',
+        endDate: '17.10.24',
         status: 4
-      }, {
-        name: '新人礼包2',
-        numberCode: 'EiVTePe5JX4',
-        price: 1,
-        lowPrice: 20,
-        startDate: '2017.10.24',
-        endDate: '2017.10.24',
-        status: 4
-      }]
+      }
     }
   }
 }
@@ -181,6 +189,7 @@ export default {
         width: 287/@R;
         text-align: center;
         background: @red;
+        color: #fff;
       }
       p {
         line-height: 56/@R;
@@ -219,6 +228,7 @@ export default {
     }
 
     .received-panel {
+      color: #333;
       .word {
         font-size: 28/@R;
       }
@@ -228,13 +238,14 @@ export default {
       .red {
         color: #D86868;
       }
-      .gray {
-        .word, .red {
-          color: #D9D9D9;
-        }
-      }
       .coupons {
         position: relative;
+      }
+      .left {
+        display: inline-block;
+        width: 250/@R;
+        text-align: center;
+        margin-right: 110/@R;
       }
       .coupons-panel {
         position: relative;
@@ -246,12 +257,44 @@ export default {
       }
       .coupons-item {
         width: 100%;
-        height: 100%;
-        border-radius: 2px;
+        height: 188/@R;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: left;
+      }
+    }
+
+    .friend-list {
+      .line {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex: 1;
+      }
+      .friend-item {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 40/@R;
+        img {
+          width: 140/@R;
+          height: 140/@R;
+        }
+        .friend-word {
+          flex: 1;
+          color: #fff;
+          padding-left: 50/@R; 
+        }
+        .word {
+          font-size: 24/@R;
+        }
+        .large {
+          font-family: PingFangHK-Semibold;
+          font-size: 30/@R;
+        }
       }
     }
   }
