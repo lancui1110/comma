@@ -8,27 +8,30 @@
 
     <div class="content">
       <!-- 登录 -->
-      <div v-if="state === 1" class="user-form">
-        <div class="form-item"><input type="text" placeholder="输入手机号" class="input-item"></div>
-        <div class="form-item code-input-panel">
-          <input type="text" placeholder="输入验证码" class="input-item">
-          <span class="yellow-btn">获取</span>
+      <div v-if="!user || !user.mobile" class="user-form">
+        <div class="form-item">
+          <input type="text" placeholder="输入手机号" class="input-item" v-model="mobile" />
         </div>
-        <div class="form-item yellow-btn">立即领取</div>
+        <div class="form-item code-input-panel">
+          <input type="text" placeholder="输入验证码" class="input-item" v-model="code" />
+          <span class="yellow-btn" v-if="!isWaiting" @click="getVerificationCode()">获取</span>
+          <span class="yellow-btn disable" v-else>{{waitingNum}}s</span>
+        </div>
+        <div class="form-item yellow-btn" :disabled="!mobile || !code" @click="handleOnSubmitCode()">立即领取</div>
       </div>
 
       <!-- 已领过优惠券 -->
-      <div v-if="state === 2" class="received-panel">
+      <div v-else class="received-panel">
         <div class="coupons">
           <div class="coupons-panel">
             <div class="coupons-item">
               <div class="word red">
-                <span class="left word large">{{coupon.price}}元</span>
-                <span class="word">{{coupon.name}}</span>
+                <span class="left word large">{{myRedPacket.money}}元</span>
+                <span class="word">{{myRedPacket.nickName}}</span>
               </div>
               <div class="word">
-                <span class="left word">满{{coupon.lowPrice}}元立减</span>
-                <span class="word">{{coupon.startDate}}~{{coupon.endDate}}</span>
+                <span class="left word">满{{myRedPacket.lowMoney}}元立减</span>
+                <span class="word">{{myRedPacket.startDate}}~{{myRedPacket.endDate}}</span>
               </div>
             </div>
           </div>
@@ -36,15 +39,15 @@
 
         <div class="content-block friend-list">
           <div class="title">看看朋友们的运气</div>
-          <div v-for="(item, key) in 4" :key="key" class="friend-item">
-            <img :src="require('../assets/activity/user0.png')" />
+          <div v-for="(item, key) in redPackets" :key="key" class="friend-item">
+            <img :src="item.avatar" />
             <div class="friend-word">
               <div class="line large">
-                <span class="word">Yolanda</span>
-                <span class="word">1元</span>
+                <span class="word">{{item.nickName}}</span>
+                <span class="word">{{item.money}}元</span>
               </div>
               <div class="line">
-                <span class="word">10-19  09:34</span>
+                <span class="word">{{item.issueTime}}</span>
               </div>
             </div>
           </div>
@@ -80,32 +83,78 @@
 </template>
 
 <script>
+import { trim } from 'lodash'
 import { mapGetters } from 'vuex'
+import { Toast } from 'mint-ui'
 import Content from './content'
 
 export default {
   name: 'ReceiveRedBag',
-  props: {
-  },
   data () {
     return {
       Content,
-      state: 2, // 是否已登录
-      coupon: {
-        name: '新人礼包1',
-        numberCode: 'EiVTePe5JX4',
-        price: 1,
-        lowPrice: 20,
-        startDate: '17.10.24',
-        endDate: '17.10.24',
-        status: 4
-      }
+
+      isWaiting: false,
+      waitingNum: 60,
+      isSubmit: false,
+      mobile: '',
+      code: ''
     }
   },
   computed: {
     ...mapGetters({
-      user: 'user/getUser'
+      user: 'user/getUser',
+      myRedPacket: 'activity/myRedPacket',
+      redPackets: 'activity/redPackets'
     })
+  },
+  mounted () {
+    this.$store.dispatch('activity/getOrderShare')
+  },
+  methods: {
+    // 发请求获取验证码
+    getVerificationCode () {
+      const m = trim(this.mobile)
+      if (!m || !/^1[\d]{10}$/.test(m)) {
+        Toast('请输入正确的手机号！')
+        return
+      }
+      this.$store.dispatch('user/sendVerifyCode', {
+        mobile: m,
+        cb: (res) => {
+          if (res.code === 1) {
+            this.isWaiting = true
+            this.handleOnTimeOut()
+          } else {
+            Toast(res.msg)
+          }
+        }
+      })
+    },
+    // 验证码倒计时
+    handleOnTimeOut () {
+      setTimeout(() => {
+        this.waitingNum -= 1
+        if (this.waitingNum >= 0) {
+          this.handleOnTimeOut()
+        } else {
+          this.isWaiting = false
+          this.waitingNum = 60
+        }
+      }, 1000)
+    },
+    // 提交验证码
+    handleOnSubmitCode () {
+      this.isSubmit = true
+      this.$store.dispatch('user/userLogin', {
+        mobile: this.mobile,
+        code: this.code,
+        cb: (user) => {
+          this.isSubmit = false
+          this.$store.commit('activity/setUserInfo', Object.assign({}, this.user, user))
+        }
+      })
+    }
   }
 }
 </script>
@@ -168,6 +217,9 @@ export default {
         .yellow-btn {
           width: 120/@R;
           font-size: 32/@R;
+          &.disable {
+            opacity: .85;
+          }
         }
       }
     }

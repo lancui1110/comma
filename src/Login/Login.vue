@@ -25,6 +25,7 @@
 
 <script>
 // import { mapGetters } from 'vuex'
+import { trim } from 'lodash'
 import { Toast } from 'mint-ui'
 
 export default {
@@ -41,8 +42,13 @@ export default {
   methods: {
     // 发请求获取验证码
     getVerificationCode () {
+      const m = trim(this.mobile)
+      if (!m || !/^1[\d]{10}$/.test(m)) {
+        Toast('请输入正确的手机号！')
+        return
+      }
       this.$store.dispatch('user/sendVerifyCode', {
-        mobile: this.mobile,
+        mobile: m,
         cb: (res) => {
           if (res.code === 1) {
             this.isWaiting = true

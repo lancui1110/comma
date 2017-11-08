@@ -1,7 +1,7 @@
 import API from '../api'
 
 const state = {
-  myRedPacket: null,
+  myRedPacket: {},
   redPackets: [],
   recommendForm: {
     company: '',
@@ -11,13 +11,15 @@ const state = {
 }
 
 const actions = {
-  getOrderShare ({ commit }) {
+  getOrderShare ({ commit, rootState }) {
     iwjw.ajax({
       url: API.getUrl('getOrderShare')
     }).then(res => {
       if (res.code === 1) {
-        commit('setMyRedPacket', res.data.myRedPacket)
-        commit('setRedPackets', res.data.setRedPackets)
+        const { myRedPacket, redPackets, userInfo } = res.data
+        commit('setMyRedPacket', Object.assign({}, state.myRedPacket, myRedPacket))
+        commit('setRedPackets', redPackets)
+        commit('user/setUser', Object.assign({}, rootState.user.user, userInfo), { root: true })
       }
     })
   }
@@ -38,6 +40,12 @@ const mutations = {
 const getters = {
   recommendForm (state) {
     return state.recommendForm
+  },
+  myRedPacket (state) {
+    return state.myRedPacket
+  },
+  redPackets (state) {
+    return state.redPackets
   }
 }
 
