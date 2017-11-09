@@ -59,33 +59,32 @@ const weixin = {
         })
 
         wx.ready(function () {
-          let config = Object.assign(
-            {},
-            {
-              title: '逗号迷你超市',
-              link: window.pageConfig.mobileSiteUrl,
-              type: 'link',
-              imgUrl: window.pageConfig.staticUrl + 'common/img/logo_wx.png',
-              desc: '逗号迷你超市',
-              dataUrl: ''
-            },
-            opt
-          )
-          wx.onMenuShareTimeline({
-            title: config.title,
-            link: config.link,
-            imgUrl: config.imgUrl,
-            type: config.type
-          })
-          wx.onMenuShareAppMessage({
-            title: config.title,
-            desc: config.desc,
-            link: config.link,
-            imgUrl: config.imgUrl,
-            type: config.type,
-            dataUrl: config.dataUrl
-          })
-
+          // let config = Object.assign(
+          //   {},
+          //   {
+          //     title: '逗号迷你超市',
+          //     link: window.pageConfig.mobileSiteUrl,
+          //     type: 'link',
+          //     imgUrl: window.pageConfig.staticUrl + 'common/img/logo_wx.png',
+          //     desc: '逗号迷你超市',
+          //     dataUrl: ''
+          //   },
+          //   opt
+          // )
+          // wx.onMenuShareTimeline({
+          //   title: config.title,
+          //   link: config.link,
+          //   imgUrl: config.imgUrl,
+          //   type: config.type
+          // })
+          // wx.onMenuShareAppMessage({
+          //   title: config.title,
+          //   desc: config.desc,
+          //   link: config.link,
+          //   imgUrl: config.imgUrl,
+          //   type: config.type,
+          //   dataUrl: config.dataUrl
+          // })
           opt.cb && opt.cb()
         })
         wx.error(function (err) {

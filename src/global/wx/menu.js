@@ -8,9 +8,7 @@ const menu = {
       url: API.getUrl('getWxShare'),
       data: data
     }).then(res => {
-      alert(JSON.stringify(res))
       if (res && res.code === 1) {
-        alert(11)
         const shareConfig = {
           title: res.data.title,
           desc: res.data.desc,
@@ -19,7 +17,9 @@ const menu = {
         }
         
         weixin.init({
-          cb: () => { self.friend(shareConfig) }
+          cb: () => { 
+            self.friend(shareConfig) 
+          }
         })
       }
       cb && cb(res)
@@ -46,7 +46,6 @@ const menu = {
             }
           }
           param = Object.assign({}, defaultParam, param)
-          alert(JSON.stringify(param))
 
           wx.onMenuShareAppMessage(param)
           wx.onMenuShareTimeline(param)
@@ -60,38 +59,39 @@ const menu = {
         menuList: hideMenu || ['menuItem:share:timeline', 'menuItem:share:qq', 'menuItem:share:weiboApp'] // 要隐藏的菜单项，所有menu项见附录3
       })
     })
-  },
-  registerUrl: function (url, callback, name) {
-    let data = {}
-    data.currentUrl = url
-    if (name) {
-      data.app = name
-    }
-    iwjw.ajax({
-      url: pageConfig.siteUrl + 'main/getSign',
-      data: data,
-      success: function (res) {
-        var defaultConfig = {
-          debug: false,
-          jsApiList: [
-            'hideMenuItems',
-            'showMenuItems',
-            'onMenuShareAppMessage',
-            'onMenuShareTimeline',
-            'chooseImage',
-            'uploadImage',
-            'previewImage'
-          ]
-        }
-        let config
-        res && res.data && (config = Object.assign({}, defaultConfig, res.data))
-        config && wx.config(config)
-        callback && callback()
-      },
-      error: function () {
-        // smallnote('微信注册url服务报错')
-      }
-    })
   }
+  // ,
+  // registerUrl: function (url, callback, name) {
+  //   let data = {}
+  //   data.currentUrl = url
+  //   if (name) {
+  //     data.app = name
+  //   }
+  //   iwjw.ajax({
+  //     url: pageConfig.siteUrl + 'main/getSign',
+  //     data: data,
+  //     success: function (res) {
+  //       var defaultConfig = {
+  //         debug: false,
+  //         jsApiList: [
+  //           'hideMenuItems',
+  //           'showMenuItems',
+  //           'onMenuShareAppMessage',
+  //           'onMenuShareTimeline',
+  //           'chooseImage',
+  //           'uploadImage',
+  //           'previewImage'
+  //         ]
+  //       }
+  //       let config
+  //       res && res.data && (config = Object.assign({}, defaultConfig, res.data))
+  //       config && wx.config(config)
+  //       callback && callback()
+  //     },
+  //     error: function () {
+  //       // smallnote('微信注册url服务报错')
+  //     }
+  //   })
+  // }
 }
 export default menu
