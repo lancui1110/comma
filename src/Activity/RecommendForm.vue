@@ -173,7 +173,7 @@ export default {
       this.$store.dispatch('activity/submitRecommendForm', (res) => {
         if (res.code === 1) {
           setTimeout(() => {
-            window.location.href = res.data
+            window.location.href = res.data.url
           }, 1000)
         }
         Toast(res.msg)

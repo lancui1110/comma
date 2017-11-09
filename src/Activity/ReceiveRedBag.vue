@@ -3,7 +3,7 @@
   <div class="recieve-reabag-panel">
     <div class="head">
       <img :src="require('../assets/activity/bg-coupon.png')" class="bg-img"/>
-      <p class="word">红包来啦，赶快登陆领取</p>
+      <p class="word">{{message.title}}</p>
     </div>
 
     <div class="content">
@@ -24,7 +24,8 @@
       <div v-else class="received-panel">
         <div class="coupons">
           <div class="coupons-panel">
-            <div class="coupons-item">
+            <!-- 领到的优惠券 -->
+            <div v-if="!myRedPacket" class="coupons-item">
               <div class="word red">
                 <span class="left word large">{{myRedPacket.money}}元</span>
                 <span class="word">{{myRedPacket.nickName}}</span>
@@ -34,6 +35,8 @@
                 <span class="word">{{myRedPacket.startDate}}~{{myRedPacket.endDate}}</span>
               </div>
             </div>
+            <!-- 红包领完了 -->
+            <div v-else class="coupons-item recieved">{{message.emptyMsg}}</div>
           </div>
         </div>
 
@@ -94,6 +97,7 @@ export default {
     return {
       Content,
 
+      orderNum: this.$route.query.orderNum,
       isWaiting: false,
       waitingNum: 60,
       isSubmit: false,
@@ -104,12 +108,16 @@ export default {
   computed: {
     ...mapGetters({
       user: 'user/getUser',
+      message: 'activity/message',
       myRedPacket: 'activity/myRedPacket',
       redPackets: 'activity/redPackets'
-    })
+    }),
+    title () {
+
+    }
   },
   mounted () {
-    this.$store.dispatch('activity/getOrderShare')
+    this.$store.dispatch('activity/getOrderShare', { orderNum: this.orderNum })
   },
   methods: {
     // 发请求获取验证码
@@ -194,6 +202,7 @@ export default {
       justify-content: center;
       align-items: center;
       font-size: 36/@R;
+      margin-bottom: 30/@R;
       .form-item {
         margin-bottom: 30/@R;
       }
@@ -261,6 +270,11 @@ export default {
         justify-content: center;
         align-items: left;
       }
+      .recieved {
+        width: 100%;
+        align-items: center;
+        color: @red;
+      }
     }
 
     .friend-list {
@@ -277,6 +291,9 @@ export default {
         justify-content: center;
         align-items: center;
         margin-bottom: 40/@R;
+        &:nth-last-child(1) {
+          margin-bottom: 0;
+        }
         img {
           width: 140/@R;
           height: 140/@R;

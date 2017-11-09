@@ -1,6 +1,10 @@
 import API from '../api'
 
 const state = {
+  message: {
+    title: '',
+    emptyMsg: ''
+  },
   myRedPacket: {},
   redPackets: [],
   cityData: [],
@@ -15,12 +19,14 @@ const state = {
 }
 
 const actions = {
-  getOrderShare ({ commit, rootState }) {
+  getOrderShare ({ commit, rootState }, params) {
     iwjw.ajax({
-      url: API.getUrl('getOrderShare')
+      url: API.getUrl('getOrderShare'),
+      data: params
     }).then(res => {
       if (res.code === 1) {
-        const { myRedPacket, redPackets, userInfo } = res.data
+        const { title, emptyMsg, myRedPacket, redPackets, userInfo } = res.data
+        commit('setMessage', Object.assign({}, state.message, { title, emptyMsg }))
         commit('setMyRedPacket', Object.assign({}, state.myRedPacket, myRedPacket))
         commit('setRedPackets', redPackets)
         commit('user/setUser', Object.assign({}, rootState.user.user, userInfo), { root: true })
@@ -59,6 +65,9 @@ const mutations = {
   },
   setCityData (state, payload) {
     state.cityData = payload
+  },
+  setMessage (state, payload) {
+    state.message = payload
   }
 }
 
@@ -74,6 +83,9 @@ const getters = {
   },
   cityData (state) {
     return state.cityData
+  },
+  message () {
+    return state.message
   }
 }
 

@@ -19,6 +19,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import weixin from 'weixin'
+import { Toast } from 'mint-ui'
 
 export default {
   name: 'BeforePay',
@@ -57,7 +58,7 @@ export default {
     },
     toPay () {
       weixin.weixinPay(this.orderSign, (res) => {
-        alert('支付成功，跳转')
+        Toast('支付成功，正则跳转...')
         // go 支付成功
         this.$router.push({ name: 'paySuc', query: { orderNum: this.orderNum } })
       })

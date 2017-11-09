@@ -1,10 +1,10 @@
 const apiMapping = {
 
-  homePage: 'api/homePage', // 首页数据
+  homePage: 'api/shelf/homePage', // 首页数据
   getGoodsByName: 'api/getGoodsByName', // 商品搜索
   getGoodsByType: 'api/getGoodsByType', // 商品分类展示
 
-  shelfRecommend: 'api/shelf/recommendShelf', // 货架推荐
+  shelfRecommend: 'api/shelf/recommendShelf', // 推荐审核
   shelfCategory: 'api/shelf/getCategory', // 货架分类
   getAllArea: 'api/shelf/getAllArea', // 城市列表接口
 
