@@ -1,0 +1,131 @@
+<template>
+  <div class="pay-success-panel">
+    <div class="suc-word-panel">
+      <div class="suc-word">
+        <div class="logo"><i class="icon icon-head-top"></i></div>
+        <div class="word">逗号迷你便利</div>
+        <div class="large">您已支付成功啦～</div>
+      </div>
+    </div>
+
+  </div>
+</template>
+
+<script>
+// import { mapGetters } from 'vuex'
+import weixin from 'weixin'
+import wxMenu from 'wxMenu'
+
+export default {
+  name: 'PaySuccess',
+  props: {
+  },
+  data () {
+    return {
+      orderNum: this.$route.query.orderNum
+    }
+  },
+  mounted () {
+    weixin.init()
+  },
+  methods: {
+    resetShare () {
+      wxMenu.share({orderNum: this.orderNum})
+    }
+  }
+}
+</script>
+
+<style lang="less">
+  @import "../global/style/theme.less";
+  
+  .pay-success-panel {
+    position: relative;
+    height: 100%;
+    .suc-word {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-top: 175/@R;
+    }
+    .logo .icon{
+      width: 147/@R;
+      height: 147/@R;
+      background-size: 147/@R 147/@R;
+    }
+    .word {
+      font-size: 30/@R;
+      padding: 19/@R 0 52/@R 0;
+    }
+    .large {
+      font-size: 44/@R;
+      color: #593C38;
+    }
+    .redpackt {
+      position: absolute;
+      bottom: 50/@R;
+      right: 42/@R;
+      width: 149/@R;
+      height: 125/@R;
+    }
+
+    .share-panel {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 1;
+      left: 0;
+      top: 0;
+      .mask {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: #333;
+        opacity: .1;
+      }
+      .share-red-packet {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .pic {
+          width: 470/@R;
+          height: 354/@R;
+          width: 100%;
+          text-align: center;
+          z-index: 2;
+          img {
+            width: 470/@R;
+            height: 354/@R;
+          }
+        }
+        .word {
+
+        }
+        .close {
+
+        }
+      }
+      .share-wx {
+        background: #fff;
+        height: 100%;
+        padding: 15/@R 28/@R 0 0;
+        text-align: right;
+        .pic, .pic img{
+          display: inline;
+          width: 330/@R;
+          height: 385/@R;
+        }
+      }
+    }
+    
+  }
+</style>
