@@ -219,6 +219,7 @@ export default {
       }
     }
     .row {
+      display: flex;
       width: 100%;
       // height: 104/@R;
       line-height: 104/@R;
