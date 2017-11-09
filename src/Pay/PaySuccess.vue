@@ -43,10 +43,13 @@ export default {
     }
   },
   mounted () {
-    wxMenu.share({orderNum: this.orderNum}, (res) => {
-      this.isRed = res.data.isRed || false
-      this.homeUrl = res.data.homeUrl || this.homeUrl
-    })
+    setTimeout(() => {
+      wxMenu.share({orderNum: this.orderNum}, (res) => {
+        this.isRed = res.data.isRed || false
+        this.homeUrl = res.data.homeUrl || this.homeUrl
+      })
+    }, 500)
+    
   },
   computed: {
     isShowShare () {

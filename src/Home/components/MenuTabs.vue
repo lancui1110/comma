@@ -132,7 +132,7 @@ export default {
       white-space: nowrap;
       padding: 0 @itemPadding;
     }
-    .menu-item:last-child {
+    .menu-item:nth-last-child(1) {
       margin-right: 60/@R;
     }
     .menu-item-text {
