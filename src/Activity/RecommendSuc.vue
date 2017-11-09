@@ -60,7 +60,7 @@ export default {
     }
 
     .btn {
-      width: 700/@R;
+      width: 400/@R;
       height: 97/@R;
       line-height: 97/@R;
       background: #593C38;
@@ -70,6 +70,7 @@ export default {
       margin: 0 auto;
       margin-top: 136/@R;
       margin-bottom: 100/@R;
+      font-size: 36/@R;
     }
   }
 </style>
