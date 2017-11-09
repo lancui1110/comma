@@ -10,6 +10,6 @@ module.exports = {
     publicPath: '//house-test-water.oss.aliyuncs.com/resource/fyb-pc_beta/'
   },
   prod: {
-    publicPath: '//http://nb.comma.com.cn/h5/'
+    publicPath: '//nb.comma.com.cn/h5/'
   }
 }
