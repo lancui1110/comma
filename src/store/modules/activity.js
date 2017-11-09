@@ -36,15 +36,13 @@ const actions = {
       }
     })
   },
-  submitRecommendForm ({ commit }) {
+  submitRecommendForm ({ commit }, cb) {
     iwjw.ajax({
       method: 'POST',
       url: API.getUrl('shelfRecommend'),
       data: state.recommendForm
     }).then(res => {
-      if (res.code === 1) {
-        // TODO: ok then what to do? need cb to handle something?
-      }
+      cb && cb(res)
     })
   }
 }

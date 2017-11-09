@@ -50,6 +50,8 @@
             type="text"
             placeholder="请选择所在城市"
             class="txt-input"
+            :value="form.cityName"
+            @click="cityPickerVisible = true"
           />
         </div>
         <div class="row">
@@ -77,17 +79,31 @@
       </div>
       <div class="btn" @click="submitForm">提交审核</div>
     </form>
+
+    <mt-popup
+      class="city-popup"
+      v-model="cityPickerVisible"
+      position="bottom">
+      <mt-picker :slots="citySlot" @change="onCityChange"></mt-picker>
+    </mt-popup>
   </div>
 </template>
 
 <script>
+import { map, trim } from 'lodash'
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
+import { Popup, Picker } from 'mint-ui'
+import { Toast } from 'mint-ui'
+
+Vue.component(Popup.name, Popup)
+Vue.component(Picker.name, Picker)
 
 export default {
   name: 'ReceiveRedBag',
   data () {
     return {
-
+      cityPickerVisible: false
     }
   },
   computed: {
@@ -98,7 +114,8 @@ export default {
     citySlot () {
       return [
         {
-          values: this.cityData
+          values: map(this.cityData, item => item.name)
+          // values: ['2015-01', '2015-02', '2015-03', '2015-04', '2015-05', '2015-06']
         }
       ]
     }
@@ -107,15 +124,59 @@ export default {
     this.$store.dispatch('activity/getCityData')
   },
   methods: {
+    onCityChange (picker, values) {
+      if (values && values[0]) {
+        this.$store.commit('activity/updateRecommendFormField', {
+          name: 'cityName',
+          value: values[0]
+        })
+      }
+    },
     updateFormField (e) {
       this.$store.commit('activity/updateRecommendFormField', {
         name: e.target.id,
-        value: e.target.value
+        value: trim(e.target.value)
       })
     },
     submitForm () {
-      // TODO: valid form field
-      this.$store.dispatch('activity/submitRecommendForm')
+      if (!this.form.companyName) {
+        Toast('请填写公司名！')
+        return
+      }
+      if (!this.form.linkName) {
+        Toast('请填写公司联系人姓名！')
+        return
+      }
+      if (!this.form.referrerMobile) {
+        Toast('请输入联系人手机号！')
+        return
+      }
+      if (!/^1[\d]{10}$/.test(this.form.referrerMobile)) {
+        Toast('请输入正确的手机号！')
+        return
+      }
+      if (!this.form.cityName) {
+        Toast('请选择所在城市！')
+        return
+      }
+      if (!this.form.address) {
+        Toast('请输入公司地址！')
+        return
+      }
+      if (!this.form.mobile) {
+        Toast('填写您的手机号！')
+        return
+      }
+      if (!/^1[\d]{10}$/.test(this.form.mobile)) {
+        Toast('请输入正确的手机号！')
+        return
+      }
+      this.$store.dispatch('activity/submitRecommendForm', (res) => {
+        if (res.code === 1) {
+          // TODO: change res.url to real backend data
+          window.location.href = res.url
+        }
+      })
     }
   }
 }
@@ -185,7 +246,10 @@ export default {
       margin: 0 auto;
       margin-top: 136/@R;
       margin-bottom: 100/@R;
+    }
 
+    .city-popup {
+      width: 100%;
     }
   }
 
