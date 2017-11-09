@@ -46,6 +46,7 @@ const menu = {
             }
           }
           param = Object.assign({}, defaultParam, param)
+          alert(JSON.stringify(param))
 
           wx.onMenuShareAppMessage(param)
           wx.onMenuShareTimeline(param)
