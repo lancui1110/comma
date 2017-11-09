@@ -58,7 +58,7 @@ export default {
     },
     toPay () {
       weixin.weixinPay(this.orderSign, (res) => {
-        Toast('支付成功，正则跳转...')
+        Toast('支付成功，正在跳转...')
         // go 支付成功
         this.$router.push({ name: 'paySuc', query: { orderNum: this.orderNum } })
       })

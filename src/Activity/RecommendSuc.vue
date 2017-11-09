@@ -4,7 +4,7 @@
       <div class="suc-word">
         <div class="logo"><i class="icon icon-head-top"></i></div>
         <div class="word">逗号迷你便利</div>
-        <div class="large">您已支付成功啦～</div>
+        <div class="large">提交审核成功～</div>
       </div>
     </div>
 
