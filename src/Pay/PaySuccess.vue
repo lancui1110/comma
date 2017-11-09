@@ -49,7 +49,6 @@ export default {
         this.homeUrl = res.data.homeUrl || this.homeUrl
       })
     }, 500)
-    
   },
   computed: {
     isShowShare () {
