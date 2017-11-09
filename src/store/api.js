@@ -23,7 +23,7 @@ const apiMapping = {
 
   getSign: 'api/wx/getSign', // 获取微信签名
   getOrderSign: 'api/order/signOrder', // 获取微信订单签名
-  getShelfShare: 'api/shelf/share',  // 获得货架分享
+  getWxShare: 'api/wx/share',  // 获得微信分享init信息
 
   getOrderShare: 'api/activity/orderShare'  // 获取红包分享
 }

@@ -77,7 +77,7 @@
     <div class="bottom">
       <img :src="require('../assets/activity/bg-btn.png')" class="bg-img"/>
       <div class="btn">
-        <router-link to="/activity/recommendForm">
+        <router-link to="/activity/recommend">
           <div class="yellow-btn">申请零食柜</div>
         </router-link>
       </div>

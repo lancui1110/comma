@@ -172,11 +172,13 @@ export default {
       }
       this.$store.dispatch('activity/submitRecommendForm', (res) => {
         if (res.code === 1) {
-          setTimeout(() => {
-            window.location.href = res.data.url
-          }, 1000)
+          this.$router.push({ name: 'recommendSuc', query: { url: res.data.url } })
+          // setTimeout(() => {
+          //   window.location.href = res.data.url
+          // }, 1000)
+        } else {
+          Toast(res.msg)
         }
-        Toast(res.msg)
       })
     }
   }

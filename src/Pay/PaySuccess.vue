@@ -6,7 +6,7 @@
         <div class="word">逗号迷你便利</div>
         <div class="large">您已支付成功啦～</div>
       </div>
-      <img class="redpackt" @click="showShare(true, false)" :src="require('../assets/redpackt.png')" />
+      <img v-if="isRed" class="redpackt" @click="showShare(true, false)" :src="require('../assets/redpackt.png')" />
     </div>
     
     <div v-show="isShowShare" class="share-panel">
@@ -26,7 +26,6 @@
 
 <script>
 // import { mapGetters } from 'vuex'
-import weixin from 'weixin'
 import wxMenu from 'wxMenu'
 
 export default {
@@ -35,13 +34,16 @@ export default {
   },
   data () {
     return {
+      isRed: false,
       orderNum: this.$route.query.orderNum,
       isShowShareRedPacket: false, // 显示分享红包
       isShowShareWx: false // 显示微信分享
     }
   },
   mounted () {
-    weixin.init()
+    wxMenu.share({orderNum: this.orderNum}, (res) => {
+      this.isRed = res.data.isRed || false
+    })
   },
   computed: {
     isShowShare () {
@@ -55,7 +57,6 @@ export default {
     },
     resetShare () {
       this.showShare(false, true)
-      wxMenu.share({orderNum: this.orderNum})
     }
   }
 }

@@ -1,20 +1,16 @@
 <template>
-  <div class="pay-success-panel">
-    <div class="suc-word-panel">
-      <div class="suc-word">
-        <div class="logo"><i class="icon icon-head-top"></i></div>
-        <div class="word">逗号迷你便利</div>
-        <div class="large">提交审核成功～</div>
-      </div>
+  <div class="recommend-suc-panel">
+    <div class="suc-word">
+      <div class="logo"><i class="icon icon-head-top"></i></div>
+      <div class="word">逗号迷你便利</div>
+      <div class="large">提交审核成功～</div>
     </div>
-
+    <div class="btn" @click="goHome">返回首页</div>
   </div>
 </template>
 
 <script>
 // import { mapGetters } from 'vuex'
-import weixin from 'weixin'
-import wxMenu from 'wxMenu'
 
 export default {
   name: 'PaySuccess',
@@ -22,15 +18,15 @@ export default {
   },
   data () {
     return {
-      orderNum: this.$route.query.orderNum
+      url: this.$route.query.url
     }
   },
   mounted () {
-    weixin.init()
+    
   },
   methods: {
-    resetShare () {
-      wxMenu.share({orderNum: this.orderNum})
+    goHome () {
+      window.location.href = this.url
     }
   }
 }
@@ -39,7 +35,7 @@ export default {
 <style lang="less">
   @import "../global/style/theme.less";
   
-  .pay-success-panel {
+  .recommend-suc-panel {
     position: relative;
     height: 100%;
     .suc-word {
@@ -62,70 +58,18 @@ export default {
       font-size: 44/@R;
       color: #593C38;
     }
-    .redpackt {
-      position: absolute;
-      bottom: 50/@R;
-      right: 42/@R;
-      width: 149/@R;
-      height: 125/@R;
+
+    .btn {
+      width: 700/@R;
+      height: 97/@R;
+      line-height: 97/@R;
+      background: #593C38;
+      border-radius: 10/@R;
+      color: #fff;
+      text-align: center;
+      margin: 0 auto;
+      margin-top: 136/@R;
+      margin-bottom: 100/@R;
     }
-
-    .share-panel {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      opacity: 1;
-      left: 0;
-      top: 0;
-      .mask {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: #333;
-        opacity: .1;
-      }
-      .share-red-packet {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        .pic {
-          width: 470/@R;
-          height: 354/@R;
-          width: 100%;
-          text-align: center;
-          z-index: 2;
-          img {
-            width: 470/@R;
-            height: 354/@R;
-          }
-        }
-        .word {
-
-        }
-        .close {
-
-        }
-      }
-      .share-wx {
-        background: #fff;
-        height: 100%;
-        padding: 15/@R 28/@R 0 0;
-        text-align: right;
-        .pic, .pic img{
-          display: inline;
-          width: 330/@R;
-          height: 385/@R;
-        }
-      }
-    }
-    
   }
 </style>

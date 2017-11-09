@@ -2,13 +2,13 @@ import API from '../../store/api'
 import weixin from './wxsa'
 
 const menu = {
-  share: function (data = {}) {
+  share: function (data = {}, cb) {
     const self = this
     iwjw.ajax({
-      url: API.getUrl('getShelfShare'),
+      url: API.getUrl('getWxShare'),
       data: data
     }).then(res => {
-      if (res && res.code === 1) {
+      if (res && res.code === 1 && res.data.isRed) {
         const shareConfig = {
           title: res.data.title,
           desc: res.data.desc,
@@ -20,6 +20,7 @@ const menu = {
           cb: () => { self.friend(shareConfig) }
         })
       }
+      cb && cb(res)
     })
   },
   friend: function (param) {

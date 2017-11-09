@@ -23,7 +23,9 @@
       </div>
     </div>
     <div class="bottom">
-       <router-link :to="{ name: 'recommendForm', params: { userId: 123 }}"><div class="yellow-btn">填写申请表</div></router-link>
+       <router-link to="/activity/recommendForm">
+         <div class="yellow-btn">填写申请表</div>
+      </router-link>
     </div>
   </div>
 </template>

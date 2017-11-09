@@ -32,6 +32,7 @@ const Coupons = r => require.ensure([], () => r(require('../Coupons/List.vue')),
 const ReceiveRedBag = r => require.ensure([], () => r(require('../Activity/ReceiveRedBag.vue')), 'Activity')
 const Recommend = r => require.ensure([], () => r(require('../Activity/Recommend.vue')), 'Activity')
 const RecommendForm = r => require.ensure([], () => r(require('../Activity/RecommendForm.vue')), 'Activity')
+const RecommendSuc = r => require.ensure([], () => r(require('../Activity/RecommendSuc.vue')), 'Activity')
 
 const router = new Router({
   base: pageConfig.siteUrl + 'index',
@@ -49,7 +50,8 @@ const router = new Router({
     { name: 'receiveRedBag', path: '/activity/receiveRedBag', component: ReceiveRedBag },
     { name: 'recommend', path: '/activity/recommend', component: Recommend },
     { name: 'recommendForm', path: '/activity/recommendForm', component: RecommendForm },
-
+    { name: 'recommendSuc', path: '/activity/recommendSuc', component: RecommendSuc },
+    
     { path: '*', redirect: { name: 'home' } }
   ]
 })
