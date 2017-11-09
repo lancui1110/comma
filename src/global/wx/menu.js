@@ -8,8 +8,8 @@ const menu = {
       url: API.getUrl('getWxShare'),
       data: data
     }).then(res => {
-      alert(`res.data.isRed=${res.data.isRed}`)
-      if (res && res.code === 1 && res.data.isRed) {
+      alert(JSON.stringify(res))
+      if (res && res.code === 1) {
         alert(11)
         const shareConfig = {
           title: res.data.title,
