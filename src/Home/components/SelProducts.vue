@@ -9,7 +9,10 @@
           <img class="pic" :src="item.product.picUrl || require('../../assets/pic_motu.png')">
           <div class="content">
             <p class="word">{{item.product.name}}</p>
-            <p class="price">¥ {{item.product.discountPrice || item.product.price}}</p>
+            <p class="orig-price" v-if="item.product.discountPrice">¥ {{item.product.price.toFixed(2)}}</p>
+            <p class="price" :class="{'twoline' : item.product.discountPrice}">
+              ¥ {{(item.product.discountPrice || item.product.price).toFixed(2)}}
+            </p>
           </div>
           <div class="counter-panel">
             <p class="counter-line">
@@ -19,6 +22,12 @@
             </p>
           </div>
         </div>
+        <p class="coupon-info" v-if="cart.coupon">
+          红包可抵 ￥{{cart.coupon.price.toFixed(2)}}
+          <span v-if="cart.coupon && cart.maxCoupon && cart.coupon.numberCode !== cart.maxCoupon.numberCode">
+            (再购{{cart.maxCoupon.lowPrice - cart.total}}元，可用{{cart.maxCoupon.price}}元红包哦~)
+          </span>
+        </p>
       </div>
     </div>
   </div>
@@ -127,8 +136,12 @@ export default {
       .product-item{
         display: flex;
         width: 100%;
-        height: 148/@R;
+        height: 150/@R;
         padding: 24/@R 21/@R 24/@R 37/@R;
+        border-bottom: 1/@R solid #D9D9D9;
+        &:last-child {
+          border-bottom: none;
+        }
         .pic {
           width: 100/@R;
           height: 100/@R;
@@ -143,12 +156,28 @@ export default {
           justify-content: space-between;
         }
         .word {
-
+          max-width: 360/@R;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
         .price {
+          line-height: 30/@R;
           font-size: 30/@R;
           color: #D86868;
         }
+        .orig-price {
+          line-height: 20/@R;
+          font-size: 20/@R;
+          color: #999999;
+          text-decoration: line-through;
+        }
+      }
+      .coupon-info {
+        padding-left: 37/@R;
+        line-height: 45/@R;
+        color: red;
+        font-size: 24/@R;
       }
       .counter-panel {
         position: relative;

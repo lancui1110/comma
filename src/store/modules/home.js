@@ -1,4 +1,4 @@
-import { find, map, filter, cloneDeep, concat, sum, orderBy } from 'lodash'
+import { find, map, filter, cloneDeep, concat, sum, orderBy, maxBy } from 'lodash'
 import API from '../api'
 
 const state = {
@@ -24,7 +24,8 @@ const state = {
     count: 0,
     discount: 0,
     total: 0,
-    coupon: null
+    coupon: null,
+    maxCoupon: null
   }
 }
 
@@ -170,13 +171,16 @@ const actions = {
       item => item.lowPrice <= discountTotal
     )
     const coupon = orderBy(matchCoupons, ['price'], ['desc'])[0]
+    const maxCoupon = maxBy(matchCoupons, 'price')
 
     if (coupon) {
       state.cart.coupon = coupon
+      state.cart.maxCoupon = maxCoupon
       state.cart.discount = originTotal - discountTotal + coupon.price
       state.cart.total = discountTotal - coupon.price
     } else {
       state.cart.coupon = null
+      state.cart.maxCoupon = null
       state.cart.discount = originTotal - discountTotal
       state.cart.total = discountTotal
     }
@@ -204,13 +208,16 @@ const actions = {
       item => item.lowPrice <= discountTotal
     )
     const coupon = orderBy(matchCoupons, ['price'], ['desc'])[0]
+    const maxCoupon = maxBy(matchCoupons, 'price')
 
     if (coupon) {
       state.cart.coupon = coupon
+      state.cart.maxCoupon = maxCoupon
       state.cart.discount = originTotal - discountTotal + coupon.price
       state.cart.total = discountTotal - coupon.price
     } else {
       state.cart.coupon = null
+      state.cart.maxCoupon = null
       state.cart.discount = originTotal - discountTotal
       state.cart.total = discountTotal
     }
@@ -223,7 +230,8 @@ const actions = {
       count: 0,
       discount: 0,
       total: 0,
-      coupon: null
+      coupon: null,
+      maxCoupon: null
     })
   }
 }
