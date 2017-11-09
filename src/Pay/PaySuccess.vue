@@ -4,7 +4,8 @@
       <div class="suc-word">
         <div class="logo"><i class="icon icon-head-top"></i></div>
         <div class="word">逗号迷你便利</div>
-        <div class="large">您已支付成功啦～</div>
+        <div class="large">支付成功~小主，享受美食吧~</div>
+        <div class="word link"><a href="">返回首页</a></div>
       </div>
       <img v-if="isRed" class="redpackt" @click="showShare(true, false)" :src="require('../assets/redpackt.png')" />
     </div>
@@ -35,6 +36,7 @@ export default {
   data () {
     return {
       isRed: false,
+      homeUrl: location.href,
       orderNum: this.$route.query.orderNum,
       isShowShareRedPacket: false, // 显示分享红包
       isShowShareWx: false // 显示微信分享
@@ -43,6 +45,7 @@ export default {
   mounted () {
     wxMenu.share({orderNum: this.orderNum}, (res) => {
       this.isRed = res.data.isRed || false
+      this.homeUrl = res.data.homeUrl || this.homeUrl
     })
   },
   computed: {
@@ -152,6 +155,13 @@ export default {
         }
       }
     }
-    
+    .link {
+      margin-top: 30/@R;
+      a {
+        color: #333;
+        font-size: 36/@R;
+        text-decoration: underline;
+      }
+    }
   }
 </style>

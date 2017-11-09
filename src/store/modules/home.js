@@ -2,6 +2,7 @@ import { find, map, filter, cloneDeep, concat, sum, orderBy } from 'lodash'
 import API from '../api'
 
 const state = {
+  code: null,
   user: null,
   banner: null,
   search: '',
@@ -28,6 +29,9 @@ const state = {
 }
 
 const actions = {
+  setCode ({ commit }, v) {
+    commit('setCode', v)
+  },
   changeSearchKeyword ({ commit }, v) {
     commit('setSearch', v)
   },
@@ -225,6 +229,9 @@ const actions = {
 }
 
 const mutations = {
+  setCode (state, payload) {
+    state.code = payload
+  },
   setUser (state, payload) {
     state.user = payload
   },
@@ -249,6 +256,9 @@ const mutations = {
 }
 
 const getters = {
+  getCode () {
+    return state.code
+  },
   getUser (state) {
     return state.user
   },

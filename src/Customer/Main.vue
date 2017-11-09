@@ -7,7 +7,7 @@
         </div>
       </router-link>
       <div class="btn">
-        <i class="icon icon-tel"></i>致电我们
+        <a href="tel:020-38397376-8027"><i class="icon icon-tel"></i>致电我们</a>
       </div>
     </div>
   </div>

@@ -59,6 +59,8 @@ export default {
     padding: 24/@R;
     .word {
       font-size: 28/@R;
+      display: flex;
+      align-items: center;
     }
     .large {
       font-size: 44/@R;

@@ -55,12 +55,14 @@ export default {
   },
   data () {
     return {
+      code: this.$route.query.code,
       isShowLeftMenu: false,
       isShowSelProducts: false
     }
   },
   mounted () {
     this.initEvent()
+    this.$store.dispatch('home/setCode', this.code)
     this.$store.dispatch('home/getHomePage')
     this.$store.dispatch('coupons/getAvailableCouponList')
   },

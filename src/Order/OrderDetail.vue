@@ -9,7 +9,7 @@
     <div class="content-panel">
       <p class="word">商品金额：￥{{orderDetail.totalMoney}}</p>
       <p class="word">实际支付：￥{{orderDetail.realPay}}</p>
-      <p class="word red">优惠:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥{{orderDetail.disCount}}</p>
+      <p class="word red">优惠总计:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥{{orderDetail.disCount}}</p>
     </div>
     <div class="content-panel products">
       <div class="pro-info" v-for="(item, key) in orderDetail.goodsInfos" :key="key">

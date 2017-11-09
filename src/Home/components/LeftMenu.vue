@@ -131,7 +131,7 @@ export default {
         }
       }
       .menus {
-        padding-left: 73/@R;
+        padding-left: 20/@R;
         font-size: 36/@R;
         color: #593C38;
         a {
@@ -141,11 +141,11 @@ export default {
           padding: 26/@R 0;
         }
         .icon-panel {
-          width: 44/@R;
+          width: 156/@R;
           height: 50/@R;
           line-height: 50/@R;
-          margin-right: 65/@R;
           text-align: center;
+          display: inline-block;
         }
         .icon {
 
