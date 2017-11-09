@@ -93,8 +93,7 @@
 import { map, trim } from 'lodash'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import { Popup, Picker } from 'mint-ui'
-import { Toast } from 'mint-ui'
+import { Popup, Picker, Toast } from 'mint-ui'
 
 Vue.component(Popup.name, Popup)
 Vue.component(Picker.name, Picker)
@@ -173,8 +172,7 @@ export default {
       }
       this.$store.dispatch('activity/submitRecommendForm', (res) => {
         if (res.code === 1) {
-          // TODO: change res.url to real backend data
-          window.location.href = res.url
+          window.location.href = res.data
         }
       })
     }
@@ -250,6 +248,9 @@ export default {
 
     .city-popup {
       width: 100%;
+      .picker-slot {
+        width: 100%;
+      }
     }
   }
 
