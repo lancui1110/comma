@@ -132,9 +132,9 @@ export default {
       white-space: nowrap;
       padding: 0 @itemPadding;
     }
-    // .menu-item:last-child {
-    //   margin-right: 0;
-    // }
+    .menu-item:last-child {
+      margin-right: 60/@R;
+    }
     .menu-item-text {
       display: inline-block;
     }

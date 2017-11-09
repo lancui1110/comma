@@ -25,10 +25,10 @@
         <div class="coupons">
           <div class="coupons-panel">
             <!-- 领到的优惠券 -->
-            <div v-if="!myRedPacket" class="coupons-item">
+            <div v-if="myRedPacket" class="coupons-item">
               <div class="word red">
                 <span class="left word large">{{myRedPacket.money}}元</span>
-                <span class="word">{{myRedPacket.nickName}}</span>
+                <span class="word">{{myRedPacket.title}}</span>
               </div>
               <div class="word">
                 <span class="left word">满{{myRedPacket.lowMoney}}元立减</span>
