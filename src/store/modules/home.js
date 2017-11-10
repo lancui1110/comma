@@ -1,4 +1,5 @@
 import { find, map, filter, cloneDeep, concat, sum, orderBy, maxBy } from 'lodash'
+import { Indicator } from 'mint-ui'
 import API from '../api'
 
 const state = {
@@ -53,6 +54,7 @@ const actions = {
     dispatch('refreshGoods')
   },
   getHomePage ({ commit }, cb) {
+    Indicator.open()
     iwjw.ajax({
       url: API.getUrl('homePage')
     }).then(res => {
@@ -70,6 +72,7 @@ const actions = {
         ))
       }
       cb && cb()
+      Indicator.close()
     })
   },
   refreshGoods ({ commit, dispatch }, cb) {
@@ -97,6 +100,7 @@ const actions = {
     }
   },
   searchGoods ({ commit }, cb) {
+    Indicator.open()
     iwjw.ajax({
       url: API.getUrl('getGoodsByName'),
       data: {
@@ -119,9 +123,11 @@ const actions = {
         }
       }
       cb && cb()
+      Indicator.close()
     })
   },
   getGoodsByType ({ commit }, cb) {
+    Indicator.open()
     iwjw.ajax({
       url: API.getUrl('getGoodsByType'),
       data: {
@@ -144,6 +150,7 @@ const actions = {
         }
       }
       cb && cb()
+      Indicator.close()
     })
   },
   addToCart ({ commit, rootState }, product) {
