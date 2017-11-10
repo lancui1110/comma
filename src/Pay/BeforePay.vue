@@ -51,9 +51,19 @@ export default {
       this.$store.dispatch('pay/getOrderSign', {
         params,
         cb: (res) => {
-          const leftSec = res.data.seconds
-          this.min = Math.floor(leftSec / 60)
-          this.sec = leftSec % 60
+          if (res.status === 1) {
+            // 成功
+            this.$router.push({ name: 'paySuc' })
+          } else if (res.status === 2) {
+            // 待支付
+            const leftSec = res.data.seconds
+            this.min = Math.floor(leftSec / 60)
+            this.sec = leftSec % 60
+          } else if (res.status === 3) {
+            // 超时
+          } else if (res.status === 0) {
+            // 失败
+          }
         }
       })
     },
@@ -61,7 +71,7 @@ export default {
       weixin.weixinPay(this.orderSign, (res) => {
         // Toast('支付成功，正在跳转...')
         // go 支付成功
-        if (res.err_msg === 'get_brand_wcpay_request:ok') { // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+        if (res.err_msg === 'get_brand_wcpay_request:ok') { // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
           // this.$router.push({ name: 'paySuc', query: { orderNum: this.orderNum } })
           location.href = `${pageConfig.siteUrl}index/pay/success?orderNum=${this.orderNum}&code=${this.code}`
         }
