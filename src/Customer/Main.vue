@@ -7,14 +7,14 @@
         </div>
       </router-link>
       <div class="btn">
-        <a href="tel:020-38397376-8027"><i class="icon icon-tel"></i>致电我们</a>
+        <a :href="`tel:${phone}`"><i class="icon icon-tel"></i>致电我们</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'CustermerMain',
@@ -24,6 +24,11 @@ export default {
     return {
       
     }
+  },
+  computed: {
+    ...mapGetters({
+      phone: 'customer/phone'
+    })
   }
 }
 </script>

@@ -16,7 +16,9 @@ const apiMapping = {
   userInfo: 'api/user/userInfo', // 用户信息
   userLogin: 'api/user/login', // 短信登录
   sendVerifyCode: 'api/user/sendVerifyCode', // 短信发送
-  userFeedback: 'api/user/feedback', // 用户反馈
+
+  feedbackPhone: 'api/feedBack/phone', // 获取反馈电话
+  feedbackSubmit: 'api/feedBack/submit', // 提交反馈
 
   couponList: 'api/user/pageCoupon', // 优惠券列表
   availableCouponList: 'api/user/getAvailableCoupon',  // 可用的优惠券
