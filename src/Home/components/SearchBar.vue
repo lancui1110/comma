@@ -7,6 +7,7 @@
     <div class="search-input">
       <i class="icon icon-search"></i>
       <input type="text" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch" />
+      <i class="clear-serach" v-show="searchKeyword" @click="clearSearch"></i>
     </div>
   </div>
 </template>
@@ -18,7 +19,7 @@ export default {
   name: 'SearchBar',
   data () {
     return {
-      
+
     }
   },
   computed: {
@@ -38,7 +39,7 @@ export default {
   watch: {
   },
   mounted () {
-    
+
   },
   methods: {
     showLeftMenu () {
@@ -47,6 +48,10 @@ export default {
     doSearch (e) {
       e.target.blur()
       this.$store.dispatch('home/refreshGoods')
+    },
+    clearSearch (e) {
+      this.$store.dispatch('home/changeSearchKeyword', '')
+      this.$store.dispatch('home/refreshGoods')
     }
   }
 }
@@ -54,7 +59,7 @@ export default {
 
 <style lang="less">
   @import "../../global/style/theme.less";
-  
+
   /* 查询 */
   .search-bar-panel {
     display: flex;
@@ -92,6 +97,30 @@ export default {
         position: absolute;
         left: 21/@R;
         top: (95-32)/2/@R;
+      }
+      .clear-serach {
+        position: absolute;
+        right: 11/@R;
+        top: (95-36)/2/@R;
+        width: 36/@R;
+        height: 36/@R;
+        border-radius: 50%;
+        background-color: #d9d9d9;
+        &:before, &:after{
+          display: block;
+          content: "";
+          width: 22/@R;
+          height: 2px;
+          background-color: white;
+        }
+        &:before{
+          margin-top: 17/@R;
+          margin-left: 8/@R;
+          transform: rotate(45deg);
+        }
+        &:after{
+          transform: translateY(-3/@R) translateX(8/@R) rotate(-45deg);
+        }
       }
     }
   }
