@@ -40,16 +40,22 @@ export default {
           goods: map(this.cart.list, item => ({
             id: item.product.id,
             price: item.product.price,
-            discount: item.product.discountPrice,
+            discountPrice: item.product.discountPrice,
             num: item.count
           })),
-          amount: round(sum(map(this.cart.list, item => item.count * item.product.price)), 2),
-          discounts: round(this.cart.discount, 2),
-          realMoney: round(this.cart.total, 2),
-          number: this.cart.count
+          number: this.cart.count,
+          realAmount: round(this.cart.total, 2),
+          totalAmount: round(sum(map(this.cart.list, item => item.count * item.product.price)), 2),
+          totalDiscounts: round(this.cart.discount, 2)
         }
         if (this.cart.coupon) {
-          params.couponCode = this.cart.coupon.numberCode
+          params.couponNum = this.cart.coupon.numberCode
+          params.couponAmount = this.cart.coupon.price
+        }
+        if (params.totalDiscounts && params.couponAmount) {
+          params.discountAmount = params.totalDiscounts - params.couponAmount
+        } else if (params.totalDiscounts) {
+          params.discountAmount = params.totalDiscounts
         }
         this.$store.dispatch('order/addOrder', {
           params,
