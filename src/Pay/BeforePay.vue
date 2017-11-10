@@ -19,7 +19,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import weixin from 'weixin'
-// import { Toast } from 'mint-ui'
+import { Toast } from 'mint-ui'
 
 export default {
   name: 'BeforePay',
@@ -53,7 +53,7 @@ export default {
         cb: (res) => {
           if (res.status === 1) {
             // 成功
-            this.$router.push({ name: 'paySuc' })
+            this.$router.replace({ name: 'paySuc' })
           } else if (res.status === 2) {
             // 待支付
             const leftSec = res.data.seconds
@@ -61,6 +61,10 @@ export default {
             this.sec = leftSec % 60
           } else if (res.status === 3) {
             // 超时
+            Toast('订单已超时!')
+            setTimeout(() => {
+              this.$router.replace({ name: 'home' })
+            }, 1000)
           } else if (res.status === 0) {
             // 失败
           }
