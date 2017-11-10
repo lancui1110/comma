@@ -25,6 +25,9 @@ export default {
       
     }
   },
+  mounted () {
+    this.$store.dispatch('customer/getPhone')
+  },
   computed: {
     ...mapGetters({
       phone: 'customer/phone'

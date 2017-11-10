@@ -32,7 +32,7 @@ const mutations = {
 
 const getters = {
   phone (state) {
-    state.phone
+    return state.phone
   }
 }
 
