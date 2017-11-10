@@ -7,18 +7,21 @@
     <div class="search-input">
       <i class="icon icon-search"></i>
       <input type="text" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch" />
+      <i v-show="isShowClose" class="icon icon-close" @click="removeWord"></i>
     </div>
+    <div class="qr-code"><i class="icon icon-qr-code"></i></div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import weixin from 'weixin'
 
 export default {
   name: 'SearchBar',
   data () {
     return {
-      
+      isShowClose: false
     }
   },
   computed: {
@@ -36,6 +39,9 @@ export default {
     }
   },
   watch: {
+    searchKeyword (val) {
+      this.isShowClose = !!val
+    }
   },
   mounted () {
     
@@ -47,6 +53,12 @@ export default {
     doSearch (e) {
       e.target.blur()
       this.$store.dispatch('home/refreshGoods')
+    },
+    removeWord () {
+      this.searchKeyword = ''
+    },
+    scanQRCode () {
+      weixin.weixinScanQRCode()
     }
   }
 }
@@ -88,11 +100,20 @@ export default {
         height: 58/@R;
         padding: 0 66/@R;
       }
-      .icon-search {
+      .icon {
         position: absolute;
         left: 21/@R;
         top: (95-32)/2/@R;
       }
+      .icon-close {
+        left: auto;
+        right: 21/@R;
+      }
+    }
+    .qr-code {
+      position: relative;
+      line-height: 95/@R;
+      margin-right: 20/@R; 
     }
   }
 

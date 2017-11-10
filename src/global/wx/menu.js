@@ -60,38 +60,5 @@ const menu = {
       })
     })
   }
-  // ,
-  // registerUrl: function (url, callback, name) {
-  //   let data = {}
-  //   data.currentUrl = url
-  //   if (name) {
-  //     data.app = name
-  //   }
-  //   iwjw.ajax({
-  //     url: pageConfig.siteUrl + 'main/getSign',
-  //     data: data,
-  //     success: function (res) {
-  //       var defaultConfig = {
-  //         debug: false,
-  //         jsApiList: [
-  //           'hideMenuItems',
-  //           'showMenuItems',
-  //           'onMenuShareAppMessage',
-  //           'onMenuShareTimeline',
-  //           'chooseImage',
-  //           'uploadImage',
-  //           'previewImage'
-  //         ]
-  //       }
-  //       let config
-  //       res && res.data && (config = Object.assign({}, defaultConfig, res.data))
-  //       config && wx.config(config)
-  //       callback && callback()
-  //     },
-  //     error: function () {
-  //       // smallnote('微信注册url服务报错')
-  //     }
-  //   })
-  // }
 }
 export default menu
