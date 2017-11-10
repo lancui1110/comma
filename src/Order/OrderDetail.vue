@@ -6,10 +6,12 @@
       <p class="word">订单编号：{{orderDetail.orderNum}}</p>
       <p class="word">订单时间：{{orderDetail.payTime}}</p>
     </div>
-    <div class="content-panel">
-      <p class="word">商品金额：￥{{orderDetail.totalMoney}}</p>
-      <p class="word">实际支付：￥{{orderDetail.realPay}}</p>
-      <p class="word red">优惠总计:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥{{orderDetail.disCount}}</p>
+    <div class="content-panel price-panel">
+      <p class="word">商品金额：￥{{orderDetail.totalAmount}}</p>
+      <p class="word">实际支付：￥{{orderDetail.realAmount}}</p>
+      <p class="word red">优惠总计：￥{{orderDetail.totalDiscounts}}</p>
+      <p class="word small">商品折扣：￥{{orderDetail.discountAmount}}</p>
+      <p class="word small">红包抵扣：￥{{orderDetail.couponAmount}}</p>
     </div>
     <div class="content-panel products">
       <div class="pro-info" v-for="(item, key) in orderDetail.goodsInfos" :key="key">
@@ -74,6 +76,11 @@ export default {
     }
     .red {
       color: #D86868;
+    }
+    .price-panel {
+      .small {
+        padding-left: 22/@R;
+      }
     }
 
     .products {
