@@ -1,11 +1,15 @@
 <template>
   <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
     <div class="product-list">
-      <ul class="list-panel">
+      <ul class="list-panel" v-if="productList.length">
         <li class="list-item" v-for="(item, key) in productList" :key="key">
           <product-item :data="item"></product-item>
         </li>
       </ul>
+      <div class="no-result" v-else>
+        <img :src="require('../../assets/head_top_none.png')"/>
+        <p>小主，没有找到商品哦~</p>
+      </div>
     </div>
   </mt-loadmore>
 </template>
@@ -55,6 +59,17 @@ export default {
     }
     .list-item:nth-child(3n) {
       border-right: 0;
+    }
+    .no-result {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 500/@R;
+      img {
+        width: 150/@R;
+        margin-bottom: 30/@R;
+      }
     }
   }
 </style>
