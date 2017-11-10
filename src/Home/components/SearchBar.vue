@@ -7,21 +7,21 @@
     <div class="search-input">
       <i class="icon icon-search"></i>
       <input type="text" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch" />
-      <i v-show="isShowClose" class="icon icon-close" @click="removeWord"></i>
+      <i v-show="searchKeyword" @click="clearSearch" class="icon icon-close" ></i>
     </div>
-    <div class="qr-code"><i class="icon icon-qr-code"></i></div>
+    <div class="qr-code" @click="scanQRCode"><i class="icon icon-qr-code"></i></div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import weixin from 'weixin'
+import { Toast } from 'mint-ui'
 
 export default {
   name: 'SearchBar',
   data () {
     return {
-      isShowClose: false
     }
   },
   computed: {
@@ -44,7 +44,7 @@ export default {
     }
   },
   mounted () {
-    
+
   },
   methods: {
     showLeftMenu () {
@@ -54,11 +54,24 @@ export default {
       e.target.blur()
       this.$store.dispatch('home/refreshGoods')
     },
-    removeWord () {
-      this.searchKeyword = ''
-    },
     scanQRCode () {
-      weixin.weixinScanQRCode()
+      const self = this
+      weixin.weixinScanQRCode((res) => {
+        self.$store.dispatch('home/findProductByQrCode', {
+          code: res,
+          cb: (res) => {
+            if (res.code === 1) {
+              self.$store.dispatch('home/addToCart', res.data)
+            } else {
+              Toast(res.msg)
+            }
+          }
+        })
+      })
+    },
+    clearSearch (e) {
+      this.$store.dispatch('home/changeSearchKeyword', '')
+      this.$store.dispatch('home/refreshGoods')
     }
   }
 }
@@ -66,7 +79,7 @@ export default {
 
 <style lang="less">
   @import "../../global/style/theme.less";
-  
+
   /* 查询 */
   .search-bar-panel {
     display: flex;
@@ -100,7 +113,7 @@ export default {
         height: 58/@R;
         padding: 0 66/@R;
       }
-      .icon {
+      .icon-search {
         position: absolute;
         left: 21/@R;
         top: (95-32)/2/@R;
@@ -109,11 +122,35 @@ export default {
         left: auto;
         right: 21/@R;
       }
+      .icon-close {
+        position: absolute;
+        right: 11/@R;
+        top: (95-36)/2/@R;
+        width: 36/@R;
+        height: 36/@R;
+        border-radius: 50%;
+        background-color: #d9d9d9;
+        &:before, &:after{
+          display: block;
+          content: "";
+          width: 22/@R;
+          height: 2px;
+          background-color: white;
+        }
+        &:before{
+          margin-top: 17/@R;
+          margin-left: 8/@R;
+          transform: rotate(45deg);
+        }
+        &:after{
+          transform: translateY(-3/@R) translateX(8/@R) rotate(-45deg);
+        }
+      }
     }
     .qr-code {
       position: relative;
       line-height: 95/@R;
-      margin-right: 20/@R; 
+      margin-right: 20/@R;
     }
   }
 
