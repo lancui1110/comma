@@ -131,7 +131,7 @@ export default {
       padding: 0 @itemPadding;
     }
     .menu-item:nth-last-child(1) {
-      margin-right: 60/@R;
+      padding: 0 1rem 0 0.3rem;
     }
     .menu-item-text {
       display: inline-block;

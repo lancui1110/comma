@@ -1,7 +1,10 @@
 <template>
   <div class="custermer-feedback">
     <div class="content">
-      <textarea v-model="feedback" cols="30" rows="10" placeholder="请留下您的宝贵建议，促使我们进步~"></textarea>
+      <div class="content-area">
+        <span class="word">{{feedback.length}}/{{maxWords}}</span>
+        <textarea v-model="feedback" cols="30" rows="10" :maxlength="maxWords" placeholder="请留下您的宝贵建议，促使我们进步~"></textarea>
+      </div>
       <div class="addbtns">
         <div v-for="(item, key) in localPics" :key="key" class="img">
           <img @click="previewImages(item)" :src="item" class="addbtn" />
@@ -28,6 +31,7 @@ export default {
   data () {
     const defaultPic = require('../assets/img_upload.png')
     return {
+      maxWords: 200,
       defaultPic: defaultPic,
       localPics: [],
       feedback: '',
@@ -60,8 +64,13 @@ export default {
       uploadPic.previewImages(pic, this.localPics)
     },
     submit () {
-      if (this.feedback === '') {
+      if (!this.feedback) {
         Toast('请输入您的宝贵建议~')
+        return
+      }
+      if (this.feedback.length > this.maxWords) {
+        Toast(`最多输入${this.maxWords}字哦~`)
+        return
       }
       const params = {
         feedback: this.feedback,
@@ -98,9 +107,19 @@ export default {
         width: 100%;
         background: #fff;
         font-size: 36/@R;
-        padding: 10/@R;
+        padding: 20/@R;
         outline: none;
         border: 0;
+      }
+    }
+    .content-area {
+      position: relative;
+      .word {
+        font-size: 36/@R;
+        position: absolute;
+        right: 20/@R;
+        bottom: 20/@R;
+        color: #999;
       }
     }
     .addbtns {
