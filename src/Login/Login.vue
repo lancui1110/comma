@@ -79,7 +79,7 @@ export default {
         code: this.code,
         cb: () => {
           this.isSubmit = false
-          this.$router.replace({ name: this.$route.query.to })
+          this.$router.replace({ name: this.$route.query.to || 'home' })
         }
       })
     }

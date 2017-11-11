@@ -64,7 +64,7 @@ const actions = {
         commit('setBanner', banner)
         commit('setCategory', { current: categories[0], list: categories })
         const { total, page, pageSize, allPage, end, data } = firstCategoryInfo
-        commit('setProductList', data)
+        commit('setProductList', data || [])
         commit('setPageInfo', Object.assign(
           {},
           state.pageInfo,
@@ -110,16 +110,21 @@ const actions = {
       }
     }).then(res => {
       if (res.code === 1) {
-        const { total, page, pageSize, allPage, end, data } = res.data
+        const { total, page, allPage, end, data } = res.data
         commit('setPageInfo', Object.assign(
           {},
           state.pageInfo,
-          { total, page, pageSize, allPage, end }
+          {
+            total,
+            page: page || 1,
+            allPage,
+            end
+          }
         ))
         if (res.data.page > 1) {
-          commit('setProductList', concat(state.productList, data))
+          commit('setProductList', concat(state.productList, data || []))
         } else {
-          commit('setProductList', data)
+          commit('setProductList', data || [])
         }
       }
       cb && cb()
@@ -137,16 +142,21 @@ const actions = {
       }
     }).then(res => {
       if (res.code === 1) {
-        const { total, page, pageSize, allPage, end, data } = res.data
+        const { total, page, allPage, end, data } = res.data
         commit('setPageInfo', Object.assign(
           {},
           state.pageInfo,
-          { total, page, pageSize, allPage, end }
+          {
+            total,
+            page: page || 1,
+            allPage,
+            end
+          }
         ))
         if (res.data.page > 1) {
-          commit('setProductList', concat(state.productList, data))
+          commit('setProductList', concat(state.productList, data || []))
         } else {
-          commit('setProductList', data)
+          commit('setProductList', data || [])
         }
       }
       cb && cb()

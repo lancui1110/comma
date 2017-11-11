@@ -1,5 +1,8 @@
 <template>
   <div class="pay-bar" :class="{'no-choose-any': cart.count <= 0}">
+    <transition name="fade">
+      <div class="notify" v-if="notifyUserLogin">小主，专属红包已存入账户啦～<router-link :to="{ name: 'login' }">【一键领取】</router-link></div>
+    </transition>
     <div class="order-detail" @click="toggleSelProducts">
       <div class="logo">
         <i v-if="cart.count > 0" class="icon icon-head-top"></i>
@@ -27,6 +30,7 @@ export default {
   computed: {
     ...mapGetters({
       cart: 'home/getCart',
+      notifyUserLogin: 'user/notifyUserLogin',
       user: 'user/getUser'
     })
   },
@@ -152,5 +156,26 @@ export default {
       width: 240/@R;
       text-align: center;
     }
+
+    .notify {
+      position: fixed;
+      left: 0;
+      bottom: 100/@R;
+      width: 100%;
+      height: 60/@R;
+      line-height: 60/@R;
+      text-align: center;
+      font-size: 24/@R;
+      background-color: #F6EDE1;
+      a {
+        color: red;
+      }
+    }
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0
   }
 </style>
