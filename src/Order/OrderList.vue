@@ -46,8 +46,13 @@ export default {
       pageInfo: 'order/pageInfo'
     })
   },
-  mounted () {
-    this.loadList()
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      console.log(vm, to, from)
+      if (!(from && from.name === 'orderDetail')) {
+        vm.loadList()
+      }
+    })
   },
   methods: {
     loadList () {
