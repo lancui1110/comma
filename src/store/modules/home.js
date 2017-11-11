@@ -191,6 +191,9 @@ const actions = {
       state.cart.discount = originTotal - discountTotal
       state.cart.total = discountTotal
     }
+    if (state.cart.total < 0) {
+      state.cart.total = 0
+    }
 
     commit('setCart', cloneDeep(state.cart))
   },
@@ -227,6 +230,9 @@ const actions = {
       state.cart.maxCoupon = null
       state.cart.discount = originTotal - discountTotal
       state.cart.total = discountTotal
+    }
+    if (state.cart.total < 0) {
+      state.cart.total = 0
     }
 
     commit('setCart', cloneDeep(state.cart))
