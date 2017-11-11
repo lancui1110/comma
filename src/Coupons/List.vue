@@ -1,5 +1,9 @@
 <template>
-  <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
+  <div v-if="couponList.length === 0" class="coupons-list-panel nodata">
+    <div class="logo"><i class="icon icon-head-top"></i></div>
+    <div class="word">暂无优惠券</div>
+  </div>
+  <mt-loadmore v-else :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
     <div class="coupons-list-panel">
       <div v-for="(item, key) in couponList" :key="key" class="coupons-item-panel">
         <div class="coupons-item" :class="{'gray': item.status !== 1}">
@@ -57,6 +61,25 @@ export default {
     height: 100%;
     background: #F2F2F2;
     padding: 24/@R;
+    &.nodata {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-top: 175/@R;
+      justify-content: flex-start;
+      background: #fff;
+      .logo .icon{
+        width: 147/@R;
+        height: 147/@R;
+        background-size: 147/@R 147/@R;
+      }
+      .word {
+        font-size: 36/@R;
+        padding: 100/@R 0 52/@R 0;
+      }
+    }
+
     .word {
       font-size: 28/@R;
       display: flex;

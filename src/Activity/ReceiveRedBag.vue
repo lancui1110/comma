@@ -19,13 +19,13 @@
         </div>
         <div class="form-item yellow-btn" :disabled="!mobile || !code" @click="handleOnSubmitCode()">立即领取</div>
       </div>
-
+      
       <!-- 已领过优惠券 -->
       <div v-else class="received-panel">
-        <div class="coupons">
+        <div v-if="myRedPacket && myRedPacket.title" class="coupons">
           <div class="coupons-panel">
             <!-- 领到的优惠券 -->
-            <div v-if="myRedPacket" class="coupons-item">
+            <div class="coupons-item">
               <div class="word red">
                 <span class="left word large">{{myRedPacket.money}}元</span>
                 <span class="word">{{myRedPacket.title}}</span>
@@ -36,7 +36,7 @@
               </div>
             </div>
             <!-- 红包领完了 -->
-            <div v-else class="coupons-item recieved">{{message.emptyMsg}}</div>
+            <!-- <div v-else class="coupons-item recieved">{{message.emptyMsg}}</div> -->
           </div>
         </div>
 

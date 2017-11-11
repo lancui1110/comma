@@ -3,21 +3,21 @@
     <div class="suc-word-panel">
       <div class="suc-word">
         <div class="logo"><i class="icon icon-head-top"></i></div>
-        <div class="word">逗号迷你便利</div>
+        <div class="word"><!-- 逗号迷你便利 --></div>
         <div class="large">支付成功~小主，享受美食吧~</div>
-        <div class="word link"><a href="">返回首页</a></div>
+        <div class="word link"><a :href="homeUrl">返回首页</a></div>
       </div>
       <img v-if="isRed" class="redpackt" @click="showShare(true, false)" :src="require('../assets/redpackt.png')" />
     </div>
     
     <div v-show="isShowShare" class="share-panel">
-      <div class="mask" @click="showShare(false, false)"></div>
+      <div class="mask" v-show="!isShowShareWx" @click="showShare(false, false)"></div>
       <div v-show="isShowShareRedPacket" class="share-red-packet">
         <p class="pic" @click="resetShare"><img :src="require('../assets/img_share.png')"/></p>
         <p class="word">分享后自己也能领取哦～</p>
         <p class="close" @click="showShare(false, false)"><i class="icon icon-close"></i></p>
       </div>
-      <div v-show="isShowShareWx" class="share-wx">
+      <div v-show="isShowShareWx" @click="showShare(false, false)" class="share-wx">
         <p class="pic"><img :src="require('../assets/img_share_wx.png')"/></p>
       </div>
     </div>
@@ -45,7 +45,11 @@ export default {
   mounted () {
     setTimeout(() => {
       wxMenu.share({orderNum: this.orderNum}, (res) => {
-        this.isRed = res.data.isRed || false
+        res.data = { isRed: true }
+        if (res.data.isRed) {
+          this.isRed = true
+          this.isShowShareRedPacket = true
+        }
         this.homeUrl = res.data.homeUrl || this.homeUrl
       })
     }, 500)
@@ -114,8 +118,8 @@ export default {
         top: 0;
         width: 100%;
         height: 100%;
-        background: #333;
-        opacity: .1;
+        background: #EEE;
+        opacity: .9;
       }
       .share-red-packet {
         position: absolute;
