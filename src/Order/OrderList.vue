@@ -35,11 +35,15 @@ import { Indicator } from 'mint-ui'
 
 export default {
   name: 'OrderList',
+  data () {
+    return {
+      isLoad: true
+    }
+  },
   computed: {
     ...mapGetters({
       orderList: 'order/orderList',
-      pageInfo: 'order/pageInfo',
-      isLoad: true
+      pageInfo: 'order/pageInfo'
     })
   },
   mounted () {

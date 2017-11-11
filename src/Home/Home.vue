@@ -55,13 +55,16 @@ export default {
   },
   mounted () {
     this.$store.dispatch('home/setCode', this.code)
-    this.$store.dispatch('home/getHomePage')
+    if (!this.productList.length) {
+      this.$store.dispatch('home/getHomePage')
+    }
     this.$store.dispatch('coupons/getAvailableCouponList')
   },
   computed: {
     ...mapGetters({
       user: 'user/getUser',
-      banner: 'home/getBanner'
+      banner: 'home/getBanner',
+      productList: 'home/getProductList'
     })
   },
   methods: {

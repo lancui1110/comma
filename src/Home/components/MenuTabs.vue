@@ -57,6 +57,18 @@ export default {
   },
   watch: {
     curMenuItem (val, old) {
+      this.resetActiveBar(val, old)
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.resetActiveBar(this.curMenuItem)
+      }, 0)
+    })
+  },
+  methods: {
+    resetActiveBar (val, old) {
       this.isShowMoreMenus = false
 
       const valIndex = val ? findIndex(this.category.list, { id: val.id }) : -1
@@ -79,22 +91,8 @@ export default {
         $ink.classList.remove(removeFwd)
         $ink.classList.add(addFwd)
 
-        if (val && old) {
-          $curMenuItem.scrollIntoView(false)
-        }
+        $curMenuItem.scrollIntoView(false)
       }
-    }
-  },
-  // mounted () {
-  //   this.$nextTick(() => {
-  //     setTimeout(() => {
-  //       this.loadMenus()
-  //     }, 0)
-  //   })
-  // },
-  methods: {
-    resetActiveBar () {
-
     },
     clickTab (item) {
       this.$store.dispatch('home/changeCategoryType', item)
