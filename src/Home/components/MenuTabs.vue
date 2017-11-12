@@ -4,7 +4,7 @@
       <li class="menu-ink-bar">
         <span class="menu-ink-bar-inner"></span>
       </li>
-      <li class="menu-item" :id="'menu-item-' + key"
+      <li class="menu-item" :id="'menu-item-' + item.id"
           :class="{ 'active': item.id === category.current.id }"
           v-for="(item, key) in category.list" :key="key"
           @click="clickTab(item)">
@@ -15,13 +15,18 @@
       <i class="icon icon-more"></i>
     </div>
 
-    <ul v-if="isShowMoreMenus" class="menu-items">
+    <!-- <ul v-if="isShowMoreMenus" class="menu-items">
       <li class="one-item"
           v-for="(item, key) in category.list" :key="key"
           @click="clickTab(item)">
         {{item.name}}
       </li>
-    </ul>
+    </ul> -->
+    <table v-if="isShowMoreMenus" class="menu-items">
+      <tr v-for="(tr, key) in moreItems" :key="key">
+        <td v-for="(item, k) in tr" :key="k" @click="clickTab(item)">{{ item.name }}</td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -53,6 +58,18 @@ export default {
     },
     isShowMore () {
       return this.category.list.length > 5
+    },
+    moreItems () {
+      const list = this.category.list
+      let [ tables, tr ] = [ [], [] ]
+      for (let i = 0; i < list.length; i++) {
+        if (i > 0 && i % 5 === 0) {
+          tables.push(tr)
+          tr = []
+        }
+        tr.push(list[i])
+      }
+      return tables
     }
   },
   watch: {
@@ -76,7 +93,7 @@ export default {
 
       const $ink = document.querySelector('.menu-ink-bar')
       const $inkInner = document.querySelector('.menu-ink-bar-inner')
-      const $curMenuItem = document.getElementById(`menu-item-${valIndex}`)
+      const $curMenuItem = document.getElementById(`menu-item-${val.id}`)
       if ($curMenuItem) {
         const $curMenuItemText = $curMenuItem.querySelector('.menu-item-text')
 
@@ -122,7 +139,7 @@ export default {
       display: flex;
       overflow: scroll;
     }
-    .menu-item {
+    .menu-item, .one-item {
       height: @menuHeight;
       line-height: @menuHeight;
       font-size: 36/@R;
@@ -173,17 +190,28 @@ export default {
 
     }
 
+    // .menu-items {
+    //   display: flex;
+    //   flex-wrap: nowrap;
+    //   border-top: 1px solid #fff;
+    //   display: flex;
+    //   flex-wrap: wrap;
+    //   .one-item {
+        
+    //   }
+    // }
     .menu-items {
-      display: flex;
-      flex-wrap: nowrap;
-      border-top: 1px solid #fff;
-      display: flex;
-      flex-wrap: wrap;
-      .one-item {
-        display: inline-block;
+      border: 0;
+      tr {
+
+      }
+      td {
+        border: 0;
+        height: @menuHeight;
+        line-height: @menuHeight;
         font-size: 36/@R;
-        padding: 15/@R 30/@R;
         white-space: nowrap;
+        padding: 0 @itemPadding;
       }
     }
   }
