@@ -23,7 +23,7 @@
         <div class="menu-item">
           <span class="icon-panel"><i class="icon icon-service"></i></span>
           <span class="word">
-            <router-link to="customer">客服</router-link>
+            <a @click="gotoPage('customerMain')">客服</a>
           </span>
         </div>
       </div>
@@ -70,6 +70,7 @@ export default {
       this.$emit('update:show', false)
     },
     gotoPage (type) {
+      this.hidePanel()
       if (this.user && this.user.mobile) {
         this.$router.push({ name: type })
       } else {
