@@ -1,4 +1,4 @@
-import { find, map, filter, cloneDeep, concat, sum, orderBy, maxBy } from 'lodash'
+import { find, map, filter, cloneDeep, concat, sum, orderBy, maxBy, minBy } from 'lodash'
 import { Indicator } from 'mint-ui'
 import API from '../api'
 
