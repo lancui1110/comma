@@ -45,7 +45,6 @@ export default {
   mounted () {
     setTimeout(() => {
       wxMenu.share({orderNum: this.orderNum}, (res) => {
-        res.data = { isRed: true }
         if (res.data.isRed) {
           this.isRed = true
           this.isShowShareRedPacket = true
