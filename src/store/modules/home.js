@@ -1,4 +1,4 @@
-import { find, map, filter, cloneDeep, concat, sum, orderBy, maxBy } from 'lodash'
+import { find, map, filter, cloneDeep, concat, sum, orderBy, maxBy, minBy } from 'lodash'
 import { Indicator } from 'mint-ui'
 import API from '../api'
 
@@ -187,7 +187,14 @@ const actions = {
       ),
       item => item.lowPrice <= discountTotal
     )
-    const coupon = orderBy(matchCoupons, ['price'], ['desc'])[0]
+    // zeroMatchCoupons 使用后，能把总价减为 <= ０
+    const zeroMatchCoupons = filter(matchCoupons, item => item.price >= discountTotal)
+    let coupon
+    if (zeroMatchCoupons.length) {
+      coupon = minBy(zeroMatchCoupons, 'price')
+    } else {
+      coupon = orderBy(matchCoupons, ['price'], ['desc'])[0]
+    }
     const maxCoupon = maxBy(matchCoupons, 'price')
 
     if (coupon) {
@@ -227,7 +234,14 @@ const actions = {
       ),
       item => item.lowPrice <= discountTotal
     )
-    const coupon = orderBy(matchCoupons, ['price'], ['desc'])[0]
+    // zeroMatchCoupons 使用后，能把总价减为 <= ０
+    const zeroMatchCoupons = filter(matchCoupons, item => item.price >= discountTotal)
+    let coupon
+    if (zeroMatchCoupons.length) {
+      coupon = minBy(zeroMatchCoupons, 'price')
+    } else {
+      coupon = orderBy(matchCoupons, ['price'], ['desc'])[0]
+    }
     const maxCoupon = maxBy(matchCoupons, 'price')
 
     if (coupon) {
