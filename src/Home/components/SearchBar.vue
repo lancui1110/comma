@@ -6,7 +6,7 @@
     </div>
     <div class="search-input">
       <i class="icon icon-search"></i>
-      <input type="text" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch" />
+      <input type="search" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch" />
       <i v-show="searchKeyword" @click="clearSearch" class="icon icon-close" ></i>
     </div>
     <div class="qr-code" @click="scanQRCode"><i class="icon icon-qr-code"></i></div>
