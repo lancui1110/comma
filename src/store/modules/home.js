@@ -279,7 +279,7 @@ function calCartInfo (couponList) {
   // 价格最大那张优惠券
   const maxCoupon = maxBy(filter(couponList, { status: 1 }), 'price')
   // 筛选能够使用的券，state = 1 && lowPrice <= discount
-  const matchCoupons = filter(couponList, item => status === 1 && item.lowPrice <= discountTotal)
+  const matchCoupons = filter(couponList, item => item.status === 1 && item.lowPrice <= discountTotal)
   // zeroMatchCoupons 使用后，能把总价减为 <= ０
   const zeroMatchCoupons = filter(matchCoupons, item => item.price >= discountTotal)
   let coupon

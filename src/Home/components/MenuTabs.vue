@@ -94,6 +94,10 @@ export default {
     resetActiveBar (val, old) {
       this.isShowMoreMenus = false
 
+      if (!val) {
+        return
+      }
+
       const valIndex = val ? findIndex(this.category.list, { id: val.id }) : -1
       const oldIndex = old ? findIndex(this.category.list, { id: old.id }) : -1
 
@@ -206,7 +210,7 @@ export default {
     //   display: flex;
     //   flex-wrap: wrap;
     //   .one-item {
-        
+
     //   }
     // }
     .menu-items {
