@@ -39,6 +39,7 @@ export default {
       if (!this.cart.count) {
         return
       }
+      
       if (this.user && this.user.mobile) {
         const params = {
           goods: map(this.cart.list, item => ({
@@ -52,6 +53,7 @@ export default {
           totalAmount: round(sum(map(this.cart.list, item => item.count * item.product.price)), 2),
           totalDiscounts: round(this.cart.discount, 2)
         }
+        
         if (this.cart.coupon) {
           params.couponNum = this.cart.coupon.numberCode
           params.couponAmount = this.cart.coupon.price
@@ -61,6 +63,7 @@ export default {
         } else if (params.totalDiscounts) {
           params.discountAmount = params.totalDiscounts
         }
+        
         this.$store.dispatch('order/addOrder', {
           params,
           cb: (orderNum) => {

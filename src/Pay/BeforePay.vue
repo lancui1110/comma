@@ -72,6 +72,12 @@ export default {
       })
     },
     toPay () {
+      // const sign = Object.assign({}, this.orderSign)
+      // delete sign.status
+      // delete sign.amount
+      // delete sign.seconds
+      // delete sign.orderNum
+
       weixin.weixinPay(this.orderSign, (res) => {
         // Toast('支付成功，正在跳转...')
         // go 支付成功
