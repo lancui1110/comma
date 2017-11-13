@@ -14,7 +14,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+/* 
 .icon-history:before { content: "\e600"; }
 
 .icon-area:before { content: "\e607"; }
@@ -51,5 +51,5 @@
 
 .icon-group:before { content: "\e9ef"; }
 
-.icon-ungroup:before { content: "\e9f0"; }
+.icon-ungroup:before { content: "\e9f0"; } */
 
