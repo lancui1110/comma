@@ -64,9 +64,7 @@ const actions = {
       url: API.getUrl('addOrder'),
       data: params
     }).then(res => {
-      if (res.code === 1) {
-        cb && cb(res.data.orderNum)
-      }
+      cb && cb(res)
     })
   }
 }

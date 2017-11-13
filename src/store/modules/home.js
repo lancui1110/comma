@@ -163,6 +163,18 @@ const actions = {
       Indicator.close()
     })
   },
+  getGoodsByIds ({ commit }, { ids, cb }) {
+    iwjw.ajax({
+      url: API.getUrl('getGoodsByIds'),
+      data: {
+        ids
+      }
+    }).then(res => {
+      if (res.code === 1) {
+        cb && cb(res.data)
+      }
+    })
+  },
   addToCart ({ commit, rootState }, product) {
     const p = find(state.cart.list, item => item.product.id === product.id)
     if (p) {
@@ -174,9 +186,8 @@ const actions = {
         { count: 1 }
       ))
     }
-    state.cart.count += 1
 
-    commit('setCart', calCartInfo(rootState.coupons.couponList))
+    commit('setCart', calCartInfo(state.cart, rootState.coupons.availableCouponList))
   },
   removeFromCart ({ commit, rootState }, product) {
     const p = find(state.cart.list, item => item.product.id === product.id)
@@ -185,9 +196,8 @@ const actions = {
     } else {
       state.cart.list = filter(state.cart.list, item => item.product.id !== product.id)
     }
-    state.cart.count -= 1
 
-    commit('setCart', calCartInfo(rootState.coupons.couponList))
+    commit('setCart', calCartInfo(state.cart, rootState.coupons.availableCouponList))
   },
   clearCart ({ commit }) {
     commit('setCart', {
@@ -270,11 +280,12 @@ export default {
   getters
 }
 
-function calCartInfo (couponList) {
-  const cart = cloneDeep(state.cart)
+export function calCartInfo (unCalCart, couponList) {
+  const cart = cloneDeep(unCalCart)
+  cart.count = sum(map(cart.list, 'count'))
 
-  const originTotal = sum(map(state.cart.list, item => item.count * item.product.price))
-  const discountTotal = sum(map(state.cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
+  const originTotal = sum(map(cart.list, item => item.count * item.product.price))
+  const discountTotal = sum(map(cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
 
   // 价格最大那张优惠券
   const maxCoupon = maxBy(filter(couponList, { status: 1 }), 'price')

@@ -178,6 +178,7 @@ export default {
         }
       }
       .coupon-info {
+        margin-bottom: -28/@R;
         padding-left: 37/@R;
         line-height: 45/@R;
         color: red;

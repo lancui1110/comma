@@ -9,7 +9,8 @@ const state = {
     allPage: 0,
     end: false
   },
-  couponList: []
+  couponList: [],
+  availableCouponList: []
 }
 
 const actions = {
@@ -52,7 +53,7 @@ const actions = {
       url: API.getUrl('availableCouponList')
     }).then(res => {
       if (res.code === 1) {
-        commit('setCouponList', res.data)
+        commit('setAvailableCouponList', res.data)
       }
       cb && cb()
     })
@@ -65,6 +66,9 @@ const mutations = {
   },
   setCouponList (state, data) {
     state.couponList = data
+  },
+  setAvailableCouponList (state, data) {
+    state.availableCouponList = data
   }
 }
 
@@ -74,6 +78,9 @@ const getters = {
   },
   couponList (state) {
     return state.couponList
+  },
+  availableCouponList (state) {
+    return state.availableCouponList
   }
 }
 

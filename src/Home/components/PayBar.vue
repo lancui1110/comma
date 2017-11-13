@@ -22,14 +22,18 @@
 </template>
 
 <script>
-import { map, sum, round } from 'lodash'
+import { each, map, find, findIndex, sum, round, cloneDeep } from 'lodash'
 import { mapGetters } from 'vuex'
+import { Toast } from 'mint-ui'
+import { calCartInfo } from '../../store/modules/home'
 
 export default {
   name: 'PayBar',
   computed: {
     ...mapGetters({
       cart: 'home/getCart',
+      productList: 'home/getProductList',
+      availableCouponList: 'coupons/availableCouponList',
       notifyUserLogin: 'user/notifyUserLogin',
       user: 'user/getUser'
     })
@@ -39,7 +43,7 @@ export default {
       if (!this.cart.count) {
         return
       }
-      
+
       if (this.user && this.user.mobile) {
         const params = {
           goods: map(this.cart.list, item => ({
@@ -53,7 +57,7 @@ export default {
           totalAmount: round(sum(map(this.cart.list, item => item.count * item.product.price)), 2),
           totalDiscounts: round(this.cart.discount, 2)
         }
-        
+
         if (this.cart.coupon) {
           params.couponNum = this.cart.coupon.numberCode
           params.couponAmount = this.cart.coupon.price
@@ -63,15 +67,58 @@ export default {
         } else if (params.totalDiscounts) {
           params.discountAmount = params.totalDiscounts
         }
-        
+
         this.$store.dispatch('order/addOrder', {
           params,
-          cb: (orderNum) => {
-            // reset cart
-            this.$store.dispatch('home/clearCart')
-            // go to '/pay'
-            this.$router.push({ name: 'pay', query: { orderNum } })
-            // location.href = pageConfig.siteUrl + 'index/pay'
+          cb: (res) => {
+            if (res.code === 1) {
+              // reset cart
+              this.$store.dispatch('home/clearCart')
+              // go to '/pay'
+              this.$router.push({ name: 'pay', query: { orderNum: res.data.orderNum } })
+              // location.href = pageConfig.siteUrl + 'index/pay'
+            } else {
+              Toast(res.msg)
+              // 先更新 可用优惠券列表
+              this.$store.dispatch('coupons/getAvailableCouponList', () => {
+                // 再更新 商品列表的折扣信息 和 购物车
+                const ids = map(this.cart.list, item => item.product.price)
+                this.$store.dispatch('home/getGoodsByIds', {
+                  ids,
+                  cb: (data) => {
+                    let productList = cloneDeep(this.productList)
+                    let cart = cloneDeep(this.cart)
+                    each(ids, id => {
+                      const p = find(data, { id })
+                      const pIndex = findIndex(productList, { id })
+                      const cIndex = findIndex(cart.list, { 'product.id': id })
+                      if (p) {
+                        // 更新 productList
+                        if (pIndex > -1) {
+                          productList[pIndex] = cloneDeep(p)
+                        }
+                        // 更新 cart.list
+                        if (cIndex > -1) {
+                          cart.list[cIndex].product = cloneDeep(p)
+                        }
+                      } else {
+                        // 商品下架了
+                        if (pIndex > -1) {
+                          productList.splice(pIndex, 1)
+                        }
+                        if (cIndex > -1) {
+                          cart.list.splice(cIndex, 1)
+                        }
+                      }
+                    })
+
+                    this.$store.commit('home/setProductList', productList)
+                    // 重算 cart 信息
+                    this.$store.commit('home/setCart', calCartInfo(cart, this.availableCouponList))
+                  }
+                })
+              })
+            }
           }
         })
       } else {
