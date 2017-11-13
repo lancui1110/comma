@@ -10,6 +10,10 @@
         <img :src="require('../../assets/head_top_none.png')"/>
         <p>小主，没有找到商品哦~</p>
       </div>
+      <div class="all-loaded" v-show="productList.length && pageInfo.end">
+        <div class="line"></div>
+        <div class="text">我是有底线的</div>
+      </div>
     </div>
   </mt-loadmore>
 </template>
@@ -44,7 +48,6 @@ export default {
   @import "../../global/style/theme.less";
 
   .product-list {
-    padding-bottom: 120/@R;
     .list-panel {
       width: 100%;
       display: flex;
@@ -69,6 +72,25 @@ export default {
       img {
         width: 150/@R;
         margin-bottom: 30/@R;
+      }
+    }
+    .all-loaded {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 20/@R;
+      color: gray;
+      font-size: 18/@R;
+      &:before,
+      &:after {
+        content: " ";
+        display: block;
+        width: 50/@R;
+        border-bottom: 2/@R solid lightgray;
+      }
+      .text {
+        width: 200/@R;
+        text-align: center;
       }
     }
   }

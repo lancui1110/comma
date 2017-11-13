@@ -92,6 +92,9 @@ export default {
         width: 100%;
       }
     }
+    .mint-loadmore {
+      margin-bottom: 120/@R;
+    }
   }
 
   ::-webkit-input-placeholder { /* WebKit browsers */

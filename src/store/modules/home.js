@@ -14,7 +14,7 @@ const state = {
   pageInfo: {
     total: 0,
     page: 1,
-    pageSize: 20,
+    pageSize: 15,
     allPage: 0,
     end: false
   },
@@ -63,12 +63,12 @@ const actions = {
         commit('setUser', userInfo)
         commit('setBanner', banner)
         commit('setCategory', { current: categories[0], list: categories })
-        const { total, page, pageSize, allPage, end, data } = firstCategoryInfo
+        const { total, page, allPage, end, data } = firstCategoryInfo
         commit('setProductList', data || [])
         commit('setPageInfo', Object.assign(
           {},
           state.pageInfo,
-          { total, page, pageSize, allPage, end }
+          { total, page, allPage, end }
         ))
       }
       cb && cb()
@@ -79,7 +79,7 @@ const actions = {
     commit('setPageInfo', {
       total: 0,
       page: 1,
-      pageSize: 20,
+      pageSize: 15,
       allPage: 0,
       end: false
     })
