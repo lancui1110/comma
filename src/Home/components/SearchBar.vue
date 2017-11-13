@@ -4,11 +4,13 @@
       <i class="icon icon-head-top-border" @click="showLeftMenu"></i>
       <span class="user-phone" v-if="user">{{user.mobile}}</span>
     </div>
-    <div class="search-input">
-      <i class="icon icon-search"></i>
-      <input type="search" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch" />
-      <i v-show="searchKeyword" @click="clearSearch" class="icon icon-close" ></i>
-    </div>
+    <form action="#">
+      <div class="search-input">
+        <i class="icon icon-search"></i>
+        <input type="search" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch" />
+        <i v-show="searchKeyword" @click="clearSearch" class="icon icon-close" ></i>
+      </div>
+    </form>
     <div class="qr-code" @click="scanQRCode"><i class="icon icon-qr-code"></i></div>
   </div>
 </template>
@@ -153,5 +155,7 @@ export default {
       margin-right: 20/@R;
     }
   }
-
+  ::-webkit-search-cancel-button {
+    display: none;
+  }
 </style>
