@@ -12,7 +12,7 @@
       <div class="pay-info">
         <div v-if="cart.count > 0">
           <p v-if="cart.discount" class="discounts">已优惠：- ¥{{cart.discount.toFixed(2)}}</p>
-          <p class="total-price">合计：¥{{cart.total.toFixed(2)}}</p>
+          <p class="total-price" :class="{ 'has-discount' : cart.discount}">合计：¥{{cart.total.toFixed(2)}}</p>
         </div>
         <p v-else class="no-choose">还未选购商品</p>
       </div>
@@ -144,7 +144,7 @@ export default {
         line-height: 33/@R;
         padding-top: 12/@R;
       }
-      .total-price {
+      .total-price.has-discount{
         line-height: 42/@R;
         margin-bottom: 11/@R;
       }

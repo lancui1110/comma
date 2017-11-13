@@ -60,6 +60,7 @@ const getters = {
     return state.notifyUserLogin
   },
   getUser (state) {
+    // state.user = {mobile: '13566778899'}
     return state.user
   }
 }

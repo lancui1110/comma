@@ -86,13 +86,12 @@ export default {
     .content {
       position: relative;
       top: -50/@R;
+      padding-bottom: 130/@R;
     }
     .content-block .title {
       background: @brown;
     }
     .bottom {
-      padding: 80/@R;
-      text-align: center;
     }
   }
   

@@ -74,8 +74,11 @@
         <p v-for="(item, i) in Content.content" :key="i">{{item}}</p>
       </div>
     </div>
-    <div class="bottom">
+    <div class="bottom-img">
       <img :src="require('../assets/activity/bg-btn.png')" class="bg-img"/>
+      <div class="red-bg"></div>
+    </div>
+    <div class="bottom">
       <div class="btn">
         <router-link to="/activity/recommend">
           <div class="yellow-btn">申请零食柜</div>
@@ -313,13 +316,25 @@ export default {
       }
     }
     .bottom {
-      position: relative;
-      .btn {
+      // .btn {
+      //   width: 100%;
+      //   text-align: center;
+      //   margin-top: -100/@R;
+      //   background: #E41E1F;
+      //   padding-bottom: 60/@R;
+      // }
+    }
+    .bottom-img {
+      font-size: 0;
+      line-height: 0;
+      .red-bg {
         width: 100%;
         text-align: center;
-        margin-top: -100/@R;
         background: #E41E1F;
-        padding-bottom: 60/@R;
+        padding-bottom: 100/@R;
+      }
+      img {
+        margin-top: -100/@R;
       }
     }
   }
