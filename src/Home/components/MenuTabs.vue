@@ -1,6 +1,7 @@
 <template>
   <div class="menu-tabs">
-    <ul class="menus" :class="{ 'more-show' : isShowMore}">
+    <!-- <ul class="menus" :class="{ 'more-show' : isShowMore}"> -->
+    <ul class="menus">
       <li class="menu-ink-bar">
         <span class="menu-ink-bar-inner"></span>
       </li>
@@ -11,9 +12,9 @@
         <span class="menu-item-text">{{item.name}}</span>
       </li>
     </ul>
-    <div v-if="isShowMore" class="menu-item-more" @click="toggleMoreMenus">
+    <!-- <div v-if="isShowMore" class="menu-item-more" @click="toggleMoreMenus">
       <i class="icon icon-more"></i>
-    </div>
+    </div> -->
 
     <!-- <ul v-if="isShowMoreMenus" class="menu-items">
       <li class="one-item"

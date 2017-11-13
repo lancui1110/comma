@@ -4,10 +4,10 @@
       <i class="icon icon-head-top-border" @click="showLeftMenu"></i>
       <span class="user-phone" v-if="user">{{user.mobile}}</span>
     </div>
-    <form action="#">
-      <div class="search-input">
+    <form action="#" class="search-input">
+      <div>
         <i class="icon icon-search"></i>
-        <input type="search" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch" />
+        <input type="search" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch" @blur="doSearch"/>
         <i v-show="searchKeyword" @click="clearSearch" class="icon icon-close" ></i>
       </div>
     </form>
