@@ -5,12 +5,13 @@
       <div class="word">逗号迷你便利</div>
       <div class="large">提交审核成功～</div>
     </div>
-    <div class="btn" @click="goHome">返回首页</div>
+    <!-- <div class="btn" @click="goHome">返回首页</div> -->
   </div>
 </template>
 
 <script>
 // import { mapGetters } from 'vuex'
+import wxMenu from 'wxMenu'
 
 export default {
   name: 'PaySuccess',
@@ -22,7 +23,10 @@ export default {
     }
   },
   mounted () {
-    
+    // 初始化微信分享信息 type=1 一般分享 type=2&orderNum 抢红包 type=3 申请货架
+    setTimeout(() => {
+      wxMenu.share({type: 3})
+    }, 500)
   },
   methods: {
     goHome () {

@@ -23,9 +23,7 @@
       </div>
     </div>
     <div class="bottom">
-       <router-link to="/activity/recommendForm">
-         <div class="yellow-btn">填写申请表</div>
-      </router-link>
+        <div @click="goForm" class="yellow-btn">填写申请表</div>
     </div>
   </div>
 </template>
@@ -33,6 +31,7 @@
 <script>
 // import { mapGetters } from 'vuex'
 import Content from './content'
+import wxMenu from 'wxMenu'
 
 export default {
   name: 'ReceiveRedBag',
@@ -41,6 +40,17 @@ export default {
   data () {
     return {
       Content
+    }
+  },
+  mounted () {
+    // 初始化微信分享信息 type=1 一般分享 type=2&orderNum 抢红包 type=3 申请货架
+    setTimeout(() => {
+      wxMenu.share({type: 3})
+    }, 500)
+  },
+  methods: {
+    goForm () {
+      location.href = `${pageConfig.siteUrl}index/activity/recommendForm`
     }
   }
 }

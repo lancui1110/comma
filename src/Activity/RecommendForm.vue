@@ -94,6 +94,7 @@ import { map, trim } from 'lodash'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import { Popup, Picker, Toast } from 'mint-ui'
+import wxMenu from 'wxMenu'
 
 Vue.component(Popup.name, Popup)
 Vue.component(Picker.name, Picker)
@@ -121,6 +122,11 @@ export default {
   },
   mounted () {
     this.$store.dispatch('activity/getCityData')
+
+    // 初始化微信分享信息 type=1 一般分享 type=2&orderNum 抢红包 type=3 申请货架
+    setTimeout(() => {
+      wxMenu.share({type: 3})
+    }, 500)
   },
   methods: {
     onCityChange (picker, values) {
@@ -172,10 +178,8 @@ export default {
       }
       this.$store.dispatch('activity/submitRecommendForm', (res) => {
         if (res.code === 1) {
-          this.$router.push({ name: 'recommendSuc', query: { url: res.data.url } })
-          // setTimeout(() => {
-          //   window.location.href = res.data.url
-          // }, 1000)
+          // this.$router.push({ name: 'recommendSuc', query: { url: res.data.url } })
+          location.href = `${pageConfig.siteUrl}index/activity/recommendSuc?url=${res.data.url}`
         } else {
           Toast(res.msg)
         }

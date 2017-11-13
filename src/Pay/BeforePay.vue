@@ -85,6 +85,7 @@ export default {
           // this.$router.push({ name: 'paySuc', query: { orderNum: this.orderNum } })
           history.replaceState({}, '', `/success?orderNum=${this.orderNum}&code=${this.code}`) // 替换当前历史记录
           location.href = `${pageConfig.siteUrl}index/pay/success?orderNum=${this.orderNum}&code=${this.code}`
+          // this.$router.go({ name: 'paySuc', query: { orderNum: this.orderNum } })
         }
       })
     },

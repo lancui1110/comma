@@ -80,9 +80,7 @@
     </div>
     <div class="bottom">
       <div class="btn">
-        <router-link to="/activity/recommend">
-          <div class="yellow-btn">申请零食柜</div>
-        </router-link>
+        <div @click="goPage" class="yellow-btn">申请零食柜</div>
       </div>
     </div>
   </div>
@@ -93,6 +91,7 @@ import { trim } from 'lodash'
 import { mapGetters } from 'vuex'
 import { Toast } from 'mint-ui'
 import Content from './content'
+import wxMenu from 'wxMenu'
 
 export default {
   name: 'ReceiveRedBag',
@@ -121,6 +120,11 @@ export default {
   },
   mounted () {
     this.$store.dispatch('activity/getOrderShare', { orderNum: this.orderNum })
+
+    // 初始化微信分享信息 type=1 一般分享 type=2&orderNum 抢红包 type=3 申请货架
+    setTimeout(() => {
+      wxMenu.share({type: 2, orderNum: this.orderNum})
+    }, 500)
   },
   methods: {
     // 发请求获取验证码
@@ -165,6 +169,9 @@ export default {
           this.$store.commit('activity/setUserInfo', Object.assign({}, this.user, user))
         }
       })
+    },
+    goPage () {
+      location.href = `${pageConfig.siteUrl}index/activity/recommend`
     }
   }
 }

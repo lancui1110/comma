@@ -44,7 +44,8 @@ export default {
   },
   mounted () {
     setTimeout(() => {
-      wxMenu.share({orderNum: this.orderNum}, (res) => {
+      // 初始化微信分享信息 type=1 一般分享 type=2&orderNum 抢红包 type=3 申请货架
+      wxMenu.share({type: 2, orderNum: this.orderNum}, (res) => {
         if (res.data.isRed) {
           this.isRed = true
           this.isShowShareRedPacket = true

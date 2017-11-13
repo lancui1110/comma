@@ -2,6 +2,7 @@ import API from '../../store/api'
 import weixin from './wxsa'
 
 const menu = {
+  // type=1 一般分享 type=2&orderNum 抢红包 type=3 申请货架
   share: function (data = {}, cb) {
     const self = this
     iwjw.ajax({
