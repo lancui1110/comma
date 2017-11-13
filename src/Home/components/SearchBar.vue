@@ -95,7 +95,7 @@ export default {
     }
     .user-phone {
       position: absolute;
-      top: 63/@R;
+      top: 53/@R;
       left: 20/@R;
       text-align: center;
       font-size: 18/@R;
