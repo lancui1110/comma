@@ -1,6 +1,6 @@
 <template>
   <div class="menu-tabs">
-    <ul class="menus">
+    <ul class="menus" :class="{ 'more-show' : isShowMore}">
       <li class="menu-ink-bar">
         <span class="menu-ink-bar-inner"></span>
       </li>
@@ -57,6 +57,7 @@ export default {
       return this.category.current
     },
     isShowMore () {
+      console.log(this.category.list)
       return this.category.list.length > 5
     },
     moreItems () {
@@ -68,7 +69,12 @@ export default {
           tr = []
         }
         tr.push(list[i])
+
+        if (i === list.length - 1) {
+          tables.push(tr)
+        }
       }
+      console.log(tables)
       return tables
     }
   },
@@ -138,6 +144,9 @@ export default {
       position: relative;
       display: flex;
       overflow: scroll;
+      &.more-show {
+        margin-right: 72/@R;
+      }
     }
     .menu-item, .one-item {
       height: @menuHeight;
@@ -147,9 +156,9 @@ export default {
       white-space: nowrap;
       padding: 0 @itemPadding;
     }
-    .menu-item:nth-last-child(1) {
-      padding: 0 1rem 0 0.3rem;
-    }
+    // .menu-item:nth-last-child(1) {
+    //   padding: 0 1rem 0 0.3rem;
+    // }
     .menu-item-text {
       display: inline-block;
     }

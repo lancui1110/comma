@@ -16,13 +16,11 @@
             <div class="pro-pic" v-for="(pro, k) in item.goodsInfos" :key="k">
               <img :src="pro.picUrl"/>
             </div>
-            <span class="word small">共{{item.count}}件 ></span>
+            <span class="word small" @click="goDetail(item)">共{{item.count}}件 ></span>
           </div>
           <div class="word">下单时间：{{item.payTime}}</div>
           <div class="word">实际支付：<span class="price">¥{{item.realAmount}}</span></div>
-          <div class="detail-btn">
-            <router-link :to="{ name: 'orderDetail', query: { orderNum: item.orderNum } }">订单详情</router-link>
-          </div>
+          <div class="detail-btn" @click="goDetail(item)">订单详情</div>
         </div>
       </div>
     </mt-loadmore>
@@ -67,6 +65,9 @@ export default {
     },
     loadBottom () {
       this.$store.dispatch('order/loadMoreOrders', this.$refs.loadmore.onBottomLoaded)
+    },
+    goDetail (item) {
+      this.$router.push({ name: 'orderDetail', query: { orderNum: item.orderNum } })
     }
   }
 }
@@ -79,7 +80,6 @@ export default {
     background: #F2F2F2;
     &.no-data {
       text-align: center;
-      padding-top: 98/@R;
       .content{
         width: 100%;
         height: 502/@R;

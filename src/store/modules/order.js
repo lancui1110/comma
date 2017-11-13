@@ -42,7 +42,7 @@ const actions = {
         if (page > 1) {
           commit('setOrderList', concat(state.orderList, data))
         } else {
-          commit('setOrderList', data)
+          commit('setOrderList', data || [])
         }
       }
       cb && cb()
