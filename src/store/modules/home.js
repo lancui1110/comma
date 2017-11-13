@@ -1,4 +1,4 @@
-import { find, map, filter, cloneDeep, concat, sum, orderBy, maxBy, minBy } from 'lodash'
+import { find, map, filter, cloneDeep, concat, sum, orderBy, maxBy } from 'lodash'
 import { Indicator } from 'mint-ui'
 import API from '../api'
 
@@ -270,8 +270,7 @@ export default {
   getters
 }
 
-
-function calCartInfo(couponList) {
+function calCartInfo (couponList) {
   const cart = cloneDeep(state.cart)
 
   const originTotal = sum(map(state.cart.list, item => item.count * item.product.price))
