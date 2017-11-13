@@ -25,7 +25,7 @@
         <p class="coupon-info" v-if="cart.coupon">
           红包可抵 ￥{{cart.coupon.price.toFixed(2)}}
           <span v-if="cart.coupon && cart.maxCoupon && cart.coupon.numberCode !== cart.maxCoupon.numberCode">
-            (再购{{cart.maxCoupon.lowPrice - cart.total}}元，可用{{cart.maxCoupon.price}}元红包哦~)
+            (再购{{cart.maxCoupon.lowPrice - this.cartDiscountAmount}}元，可用{{cart.maxCoupon.price}}元红包哦~)
           </span>
         </p>
       </div>
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { sum, map } from 'lodash'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -52,7 +53,10 @@ export default {
   computed: {
     ...mapGetters({
       cart: 'home/getCart'
-    })
+    }),
+    cartDiscountAmount () {
+      return sum(map(this.cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
+    }
   },
   watch: {
     show (val) {
