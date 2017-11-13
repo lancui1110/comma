@@ -174,45 +174,9 @@ const actions = {
         { count: 1 }
       ))
     }
-    // calculate for cart.count, cart.discount, cart.total, cart.coupon
     state.cart.count += 1
-    const originTotal = sum(map(state.cart.list, item => item.count * item.product.price))
-    const discountTotal = sum(map(state.cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
 
-    const matchCoupons = filter(
-      orderBy(
-        filter(rootState.coupons.couponList, { status: 1 }),
-        ['lowPrice'],
-        ['desc']
-      ),
-      item => item.lowPrice <= discountTotal
-    )
-    // zeroMatchCoupons 使用后，能把总价减为 <= ０
-    const zeroMatchCoupons = filter(matchCoupons, item => item.price >= discountTotal)
-    let coupon
-    if (zeroMatchCoupons.length) {
-      coupon = minBy(zeroMatchCoupons, 'price')
-    } else {
-      coupon = orderBy(matchCoupons, ['price'], ['desc'])[0]
-    }
-    const maxCoupon = maxBy(matchCoupons, 'price')
-
-    if (coupon) {
-      state.cart.coupon = coupon
-      state.cart.maxCoupon = maxCoupon
-      state.cart.discount = originTotal - discountTotal + coupon.price
-      state.cart.total = discountTotal - coupon.price
-    } else {
-      state.cart.coupon = null
-      state.cart.maxCoupon = null
-      state.cart.discount = originTotal - discountTotal
-      state.cart.total = discountTotal
-    }
-    if (state.cart.total < 0) {
-      state.cart.total = 0
-    }
-
-    commit('setCart', cloneDeep(state.cart))
+    commit('setCart', calCartInfo(rootState.coupons.couponList))
   },
   removeFromCart ({ commit, rootState }, product) {
     const p = find(state.cart.list, item => item.product.id === product.id)
@@ -221,45 +185,9 @@ const actions = {
     } else {
       state.cart.list = filter(state.cart.list, item => item.product.id !== product.id)
     }
-    // calculate for cart.count, cart.discount, cart.total, cart.coupon
     state.cart.count -= 1
-    const originTotal = sum(map(state.cart.list, item => item.count * item.product.price))
-    const discountTotal = sum(map(state.cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
 
-    const matchCoupons = filter(
-      orderBy(
-        filter(rootState.coupons.couponList, { status: 1 }),
-        ['lowPrice'],
-        ['desc']
-      ),
-      item => item.lowPrice <= discountTotal
-    )
-    // zeroMatchCoupons 使用后，能把总价减为 <= ０
-    const zeroMatchCoupons = filter(matchCoupons, item => item.price >= discountTotal)
-    let coupon
-    if (zeroMatchCoupons.length) {
-      coupon = minBy(zeroMatchCoupons, 'price')
-    } else {
-      coupon = orderBy(matchCoupons, ['price'], ['desc'])[0]
-    }
-    const maxCoupon = maxBy(matchCoupons, 'price')
-
-    if (coupon) {
-      state.cart.coupon = coupon
-      state.cart.maxCoupon = maxCoupon
-      state.cart.discount = originTotal - discountTotal + coupon.price
-      state.cart.total = discountTotal - coupon.price
-    } else {
-      state.cart.coupon = null
-      state.cart.maxCoupon = null
-      state.cart.discount = originTotal - discountTotal
-      state.cart.total = discountTotal
-    }
-    if (state.cart.total < 0) {
-      state.cart.total = 0
-    }
-
-    commit('setCart', cloneDeep(state.cart))
+    commit('setCart', calCartInfo(rootState.coupons.couponList))
   },
   clearCart ({ commit }) {
     commit('setCart', {
@@ -340,4 +268,44 @@ export default {
   actions,
   mutations,
   getters
+}
+
+
+function calCartInfo(couponList) {
+  const cart = cloneDeep(state.cart)
+
+  const originTotal = sum(map(state.cart.list, item => item.count * item.product.price))
+  const discountTotal = sum(map(state.cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
+
+  // 价格最大那张优惠券
+  const maxCoupon = maxBy(filter(couponList, { status: 1 }), 'price')
+  // 筛选能够使用的券，state = 1 && lowPrice <= discount
+  const matchCoupons = filter(couponList, item => status === 1 && item.lowPrice <= discountTotal)
+  // zeroMatchCoupons 使用后，能把总价减为 <= ０
+  const zeroMatchCoupons = filter(matchCoupons, item => item.price >= discountTotal)
+  let coupon
+  if (zeroMatchCoupons.length) {
+    // 如果有能把总价减为 0 的券，选最大那张
+    coupon = maxBy(zeroMatchCoupons, 'price')
+  } else {
+    // 如果没有把总价减为 0 ，但是有能用的优惠券，选价格最大的一张
+    coupon = orderBy(matchCoupons, ['price'], ['desc'])[0]
+  }
+
+  if (coupon) {
+    cart.coupon = coupon
+    cart.maxCoupon = maxCoupon
+    cart.discount = originTotal - discountTotal + coupon.price
+    cart.total = discountTotal - coupon.price
+  } else {
+    cart.coupon = null
+    cart.maxCoupon = null
+    cart.discount = originTotal - discountTotal
+    cart.total = discountTotal
+  }
+  if (cart.total < 0) {
+    cart.total = 0
+  }
+
+  return cart
 }
