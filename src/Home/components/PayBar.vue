@@ -63,9 +63,9 @@ export default {
           params.couponAmount = this.cart.coupon.price
         }
         if (params.totalDiscounts && params.couponAmount) {
-          params.discountAmount = round(params.totalDiscounts - params.couponAmount)
+          params.discountAmount = round(params.totalDiscounts - params.couponAmount, 2)
         } else if (params.totalDiscounts) {
-          params.discountAmount = round(params.totalDiscounts)
+          params.discountAmount = round(params.totalDiscounts, 2)
         }
 
         this.$store.dispatch('order/addOrder', {
