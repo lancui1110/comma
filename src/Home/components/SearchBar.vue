@@ -2,7 +2,7 @@
   <div class="search-bar-panel">
     <div class="logo-user">
       <i class="icon icon-head-top-border" @click="showLeftMenu"></i>
-      <span class="user-phone" v-if="user">用户中心</span>
+      <span class="user-phone" v-if="user.mobile">用户中心</span>
       <span class="user-phone" v-else>未登录</span>
     </div>
     <form action="#" class="search-input">
