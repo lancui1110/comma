@@ -2,7 +2,8 @@
   <div class="search-bar-panel">
     <div class="logo-user">
       <i class="icon icon-head-top-border" @click="showLeftMenu"></i>
-      <span class="user-phone" v-if="user">{{user.mobile}}</span>
+      <span class="user-phone" v-if="user">用户中心</span>
+      <span class="user-phone" v-else>未登录</span>
     </div>
     <form action="#" class="search-input">
       <div>
@@ -97,10 +98,13 @@ export default {
     }
     .user-phone {
       position: absolute;
-      top: 53/@R;
-      left: 20/@R;
+      top: 54/@R;
+      left: 0;
+      width: 150/@R;
+      display: inline-block;
       text-align: center;
-      font-size: 18/@R;
+      text-align: center;
+      font-size: 20/@R;
       color: #999;
     }
     .search-input {

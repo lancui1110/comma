@@ -40,13 +40,13 @@
           </div>
         </div>
 
-        <div class="content-block friend-list">
+        <div v-if="redPackets && redPackets.length > 0" class="content-block friend-list">
           <div class="title">看看朋友们的运气</div>
           <div v-for="(item, key) in redPackets" :key="key" class="friend-item">
             <img :src="item.avatar" />
             <div class="friend-word">
               <div class="line large">
-                <span class="word">{{item.nickName}}</span>
+                <span class="word" v-html="item.nickName"></span>
                 <span class="word">{{item.money}}元</span>
               </div>
               <div class="line">

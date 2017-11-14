@@ -168,7 +168,8 @@ const actions = {
       url: API.getUrl('getGoodsByIds'),
       data: {
         ids
-      }
+      },
+      method: 'GET'
     }).then(res => {
       if (res.code === 1) {
         cb && cb(res.data)

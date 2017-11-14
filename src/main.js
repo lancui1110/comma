@@ -1,6 +1,7 @@
 import './global/style/reset.css'
-import './global/iconfont/iconfont.css'
+// import './global/iconfont/iconfont.css'
 // import 'element-ui/lib/theme-default/icon.css'
+import './global/style/common.less'
 import 'nprogress/nprogress.css'
 
 import { app, store, router } from './App.js'

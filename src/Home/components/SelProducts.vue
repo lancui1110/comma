@@ -25,7 +25,7 @@
         <p class="coupon-info" v-if="cart.coupon">
           红包可抵 ￥{{cart.coupon.price.toFixed(2)}}
           <span v-if="cart.coupon && cart.maxCoupon && cart.coupon.numberCode !== cart.maxCoupon.numberCode">
-            (再购{{cart.maxCoupon.lowPrice - this.cartDiscountAmount}}元，可用{{cart.maxCoupon.price}}元红包哦~)
+            (再购{{(cart.maxCoupon.lowPrice - this.cartDiscountAmount).toFixed(2)}}元，可用{{cart.maxCoupon.price}}元红包哦~)
           </span>
         </p>
       </div>

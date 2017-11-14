@@ -35,7 +35,7 @@ export default {
       pageInfo: 'coupons/pageInfo'
     })
   },
-  mounted () {
+  activated () {
     this.loadData()
   },
   methods: {

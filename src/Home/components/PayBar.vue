@@ -63,9 +63,9 @@ export default {
           params.couponAmount = this.cart.coupon.price
         }
         if (params.totalDiscounts && params.couponAmount) {
-          params.discountAmount = params.totalDiscounts - params.couponAmount
+          params.discountAmount = round(params.totalDiscounts - params.couponAmount)
         } else if (params.totalDiscounts) {
-          params.discountAmount = params.totalDiscounts
+          params.discountAmount = round(params.totalDiscounts)
         }
 
         this.$store.dispatch('order/addOrder', {
@@ -75,23 +75,25 @@ export default {
               // reset cart
               this.$store.dispatch('home/clearCart')
               // go to '/pay'
-              this.$router.push({ name: 'pay', query: { orderNum: res.data.orderNum } })
-              // location.href = pageConfig.siteUrl + 'index/pay'
+              // this.$router.push({ name: 'pay', query: { orderNum: res.data.orderNum } })
+              location.href = `${pageConfig.siteUrl}index/pay?orderNum=${res.data.orderNum}`
             } else {
               Toast(res.msg)
               // 先更新 可用优惠券列表
               this.$store.dispatch('coupons/getAvailableCouponList', () => {
                 // 再更新 商品列表的折扣信息 和 购物车
-                const ids = map(this.cart.list, item => item.product.price)
+                const ids = map(this.cart.list, item => item.product.id)
                 this.$store.dispatch('home/getGoodsByIds', {
-                  ids,
+                  ids: ids.join(','),
                   cb: (data) => {
                     let productList = cloneDeep(this.productList)
                     let cart = cloneDeep(this.cart)
                     each(ids, id => {
                       const p = find(data, { id })
                       const pIndex = findIndex(productList, { id })
-                      const cIndex = findIndex(cart.list, { 'product.id': id })
+                      const cIndex = findIndex(cart.list, (chr) => {
+                        return chr.product.id === id
+                      })
                       if (p) {
                         // 更新 productList
                         if (pIndex > -1) {
