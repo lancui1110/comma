@@ -1,20 +1,23 @@
 <template>
-  <div class="search-bar-panel">
-    <div class="logo-user">
-      <i class="icon icon-head-top-border" @click="showLeftMenu"></i>
-      <span class="user-phone" v-if="user.mobile">用户中心</span>
-      <span class="user-phone" v-else>未登录</span>
+  <div class="search-bar-wrapper">
+    <div :class="{'search-bar-panel': true, 'fix': fixTop}" ref="searchNav">
+      <div class="logo-user">
+        <i class="icon icon-head-top-border" @click="showLeftMenu"></i>
+        <span class="user-phone" v-if="user && user.mobile">用户中心</span>
+        <span class="user-phone" v-else>未登录</span>
+      </div>
+      <div class="search-input">
+        <i class="icon icon-search"></i>
+        <input type="search" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch(false, $event)" @blur="doSearch(true, $event)"/>
+        <i v-show="searchKeyword" @click="clearSearch" class="icon icon-close" ></i>
+      </div>
+      <div class="qr-code" @click="scanQRCode"><i class="icon icon-qr-code"></i></div>
     </div>
-    <div class="search-input">
-      <i class="icon icon-search"></i>
-      <input type="search" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch(false, $event)" @blur="doSearch(true, $event)"/>
-      <i v-show="searchKeyword" @click="clearSearch" class="icon icon-close" ></i>
-    </div>
-    <div class="qr-code" @click="scanQRCode"><i class="icon icon-qr-code"></i></div>
   </div>
 </template>
 
 <script>
+import { throttle } from 'lodash'
 import { mapGetters } from 'vuex'
 import weixin from 'weixin'
 import { Toast } from 'mint-ui'
@@ -23,6 +26,8 @@ export default {
   name: 'SearchBar',
   data () {
     return {
+      topOffset: 0,
+      fixTop: false
     }
   },
   computed: {
@@ -45,9 +50,25 @@ export default {
     }
   },
   mounted () {
-
+    this.getTopOffset() // 因为 header 的图片 load 慢，所以手机上 offsetTop 一开始一直是 0
+    window.onscroll = throttle((e) => {
+      if (window.pageYOffset >= this.topOffset) {
+        this.fixTop = true
+      } else {
+        this.fixTop = false
+      }
+    }, 100)
   },
   methods: {
+    getTopOffset () {
+      setTimeout(() => {
+        if (this.$refs.searchNav.offsetTop) {
+          this.topOffset = this.$refs.searchNav.offsetTop
+        } else {
+          this.getTopOffset()
+        }
+      }, 300)
+    },
     showLeftMenu () {
       this.$emit('toggleShowLeft')
     },
@@ -84,9 +105,29 @@ export default {
   @import "../../global/style/theme.less";
 
   /* 查询 */
+  .search-bar-wrapper {
+    height: 95/@R;
+  }
   .search-bar-panel {
     display: flex;
     height: 95/@R;
+    &.fix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .3);
+      background-color: #fff;
+      z-index: 500;
+      .logo-user {
+        .icon {
+          transform: translateY(40/@R)
+        }
+        .user-phone {
+          display: none;
+        }
+      }
+    }
     .logo-user {
       position: relative;
       width: 166/@R;
@@ -94,6 +135,7 @@ export default {
         position: absolute;
         top: -40/@R;
         left: 28/@R;
+        transition-duration: .3s;
       }
     }
     .user-phone {

@@ -61,6 +61,7 @@ const actions = {
       if (res.code === 1) {
         const { userInfo, banner, categories, firstCategoryInfo } = res.data
         commit('setUser', userInfo)
+        banner.picUrl = 'http://icomma.oss-cn-shenzhen.aliyuncs.com/manage/20171107/5dc9b9226477440b85e8767dce8806ac.png'
         commit('setBanner', banner)
         commit('setCategory', { current: categories[0], list: categories })
         const { total, page, allPage, end, data } = firstCategoryInfo
