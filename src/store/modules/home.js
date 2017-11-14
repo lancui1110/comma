@@ -306,7 +306,7 @@ export function calCartInfo (unCalCart, couponList) {
   if (coupon) {
     cart.coupon = coupon
     cart.maxCoupon = maxCoupon
-    cart.discount = originTotal - discountTotal + coupon.price
+    cart.discount = originTotal - discountTotal + (discountTotal > coupon.price ? coupon.price : discountTotal)
     cart.total = discountTotal - coupon.price
   } else {
     cart.coupon = null
