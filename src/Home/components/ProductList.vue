@@ -141,5 +141,8 @@ export default {
         border-bottom: 2/@R solid lightgray;
       }
     }
+    .mint-loadmore-text {
+      font-size: 18/@R;
+    }
   }
 </style>
