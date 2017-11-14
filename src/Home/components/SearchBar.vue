@@ -5,13 +5,11 @@
       <span class="user-phone" v-if="user.mobile">用户中心</span>
       <span class="user-phone" v-else>未登录</span>
     </div>
-    <form action="#" class="search-input">
-      <div>
-        <i class="icon icon-search"></i>
-        <input type="search" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch" @blur="doSearch"/>
-        <i v-show="searchKeyword" @click="clearSearch" class="icon icon-close" ></i>
-      </div>
-    </form>
+    <div class="search-input">
+      <i class="icon icon-search"></i>
+      <input type="search" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch(false, $event)" @blur="doSearch(true, $event)"/>
+      <i v-show="searchKeyword" @click="clearSearch" class="icon icon-close" ></i>
+    </div>
     <div class="qr-code" @click="scanQRCode"><i class="icon icon-qr-code"></i></div>
   </div>
 </template>
@@ -53,8 +51,10 @@ export default {
     showLeftMenu () {
       this.$emit('toggleShowLeft')
     },
-    doSearch (e) {
-      e.target.blur()
+    doSearch (isBlur = false, e) {
+      if (!isBlur) {
+        e.target.blur()
+      }
       this.$store.dispatch('home/refreshGoods')
     },
     scanQRCode () {
