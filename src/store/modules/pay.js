@@ -13,7 +13,7 @@ const actions = {
       if (res.code === 1) {
         commit('setOrderSign', res.data)
       }
-      cb && cb(res)
+      cb && cb(res.data)
     })
   }
 }
