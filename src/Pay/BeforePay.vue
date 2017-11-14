@@ -53,7 +53,7 @@ export default {
         cb: (res) => {
           if (res.status === 1) {
             // 成功
-            this.$router.replace({ name: 'paySuc' })
+            this.$router.replace({ name: 'paySuc', query: { orderNum: this.orderNum, code: this.code } })
           } else if (res.status === 2) {
             // 待支付
             const leftSec = res.data.seconds
