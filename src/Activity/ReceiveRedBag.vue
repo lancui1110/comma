@@ -19,7 +19,7 @@
         </div>
         <div class="form-item yellow-btn" :disabled="!mobile || !code" @click="handleOnSubmitCode()">立即领取</div>
       </div>
-      
+
       <!-- 已领过优惠券 -->
       <div v-else class="received-panel">
         <div v-if="myRedPacket && myRedPacket.title" class="coupons">
@@ -166,7 +166,9 @@ export default {
         code: this.code,
         cb: (user) => {
           this.isSubmit = false
-          this.$store.commit('activity/setUserInfo', Object.assign({}, this.user, user))
+          // this.$store.commit('activity/setUserInfo', Object.assign({}, this.user, user))
+          // 强刷页面
+          window.location.reload()
         }
       })
     },
