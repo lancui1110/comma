@@ -44,14 +44,14 @@
             @input="updateFormField"
           />
         </div>
-        <div class="row">
+        <div class="row" @click="cityPickerVisible = true">
           <span class="label">所在城市</span>
           <input
             type="text"
             placeholder="请选择所在城市"
             class="txt-input"
+            style="pointer-events: none;"
             :value="form.cityName"
-            @click="cityPickerVisible = true"
           />
         </div>
         <div class="row">
