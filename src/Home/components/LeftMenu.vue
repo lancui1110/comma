@@ -137,6 +137,11 @@ export default {
         color: #593C38;
         a {
           color: #333;
+          &:hover,
+          &:focus,
+          &:active {
+            background: transparent;
+          }
         }
         .menu-item {
           padding: 26/@R 0;
