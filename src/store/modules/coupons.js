@@ -54,8 +54,8 @@ const actions = {
     }).then(res => {
       if (res.code === 1) {
         commit('setAvailableCouponList', res.data)
+        cb && cb(res.data)
       }
-      cb && cb()
     })
   }
 }

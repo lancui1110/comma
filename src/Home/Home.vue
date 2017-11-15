@@ -29,6 +29,8 @@
 <script>
 import { mapGetters } from 'vuex'
 
+import { calCartInfo } from '../store/modules/home'
+
 import ProductList from './components/ProductList'
 import SearchBar from './components/SearchBar'
 import MenuTabs from './components/MenuTabs'
@@ -58,12 +60,18 @@ export default {
     if (!this.productList.length) {
       this.$store.dispatch('home/getHomePage')
     }
-    this.$store.dispatch('coupons/getAvailableCouponList')
+    this.$store.dispatch('coupons/getAvailableCouponList', (newCouponList) => {
+      // 如果购物车里有东西，需要重新计算一下购物车数据
+      if (this.cart.count) {
+        this.$store.commit('home/setCart', calCartInfo(this.cart, newCouponList))
+      }
+    })
   },
   computed: {
     ...mapGetters({
       user: 'user/getUser',
       banner: 'home/getBanner',
+      cart: 'home/getCart',
       productList: 'home/getProductList'
     })
   },
