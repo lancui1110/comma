@@ -156,10 +156,10 @@ export default {
         Toast('请输入联系人手机号！')
         return
       }
-      if (!/^1[\d]{10}$/.test(this.form.referrerMobile)) {
-        Toast('请输入正确的手机号！')
-        return
-      }
+      // if (!/^1[\d]{10}$/.test(this.form.referrerMobile)) {
+      //   Toast('请输入正确的手机号！')
+      //   return
+      // }
       if (!this.form.cityName) {
         Toast('请选择所在城市！')
         return
