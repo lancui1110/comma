@@ -8,7 +8,10 @@
       </div>
       <div class="search-input">
         <i class="icon icon-search"></i>
-        <input type="search" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch(false, $event)" @blur="doSearch(true, $event)" @focus="onFocus"/>
+        <input type="search" placeholder="搜索" v-model.trim="searchKeyword" 
+          @keyup.enter="doSearch(false, $event)" 
+          @blur="doSearch(true, $event)" 
+          @focus="onFocus"/>
         <i v-show="searchKeyword" @click="clearSearch" class="icon icon-close" ></i>
       </div>
       <div class="qr-code" @click="scanQRCode"><i class="icon icon-qr-code"></i></div>
@@ -83,7 +86,8 @@ export default {
     },
     onFocus () {
       if (this.isNeedFixed) {
-        this.$refs.searchNav.scrollIntoView(false) // Sticky情况搜索会不固定位置，用于兼容
+        // this.$refs.searchNav.scrollIntoView(false) // Sticky情况搜索会不固定位置，用于兼容
+        document.body.scrollTop = document.documentElement.scrollTop = 0
       }
     },
     doSearch (isBlur = false, e) {
