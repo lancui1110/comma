@@ -1,6 +1,6 @@
 <template>
-  <div class="search-bar-wrapper">
-    <div :class="{'search-bar-panel': true, 'fix': fixTop}" ref="searchNav">
+  <div class="search-bar-wrapper" :class="{'nav-pos-sticky': isSupportSticky4all, 'hide-user': isNeedFixed}" ref="searchNav">
+    <div :class="{'search-bar-panel': true, 'fix': fixTop}" >
       <div class="logo-user">
         <i class="icon icon-head-top-border" @click="showLeftMenu"></i>
         <span class="user-phone" v-if="user && user.mobile">用户中心</span>
@@ -8,7 +8,7 @@
       </div>
       <div class="search-input">
         <i class="icon icon-search"></i>
-        <input type="search" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch(false, $event)" @blur="doSearch(true, $event)"/>
+        <input type="search" placeholder="搜索" v-model.trim="searchKeyword" @keyup.enter="doSearch(false, $event)" @blur="doSearch(true, $event)" @focus="onFocus"/>
         <i v-show="searchKeyword" @click="clearSearch" class="icon icon-close" ></i>
       </div>
       <div class="qr-code" @click="scanQRCode"><i class="icon icon-qr-code"></i></div>
@@ -27,7 +27,9 @@ export default {
   data () {
     return {
       topOffset: 0,
-      fixTop: false
+      fixTop: false,
+      isNeedFixed: false,
+      isSupportSticky4all: true
     }
   },
   computed: {
@@ -51,15 +53,20 @@ export default {
   },
   mounted () {
     this.getTopOffset() // 因为 header 的图片 load 慢，所以手机上 offsetTop 一开始一直是 0
-    'scroll touchmove'.split(' ').forEach(evt => {
-      window.addEventListener(evt, throttle((e) => {
-        if (window.pageYOffset >= this.topOffset) {
-          this.fixTop = true
-        } else {
-          this.fixTop = false
-        }
-      }, 100))
-    })
+
+    // 判断是否支持sticky
+    this.isSupportSticky4all = this.isSupportSticky()
+    
+    window.onscroll = throttle((e) => {
+      // 是否超出可视范围
+      this.isNeedFixed = (window.pageYOffset >= this.topOffset)
+      // 不支持Sticky的，手动fixed
+      if (!this.isSupportSticky4all && this.isNeedFixed) {
+        this.fixTop = true
+      } else {
+        this.fixTop = false
+      }
+    }, 100)
   },
   methods: {
     getTopOffset () {
@@ -73,6 +80,11 @@ export default {
     },
     showLeftMenu () {
       this.$emit('toggleShowLeft')
+    },
+    onFocus () {
+      if (this.isNeedFixed) {
+        this.$refs.searchNav.scrollIntoView(false) // Sticky情况搜索会不固定位置，用于兼容
+      }
     },
     doSearch (isBlur = false, e) {
       if (!isBlur) {
@@ -98,6 +110,22 @@ export default {
     clearSearch (e) {
       this.$store.dispatch('home/changeSearchKeyword', '')
       this.$store.dispatch('home/refreshGoods')
+    },
+    // 判断是否支持sticky
+    isSupportSticky () {
+      const prefixTestList = ['', '-webkit-']
+      let stickyText = ''
+      for (let i = 0; i < prefixTestList.length; i++) {
+        stickyText += 'position:' + prefixTestList[i] + 'sticky;'
+      }
+      // 创建一个dom来检查
+      let div = document.createElement('div')
+      div.style.cssText = stickyText
+      document.body.appendChild(div)
+      const isSupport = /sticky/i.test(window.getComputedStyle(div).position)
+      document.body.removeChild(div)
+      div = null
+      return isSupport
     }
   }
 }
@@ -109,6 +137,26 @@ export default {
   /* 查询 */
   .search-bar-wrapper {
     height: 95/@R;
+    width: 100%;
+    background-color: #fff;
+    &.hide-user {
+      .logo-user {
+        .icon {
+          // transform: translateY(40/@R)
+          top: 0;
+        }
+        .user-phone {
+          display: none;
+        }
+      }
+    }
+  }
+  .nav-pos-sticky {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 500;
+    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .3);
   }
   .search-bar-panel {
     display: flex;
@@ -118,18 +166,11 @@ export default {
       top: 0;
       left: 0;
       width: 100%;
-      box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .3);
       background-color: #fff;
+      box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .3);
       z-index: 500;
-      .logo-user {
-        .icon {
-          transform: translateY(40/@R)
-        }
-        .user-phone {
-          display: none;
-        }
-      }
     }
+    
     .logo-user {
       position: relative;
       width: 166/@R;
