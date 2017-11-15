@@ -51,13 +51,15 @@ export default {
   },
   mounted () {
     this.getTopOffset() // 因为 header 的图片 load 慢，所以手机上 offsetTop 一开始一直是 0
-    window.onscroll = throttle((e) => {
-      if (window.pageYOffset >= this.topOffset) {
-        this.fixTop = true
-      } else {
-        this.fixTop = false
-      }
-    }, 100)
+    'scroll touchmove'.split(' ').forEach(evt => {
+      window.addEventListener(evt, throttle((e) => {
+        if (window.pageYOffset >= this.topOffset) {
+          this.fixTop = true
+        } else {
+          this.fixTop = false
+        }
+      }, 100))
+    })
   },
   methods: {
     getTopOffset () {
