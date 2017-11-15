@@ -14,7 +14,7 @@ const state = {
   pageInfo: {
     total: 0,
     page: 1,
-    pageSize: 15,
+    pageSize: 9,
     allPage: 0,
     end: false
   },
@@ -80,7 +80,7 @@ const actions = {
     commit('setPageInfo', {
       total: 0,
       page: 1,
-      pageSize: 15,
+      pageSize: 9,
       allPage: 0,
       end: false
     })
