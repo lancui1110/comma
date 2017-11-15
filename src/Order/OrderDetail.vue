@@ -45,7 +45,7 @@ export default {
       orderDetail: 'order/orderDetail'
     })
   },
-  mounted () {
+  activated () {
     this.loadData()
   },
   methods: {
@@ -87,7 +87,7 @@ export default {
         padding-left: 22/@R;
       }
       .right {
-        
+
       }
     }
 
