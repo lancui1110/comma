@@ -44,7 +44,7 @@
             @input="updateFormField"
           />
         </div>
-        <div class="row" @click="cityPickerVisible = true">
+        <div class="row" @click="clickSel">
           <span class="label">所在城市</span>
           <input
             type="text"
@@ -52,6 +52,7 @@
             class="txt-input"
             style="pointer-events: none;"
             :value="form.cityName"
+            ref="cityNameSelect"
           />
         </div>
         <div class="row">
@@ -129,6 +130,10 @@ export default {
     }, 500)
   },
   methods: {
+    clickSel () {
+      this.$refs.cityNameSelect.blur()
+      this.cityPickerVisible = true
+    },
     onCityChange (picker, values) {
       if (values && values[0]) {
         this.$store.commit('activity/updateRecommendFormField', {
