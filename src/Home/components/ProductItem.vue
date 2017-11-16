@@ -115,7 +115,7 @@ export default {
     height: 20px;
     text-align: center;
     border-radius: 50%;
-    background-color: #C30000;
+    background-color: #C1885E;
     color: #fff;
     z-index: 999;
   }
