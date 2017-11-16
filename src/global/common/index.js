@@ -1,6 +1,8 @@
 import axios from 'axios'
 import store from '../../store'
 
+export { default as Parabola } from './parabola'
+
 axios.interceptors.request.use(config => {
   store.dispatch('global/gProgress', 50)
   config.headers = Object.assign({}, { 'X-Requested-With': 'XMLHttpRequest' }, config.headers)
