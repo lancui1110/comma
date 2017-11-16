@@ -14,38 +14,26 @@
   export default {
     name: 'app',
     computed: {
-      // ...mapGetters({
-      //   global: 'global/getGlobal'
-      // })
-    },
-    watch: {
-      // 'global.progress' (val) {
-      //   if (val === 0) {
-      //     NProgress.set(0)
-      //     NProgress.start()
-      //   } else if (val === 100) {
-      //     NProgress.done()
-      //   } else {
-      //     NProgress.set(val / 100)
-      //     NProgress.start()
-      //   }
-      // }
     },
     mounted () {
       this.$store.dispatch('user/getUserInfo')
 
       // 初始化微信分享信息 type=1 一般分享 type=2&orderNum 抢红包 type=3 申请货架
       wxMenu.share({type: 1})
+
+      // 关闭loading
+      setTimeout (() => {
+        const loading = document.querySelector('#app-loading')
+        if (loading) {
+          loading.style.display = 'none'
+        }
+      }, 100)
     }
   }
 </script>
 
 <style lang="less">
   @import "./global/style/theme.less";
-
-  html, body {
-    // height: 100%;
-  }
 
   #app {
     // height: 100%;

@@ -7,36 +7,38 @@
     </div>
 
     <div class="content">
-      <!-- 登录 -->
-      <div v-if="!user || !user.mobile" class="user-form">
-        <div class="form-item">
-          <input type="text" placeholder="输入手机号" class="input-item" v-model="mobile" />
+      <div v-if="user !== null">
+        <!-- 登录 -->
+        <div v-if="!user.mobile" class="user-form">
+          <div class="form-item">
+            <input type="text" placeholder="输入手机号" class="input-item" v-model="mobile" />
+          </div>
+          <div class="form-item code-input-panel">
+            <input type="text" placeholder="输入验证码" class="input-item" v-model="code" />
+            <span class="yellow-btn small" v-if="!isWaiting" @click="getVerificationCode()">获取</span>
+            <span class="yellow-btn disable" v-else>{{waitingNum}}s</span>
+          </div>
+          <div class="form-item yellow-btn" :disabled="!mobile || !code" @click="handleOnSubmitCode()">立即领取</div>
         </div>
-        <div class="form-item code-input-panel">
-          <input type="text" placeholder="输入验证码" class="input-item" v-model="code" />
-          <span class="yellow-btn" v-if="!isWaiting" @click="getVerificationCode()">获取</span>
-          <span class="yellow-btn disable" v-else>{{waitingNum}}s</span>
-        </div>
-        <div class="form-item yellow-btn" :disabled="!mobile || !code" @click="handleOnSubmitCode()">立即领取</div>
-      </div>
 
-      <!-- 已领过优惠券 -->
-      <div v-else class="received-panel">
-        <div v-if="myRedPacket && myRedPacket.title" class="coupons">
-          <div class="coupons-panel">
-            <!-- 领到的优惠券 -->
-            <div class="coupons-item">
-              <div class="word red">
-                <span class="left word large">{{myRedPacket.money}}元</span>
-                <span class="word">{{myRedPacket.title}}</span>
+        <!-- 已领过优惠券 -->
+        <div v-else class="received-panel">
+          <div v-if="myRedPacket && myRedPacket.title" class="coupons">
+            <div class="coupons-panel">
+              <!-- 领到的优惠券 -->
+              <div class="coupons-item">
+                <div class="word red">
+                  <span class="left word large">{{myRedPacket.money}}元</span>
+                  <span class="word">{{myRedPacket.title}}</span>
+                </div>
+                <div class="word">
+                  <span class="left word">满{{myRedPacket.lowMoney}}元立减</span>
+                  <span class="word">{{myRedPacket.startDate}}~{{myRedPacket.endDate}}</span>
+                </div>
               </div>
-              <div class="word">
-                <span class="left word">满{{myRedPacket.lowMoney}}元立减</span>
-                <span class="word">{{myRedPacket.startDate}}~{{myRedPacket.endDate}}</span>
-              </div>
+              <!-- 红包领完了 -->
+              <!-- <div v-else class="coupons-item recieved">{{message.emptyMsg}}</div> -->
             </div>
-            <!-- 红包领完了 -->
-            <!-- <div v-else class="coupons-item recieved">{{message.emptyMsg}}</div> -->
           </div>
         </div>
 
@@ -240,6 +242,10 @@ export default {
           font-size: 32/@R;
           &.disable {
             opacity: .85;
+          }
+          &.small{
+            background: #F9DC57;
+            height: 101/@R;
           }
         }
       }
