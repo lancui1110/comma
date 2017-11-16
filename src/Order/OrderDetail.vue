@@ -45,7 +45,7 @@ export default {
       orderDetail: 'order/orderDetail'
     })
   },
-  activated () {
+  mounted () {
     this.loadData()
   },
   methods: {

@@ -67,7 +67,8 @@ export default {
       this.$store.dispatch('order/loadMoreOrders', this.$refs.loadmore.onBottomLoaded)
     },
     goDetail (item) {
-      this.$router.push({ name: 'orderDetail', query: { orderNum: item.orderNum } })
+      location.href = `${pageConfig.siteUrl}order/detail?orderNum=item.orderNum`
+      // this.$router.push({ name: 'orderDetail', query: { orderNum: item.orderNum } })
     }
   }
 }
