@@ -1,9 +1,9 @@
 <template>
-  <div v-if="couponList.length === 0" class="coupons-list-panel nodata">
+  <div v-if="!isLoading && couponList.length === 0" class="coupons-list-panel nodata">
     <div class="logo"><i class="icon icon-head-top"></i></div>
     <div class="word">暂无优惠券</div>
   </div>
-  <mt-loadmore v-else :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
+  <mt-loadmore v-else-if="couponList.length > 0" :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
     <div class="coupons-list-panel">
       <div v-for="(item, key) in couponList" :key="key" class="coupons-item-panel">
         <div class="coupons-item" :class="{'gray': item.status !== 1}">
@@ -35,12 +35,20 @@ export default {
       pageInfo: 'coupons/pageInfo'
     })
   },
+  data () {
+    return {
+      isLoading: true
+    }
+  },
   activated () {
     this.loadData()
   },
   methods: {
     loadData () {
-      this.$store.dispatch('coupons/getCouponList')
+      this.isLoading = true
+      this.$store.dispatch('coupons/getCouponList', () => {
+        this.isLoading = false
+      })
     },
     loadTop () {
       this.$store.dispatch('coupons/refreshOrders', this.$refs.loadmore.onTopLoaded)

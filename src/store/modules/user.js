@@ -51,7 +51,7 @@ const mutations = {
     state.notifyUserLogin = payload
   },
   setUser (state, payload) {
-    state.user = payload
+    state.user = Object.assign({}, payload)
   }
 }
 
@@ -60,7 +60,7 @@ const getters = {
     return state.notifyUserLogin
   },
   getUser (state) {
-    // state.user = {mobile: '13566778899'}
+    // state.user = {mobile: ''}
     return state.user
   }
 }

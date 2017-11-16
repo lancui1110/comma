@@ -71,11 +71,13 @@ export default {
     },
     gotoPage (type) {
       this.hidePanel()
-      if (this.user && this.user.mobile) {
-        this.$router.push({ name: type })
-      } else {
-        this.$router.push({ name: 'login', query: { to: type } })
-      }
+      setTimeout(() => {
+        if (this.user && this.user.mobile) {
+          this.$router.push({ name: type })
+        } else {
+          this.$router.push({ name: 'login', query: { to: type } })
+        }
+      }, 300)
     }
   }
 }
@@ -139,7 +141,8 @@ export default {
           color: #333;
           &:hover,
           &:focus,
-          &:active {
+          &:active,
+          &:visited {
             background: transparent;
           }
         }

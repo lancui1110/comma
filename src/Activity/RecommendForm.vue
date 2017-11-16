@@ -34,10 +34,10 @@
           />
         </div>
         <div class="row">
-          <span class="label">+86</span>
+          <span class="label">联系人电话</span>
           <input
             type="tel"
-            placeholder="请输入联系人手机号"
+            placeholder="请输入联系人电话"
             class="txt-input"
             id="referrerMobile"
             :value="form.referrerMobile"
@@ -172,10 +172,10 @@ export default {
         Toast('填写您的手机号！')
         return
       }
-      if (!/^1[\d]{10}$/.test(this.form.mobile)) {
-        Toast('请输入正确的手机号！')
-        return
-      }
+      // if (!/^1[\d]{10}$/.test(this.form.mobile)) {
+      //   Toast('请输入正确的手机号！')
+      //   return
+      // }
       this.$store.dispatch('activity/submitRecommendForm', (res) => {
         if (res.code === 1) {
           // this.$router.push({ name: 'recommendSuc', query: { url: res.data.url } })
