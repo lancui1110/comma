@@ -6,7 +6,7 @@
     @top-status-change="handleTopChange"
     @bottom-status-change="handleBottomChange"
     :auto-fill="false" 
-    :bottomDistance="30"
+    :bottomDistance="5"
     ref="loadmore">
     <div class="product-list-panel">
       <ul class="list-panel" v-if="productList.length">
@@ -85,9 +85,7 @@ export default {
   @import "../../global/style/theme.less";
 
   .product-list {
-    .product-list-panel {
-      margin-bottom: 120/@R;
-    }
+    overflow: hidden;
     .list-panel {
       width: 100%;
       display: flex;
@@ -143,6 +141,9 @@ export default {
     }
     .mint-loadmore-text {
       font-size: 18/@R;
+    }
+    .mint-loadmore-bottom {
+      
     }
   }
 </style>
