@@ -18,6 +18,7 @@
       </div>
     </div>
     <div class="pay-btn" @click="addOrder">去支付</div>
+
   </div>
 </template>
 
