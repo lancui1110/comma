@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" :class="{'no-scroll' : isFixed}">
     <div class="header">
       <a v-if="banner" :href="banner.linkUrl">
         <img class="banner" :src="banner.picUrl"/>
@@ -24,7 +24,7 @@
     <!-- 所选商品 -->
     <sel-products :show.sync="isShowSelProducts"></sel-products>
 
-    <newuser-redbag />
+    <newuser-redbag @noScroll="noScroll"/>
   </div>
 </template>
 
@@ -56,7 +56,8 @@ export default {
     return {
       code: this.$route.query.code,
       isShowLeftMenu: false,
-      isShowSelProducts: false
+      isShowSelProducts: false,
+      isFixed: true
     }
   },
   mounted () {
@@ -85,6 +86,9 @@ export default {
     },
     toggleSelProducts () {
       this.isShowSelProducts = !this.isShowSelProducts
+    },
+    noScroll (isFixed) {
+      this.isFixed = isFixed
     }
   }
 }
@@ -97,8 +101,13 @@ export default {
 
   .home {
     font-family: PingFangHK-Regular;
+    &.no-scroll {
+      height: 100%;
+      overflow: hidden;
+    }
     .header {
       font-size: 0;
+      width: 100%;
       .banner {
         // width: 750/@R;
         width: 100%;

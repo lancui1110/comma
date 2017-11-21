@@ -27,16 +27,16 @@ export default {
       notifyUserLogin: 'user/notifyUserLogin'
     }),
     isShow () {
-      if (this.hide) {
+      if (this.hide || !this.notifyUserLogin) {
+        this.$emit('noScroll', false)
         return false
       } else {
-        if (this.notifyUserLogin) {
-          setTimeout (() => {
-            this.hide = true
-          }, 5000)
-          return true
-        }
-        return false
+        setTimeout (() => {
+          this.hide = true
+        }, 5000)
+
+        this.$emit('noScroll', true)
+        return true
       }
     }
   },

@@ -140,6 +140,7 @@ export default {
 
   /* 查询 */
   .search-bar-wrapper {
+    position: relative;
     height: 95/@R;
     width: 100%;
     background-color: #fff;
