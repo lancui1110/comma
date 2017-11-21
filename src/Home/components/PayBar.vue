@@ -1,8 +1,8 @@
 <template>
   <div class="pay-bar" :class="{'no-choose-any': cart.count <= 0}">
-    <transition name="fade">
+    <!-- <transition name="fade">
       <div class="notify" v-if="notifyUserLogin">小主，专属红包已存入账户啦～<router-link :to="{ name: 'login' }">【一键领取】</router-link></div>
-    </transition>
+    </transition> -->
     <div class="order-detail" @click="toggleSelProducts">
       <div class="logo">
         <i v-if="cart.count > 0" class="icon icon-head-top"></i>
