@@ -11,6 +11,9 @@
       <span class="word">微信支付</span>
       <i class="icon icon-choose"></i>
     </div>
+    <div class="warn">
+      <span class="word">如未成功支付，5分钟后优惠券退还到您的账户中</span>
+    </div>
     <!-- <div v-show="orderSign.amount > 0" class="go-pay" @click="toPay">去支付 ¥{{orderSign.amount}}</div> -->
     <div class="go-pay" @click="toPay">去支付 ¥{{orderSign.amount}}</div>
   </div>
@@ -27,7 +30,7 @@ export default {
     return {
       orderNum: this.$route.query.orderNum,
       disablePay: false,
-      min: 15,
+      min: 5,
       sec: 0
     }
   },
@@ -152,6 +155,15 @@ export default {
         line-height: 50/@R;
         padding-left: 30/@R;
         flex: 1;
+      }
+    }
+    .warn{
+      position: relative;
+      padding-top: 20/@R;
+      text-align: center;
+      .word{
+        color: #ABABAB;
+        font-size: 30/@R;
       }
     }
     .go-pay {
