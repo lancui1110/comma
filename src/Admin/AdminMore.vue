@@ -11,7 +11,6 @@ export default {
 </script>
 
 <style lang="less">
-.admin {
-}
+
 </style>
 

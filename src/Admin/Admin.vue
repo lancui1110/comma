@@ -13,6 +13,15 @@
         <div class="flex center type">任务类型</div>
         <div class="flex center prio">优先级</div>
       </div>
+      <router-link
+        :to="{ name: 'taskDetail', params: { id: task.id } }"
+        class="flex center task-item"
+        v-for="task in tasks"
+        :key="task.id">
+        <div class="flex center flex-1 address">{{task.address}}</div>
+        <div class="flex center type">{{task.type}}</div>
+        <div class="flex center prio">{{task.priority}}</div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -24,6 +33,24 @@ export default {
   name: 'Admin',
   components: {
     AdminHeader
+  },
+  data () {
+    return {
+      tasks: [
+        {
+          id: 123,
+          address: '环市东路10号',
+          type: '退仓',
+          priority: '高'
+        },
+        {
+          id: 456,
+          address: '中山路100号',
+          type: '安新',
+          priority: '中'
+        }
+      ]
+    }
   }
 }
 </script>
@@ -37,16 +64,17 @@ export default {
     color: @font-black;
   }
   .title {
-    margin-bottom: 20/@R;
-    padding: 15/@R 0;
+    height: 120/@R;
     justify-content: space-between;
-    font-size: 34/@R;
+    font-size: 36/@R;
   }
 
   .task-item {
+    height: 90/@R;
     font-size: 32/@R;
   }
   .label {
+    background-color: #fafafa;
     font-weight: bold;
   }
   div.address {
