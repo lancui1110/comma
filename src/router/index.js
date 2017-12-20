@@ -34,6 +34,11 @@ const Recommend = r => require.ensure([], () => r(require('../Activity/Recommend
 const RecommendForm = r => require.ensure([], () => r(require('../Activity/RecommendForm.vue')), 'Activity')
 const RecommendSuc = r => require.ensure([], () => r(require('../Activity/RecommendSuc.vue')), 'Activity')
 
+// 后台库存及补货管理
+const Admin = r => require.ensure([], () => r(require('../Admin/Admin.vue')), 'Admin')
+const AdminMore = r => require.ensure([], () => r(require('../Admin/AdminMore.vue')), 'Admin')
+const MyStore = r => require.ensure([], () => r(require('../Admin/MyStore.vue')), 'Admin')
+
 // 错误页面
 const Error = r => require.ensure([], () => r(require('../Error.vue')), 'Error')
 
@@ -55,8 +60,12 @@ const router = new Router({
     { name: 'recommendForm', path: '/activity/recommendForm', component: RecommendForm },
     { name: 'recommendSuc', path: '/activity/recommendSuc', component: RecommendSuc },
 
+    { name: 'admin', path: '/admin', component: Admin },
+    { name: 'adminMore', path: '/admin/more', component: AdminMore },
+    { name: 'myStore', path: '/admin/mystore', component: MyStore },
+
     { name: 'error', path: '/error', component: Error },
-    
+
     { path: '*', redirect: { name: 'home' } }
   ]
 })

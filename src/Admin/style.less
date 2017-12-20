@@ -1,0 +1,29 @@
+@import '../global/style/theme.less';
+
+@font-black: #222;
+@font-gray: #666;
+@gray: #dbdbdb;
+
+.flex {
+  display: flex;
+  &.center {
+    justify-content: center;
+    align-items: center;
+  }
+  &.center-v {
+    align-items: center;
+  }
+  &.center-h {
+    justify-content: center;
+  }
+  &.column {
+    flex-direction: column;
+  }
+}
+.flex-1 {
+  flex-grow: 1;
+}
+
+.page {
+  padding: 30/@R;
+}
