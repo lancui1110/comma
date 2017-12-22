@@ -2,7 +2,8 @@
 <template>
   <div class="recieve-reabag-panel">
     <div class="head">
-      <img :src="require('../assets/activity/bg-coupon.png')" class="bg-img"/>
+      <!-- <img :src="require('../assets/activity/bg-coupon.png')" class="bg-img"/> -->
+      <img :src="require('../assets/activity/bg1.png')" class="bg-img"/>
       <p class="word">{{message.title}}</p>
     </div>
 
@@ -59,7 +60,7 @@
         </div>
       </div>
 
-      <div class="content-block">
+      <!-- <div class="content-block">
         <div class="title">活动规则</div>
         <p v-for="(item, i) in Content.activityRule" :key="i">{{item}}</p>
       </div>
@@ -74,11 +75,12 @@
 
       <div class="content-box">
         <p v-for="(item, i) in Content.content" :key="i">{{item}}</p>
-      </div>
+      </div> -->
     </div>
     <div class="bottom-img">
-      <img :src="require('../assets/activity/bg-btn.png')" class="bg-img"/>
-      <div class="red-bg"></div>
+      <!-- <img :src="require('../assets/activity/bg-btn.png')" class="bg-img"/>
+      <div class="red-bg"></div> -->
+      <img :src="require('../assets/activity/bg2.png')" class="bg-img" style="margin: 0 0 2.3rem;" />
     </div>
     <div class="bottom">
       <div class="btn">
@@ -187,7 +189,7 @@ export default {
   .recieve-reabag-panel {
     position: relative;
     width: 100%;
-    background: @red;
+    // background: @red;
     font-size: 28/@R;
     color: #FFFFFF;
     letter-spacing: 0;
@@ -197,18 +199,22 @@ export default {
     }
     .head {
       position: relative;
+      line-height: 0;
+      font-size: 0;
       .word {
         position: absolute;
         left: 0;
-        top: 464/@R;
+        top: 920/@R;
         width: 100%;
-        color: #333;
         text-align: center;
+        color: #fff;
+        font-size: 32/@R;
       }
     }
     .content {
       position: relative;
-      top: -50/@R;
+      padding-bottom: 1px;
+      background-color: #e5231c;
     }
     .user-form {
       display: flex;
@@ -216,7 +222,6 @@ export default {
       justify-content: center;
       align-items: center;
       font-size: 36/@R;
-      margin-bottom: 30/@R;
       .form-item {
         margin-bottom: 30/@R;
       }
