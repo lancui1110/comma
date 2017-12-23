@@ -6,7 +6,7 @@
   <mt-loadmore v-else-if="couponList.length > 0" :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
     <div class="coupons-list-panel">
       <div v-for="(item, key) in couponList" :key="key" class="coupons-item-panel">
-        <div class="coupons-item" :class="{'gray': item.status !== 1}">
+        <div class="coupons-item" :class="{'gray': item.status === 2  || item.status === 4}">
           <div class="word red">
             <span class="left word large">{{item.price}}元</span>
             <span class="word">{{item.name}}</span>
@@ -19,6 +19,7 @@
         <!-- 1待使用 2已使用  4：过期 -->
         <img v-if="item.status === 4" class="state-pic" :src="require('../assets/icon_coupon_gq.png')" />
         <img v-if="item.status === 2" class="state-pic" :src="require('../assets/icon_coupon_sy.png')" />
+        <img v-if="item.status === 5" class="state-pic" :src="require('../assets/icon_coupon_lock.png')" />
       </div>
     </div>
   </mt-loadmore>
