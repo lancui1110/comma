@@ -22,8 +22,9 @@ export default {
 @import "../style.less";
 
 .admin-header {
-  padding: 0 0 20/@R;
+  padding: 30/@R;
   border-bottom: 1/@R solid @gray;
+  background-color: #fff;
   h1 {
     font-size: 48/@R;
   }

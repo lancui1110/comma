@@ -8,6 +8,7 @@ import coupons from './modules/coupons'
 import customer from './modules/customer'
 import activity from './modules/activity'
 import pay from './modules/pay'
+import admin from './modules/admin'
 
 Vue.use(Vuex)
 
@@ -44,6 +45,10 @@ export default new Vuex.Store({
     pay: {
       namespaced: true,
       ...pay
+    },
+    admin: {
+      namespaced: true,
+      ...admin
     }
   }
 })

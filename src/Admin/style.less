@@ -3,6 +3,7 @@
 @font-black: #222;
 @font-gray: #666;
 @gray: #dbdbdb;
+@body-bg: #f0f0f0;
 
 .flex {
   display: flex;
@@ -24,6 +25,10 @@
   flex-grow: 1;
 }
 
-.page {
-  padding: 30/@R;
+.admin {
+  background-color: @body-bg;
+  color: @font-black;
+  a {
+    color: @font-black;
+  }
 }

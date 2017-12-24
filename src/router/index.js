@@ -36,8 +36,8 @@ const RecommendSuc = r => require.ensure([], () => r(require('../Activity/Recomm
 
 // 后台库存及补货管理
 const Admin = r => require.ensure([], () => r(require('../Admin/Admin.vue')), 'Admin')
-const AdminMore = r => require.ensure([], () => r(require('../Admin/AdminMore.vue')), 'Admin')
 const MyStore = r => require.ensure([], () => r(require('../Admin/MyStore.vue')), 'Admin')
+const MyTask = r => require.ensure([], () => r(require('../Admin/MyTask.vue')), 'Admin')
 const TaskDetail = r => require.ensure([], () => r(require('../Admin/TaskDetail.vue')), 'Admin')
 
 // 错误页面
@@ -62,8 +62,8 @@ const router = new Router({
     { name: 'recommendSuc', path: '/activity/recommendSuc', component: RecommendSuc },
 
     { name: 'admin', path: '/admin', component: Admin },
-    { name: 'adminMore', path: '/admin/more', component: AdminMore },
     { name: 'myStore', path: '/admin/mystore', component: MyStore },
+    { name: 'myTask', path: '/admin/mytask', component: MyTask },
     { name: 'taskDetail', path: '/admin/task/:id', component: TaskDetail },
 
     { name: 'error', path: '/error', component: Error },
