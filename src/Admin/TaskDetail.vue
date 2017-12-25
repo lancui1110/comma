@@ -45,24 +45,34 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'TaskDetail',
-  data () {
-    return {
-      task: {
-        type: '盘点、补货',
-        address: '广州市越秀区环市东路10号广州市越秀区环市东路10号广州市越秀区环市东路10号',
-        company: ' 广州市xxxx有限公司',
-        number: ' 131242414124',
-        assigner: 'xxxx',
-        assignTime: '2017.12.12 10:30',
-        priority: ' 高',
-        status: '已完成',
-        checkGoods: '全部',
-        supplement: '我是商品1名称'
-      }
-    }
+  computed: {
+    ...mapGetters({
+      task: 'admin/taskDetail'
+    })
+  },
+  mounted () {
+    this.$store.dispatch('admin/getTaskDetail', this.$route.query.id)
   }
+  // data () {
+  //   return {
+  //     task: {
+  //       type: '盘点、补货',
+  //       address: '广州市越秀区环市东路10号广州市越秀区环市东路10号广州市越秀区环市东路10号',
+  //       company: ' 广州市xxxx有限公司',
+  //       number: ' 131242414124',
+  //       assigner: 'xxxx',
+  //       assignTime: '2017.12.12 10:30',
+  //       priority: ' 高',
+  //       status: '已完成',
+  //       checkGoods: '全部',
+  //       supplement: '我是商品1名称'
+  //     }
+  //   }
+  // }
 }
 </script>
 

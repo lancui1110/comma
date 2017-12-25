@@ -33,7 +33,8 @@ const apiMapping = {
 
   // admin
   pageTask: 'm/shellTask/pageTask',
-  adminOverview 'm/shelfTask/overview'
+  getTaskDetail: 'm/shelfTask/showTask',
+  adminOverview: 'm/shelfTask/overview'
 }
 
 export default {
