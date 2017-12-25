@@ -1,6 +1,7 @@
 import API from '../api'
 
 const state = {
+  overview: [],
   taskList: [
     {
       id: 123,
@@ -19,6 +20,15 @@ const state = {
 }
 
 const actions = {
+  getOverview ({ commit }) {
+    iwjw.ajax({
+      url: API.getUrl('adminOverview')
+    }).then(res => {
+      if (res.code === 1) {
+        commit('setOverview', res.data)
+      }
+    })
+  },
   refreshOrders ({ commit, dispatch }, cb) {
   },
   getTaskList ({ commit }, cb) {
@@ -45,6 +55,9 @@ const actions = {
 }
 
 const mutations = {
+  setOverView (state, data) {
+    state.overview = data
+  },
   setTaskList (state, data) {
     state.taskrList = data
   },
@@ -54,6 +67,9 @@ const mutations = {
 }
 
 const getters = {
+  overview (state) {
+    return state.overview
+  },
   taskList (state) {
     return state.taskList
   },

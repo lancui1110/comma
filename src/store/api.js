@@ -29,7 +29,11 @@ const apiMapping = {
   getOrderSign: 'api/order/signOrder', // 获取微信订单签名
   getWxShare: 'api/wx/share',  // 获得微信分享init信息
 
-  getOrderShare: 'api/activity/orderShare'  // 获取红包分享
+  getOrderShare: 'api/activity/orderShare',  // 获取红包分享
+
+  // admin
+  pageTask: 'm/shellTask/pageTask',
+  adminOverview 'm/shelfTask/overview'
 }
 
 export default {

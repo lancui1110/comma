@@ -10,21 +10,21 @@
     </div>
 
     <div class="statistical">
-      <div class="flex center row" v-for="(value, key) in data" :key="key">
+      <div class="flex center row" v-for="(item, index) in overview" :key="index">
         <div class="flex-1 col type">
-          <div class="value">{{TypeLabel[key]}}</div>
+          <div class="value">{{item.type}}</div>
           <div class="unit">/次</div>
         </div>
         <div class="flex-1 col">
-          <div class="value">{{value.day}}</div>
+          <div class="value">{{item.daily}}</div>
           <div class="unit">日</div>
         </div>
         <div class="flex-1 col">
-          <div class="value">{{value.week}}</div>
+          <div class="value">{{item.week}}</div>
           <div class="unit">周</div>
         </div>
         <div class="flex-1 col">
-          <div class="value">{{value.month}}</div>
+          <div class="value">{{item.month}}</div>
           <div class="unit">月</div>
         </div>
       </div>
@@ -33,41 +33,14 @@
 </template>
 
 <script>
-const TypeLabel = {
-  pandian: '盘点',
-  buhuo: '补货',
-  tuicang: '退仓',
-  anxin: '安新'
-}
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'MyStore',
-  data () {
-    return {
-      TypeLabel,
-      data: {
-        pandian: {
-          day: 3,
-          week: 21,
-          month: 50
-        },
-        buhuo: {
-          day: 3,
-          week: 21,
-          month: 50
-        },
-        tuicang: {
-          day: 3,
-          week: 21,
-          month: 50
-        },
-        anxin: {
-          day: 3,
-          week: 21,
-          month: 50
-        }
-      }
-    }
+  computed: {
+    ...mapGetters({
+      overview: 'admin/overview'
+    })
   }
 }
 </script>
