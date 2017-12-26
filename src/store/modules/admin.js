@@ -9,20 +9,7 @@ const state = {
     pageSize: 20,
     end: false
   },
-  taskList: [
-    {
-      id: 123,
-      type: '退仓',
-      company: '广州市xxxx有限公司',
-      address: '广州市越秀区环市东路10号'
-    },
-    {
-      id: 456,
-      type: '安新',
-      company: '广州市yyyy有限公司',
-      address: '中山路100号'
-    }
-  ],
+  taskList: [],
   taskDetail: {}
 }
 
@@ -38,13 +25,21 @@ const actions = {
   },
   refreshOrders ({ commit, dispatch }, cb) {
   },
-  getTaskList ({ commit }, cb) {
+  getTaskList ({ commit }, { params, cb }) {
+    let data = {
+      page: state.pageInfo.page,
+      pageSize: state.pageInfo.pageSize
+    }
+    if (params) {
+      data = {
+        ...data,
+        ...params
+      }
+    }
+
     iwjw.ajax({
       url: API.getUrl('pageTask'),
-      data: {
-        page: state.pageInfo.page,
-        pageSize: state.pageInfo.pageSize
-      }
+      data
     }).then(res => {
       if (res.code === 1) {
         const { total, page, pageSize, end, data } = res.data

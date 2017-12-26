@@ -24,7 +24,7 @@ export default {
     })
   },
   activated () {
-    this.$store.dispatch('admin/getTaskList')
+    this.$store.dispatch('admin/getTaskList', {})
   }
 }
 </script>

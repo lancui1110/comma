@@ -5,8 +5,10 @@
       <div class="company">{{task.companyName}}</div>
       <div class="address">{{task.address}}</div>
     </router-link>
-    <!-- TODO: 把下面的url改成去表单页 -->
-    <router-link :to="{ name: 'handleTask', params: { taskId: task.taskId, type: task.type } }" class="flex center deal-btn">
+    <router-link
+      :to="{ name: 'handleTask', params: { taskId: task.taskId, type: task.type } }"
+      class="flex center deal-btn"
+      v-if="task.status === 0">
       去处理
     </router-link>
   </div>
