@@ -39,6 +39,7 @@ const Admin = r => require.ensure([], () => r(require('../Admin/Admin.vue')), 'A
 const MyStore = r => require.ensure([], () => r(require('../Admin/MyStore.vue')), 'Admin')
 const MyTask = r => require.ensure([], () => r(require('../Admin/MyTask.vue')), 'Admin')
 const TaskDetail = r => require.ensure([], () => r(require('../Admin/TaskDetail.vue')), 'Admin')
+const HandleTask = r => require.ensure([], () => r(require('../Admin/HandleTask.vue')), 'Admin')
 
 // 错误页面
 const Error = r => require.ensure([], () => r(require('../Error.vue')), 'Error')
@@ -65,6 +66,7 @@ const router = new Router({
     { name: 'myStore', path: '/admin/mystore', component: MyStore },
     { name: 'myTask', path: '/admin/mytask', component: MyTask },
     { name: 'taskDetail', path: '/admin/task/:id', component: TaskDetail },
+    { name: 'handleTask', path: '/admin/handle/:taskId/:type', component: HandleTask },
 
     { name: 'error', path: '/error', component: Error },
 

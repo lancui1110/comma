@@ -1,11 +1,12 @@
 <template>
   <div class="task-item">
-    <router-link :to="{ name: 'taskDetail', params: { id: task.id } }" >
+    <router-link :to="{ name: 'taskDetail', params: { id: task.taskId } }" >
       <div class="type">{{task.type}}</div>
-      <div class="company">{{task.company}}</div>
+      <div class="company">{{task.companyName}}</div>
       <div class="address">{{task.address}}</div>
     </router-link>
-    <router-link :to="{ name: 'taskDetail', params: { id: task.id } }" class="flex center deal-btn">
+    <!-- TODO: 把下面的url改成去表单页 -->
+    <router-link :to="{ name: 'handleTask', params: { taskId: task.taskId, type: task.type } }" class="flex center deal-btn">
       去处理
     </router-link>
   </div>
