@@ -3,7 +3,7 @@
     <h2>请您{{type}}</h2>
 
     <mt-field label="商品名称" readonly :value="goodName"></mt-field>
-    <mt-field label="{{type}}数量" type="number" v-model="num"></mt-field>
+    <mt-field label="数量" type="number" v-model="num"></mt-field>
 
     <mt-button type="primary">提交</mt-button>
   </div>
@@ -11,14 +11,13 @@
 
 <script>
 import Vue from 'vue'
-import { Field } from 'mint-ui'
-import { Button } from 'mint-ui'
+import { Field, Button } from 'mint-ui'
 
 Vue.component(Field.name, Field)
 Vue.component(Button.name, Button)
 
 export default {
-  name: 'TaskItem',
+  name: 'HandleTask',
   data () {
     const { taskId, type } = this.$router.params
     return {
@@ -32,7 +31,7 @@ export default {
 </script>
 
 <style lang="less">
-@import "../style.less";
+@import "./style.less";
 .handle-task {
 
 }
