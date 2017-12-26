@@ -12,7 +12,7 @@
     <div class="statistical">
       <div class="flex center row" v-for="(item, index) in overview" :key="index">
         <div class="flex-1 col type">
-          <div class="value">{{item.type}}</div>
+          <div class="value">{{TypeLabel[item.type]}}</div>
           <div class="unit">/次</div>
         </div>
         <div class="flex-1 col">
@@ -37,10 +37,23 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'MyStore',
+  data () {
+    return {
+      TypeLabel: {
+        1: '盘点',
+        2: '补货',
+        3: '退仓',
+        4: '安新'
+      }
+    }
+  },
   computed: {
     ...mapGetters({
       overview: 'admin/overview'
     })
+  },
+  mounted () {
+    this.$store.dispatch('admin/getOverview')
   }
 }
 </script>
@@ -50,6 +63,7 @@ export default {
 
 .my-store {
   padding: 30/@R;
+  background-color: #fff;
   .header {
     margin-bottom: 100/@R;
     .menu {

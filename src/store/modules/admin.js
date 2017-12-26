@@ -55,7 +55,7 @@ const actions = {
 }
 
 const mutations = {
-  setOverView (state, data) {
+  setOverview (state, data) {
     state.overview = data
   },
   setTaskList (state, data) {
