@@ -1,7 +1,14 @@
+import { concat } from 'lodash'
 import API from '../api'
 
 const state = {
   overview: [],
+  pageInfo: {
+    total: 0,
+    page: 1,
+    pageSize: 20,
+    end: false
+  },
   taskList: [
     {
       id: 123,
@@ -33,18 +40,27 @@ const actions = {
   },
   getTaskList ({ commit }, cb) {
     iwjw.ajax({
-      url: API.getUrl('orderList'),
-      data: {}
+      url: API.getUrl('pageTask'),
+      data: {
+        page: state.pageInfo.page,
+        pageSize: state.pageInfo.pageSize
+      }
     }).then(res => {
       if (res.code === 1) {
-
+        const { total, page, pageSize, end, data } = res.data
+        commit('setPageInfo', Object.assign({}, state.pageInfo, { total, page, pageSize, end }))
+        if (page > 1) {
+          commit('setTaskList', concat(state.taskList, data))
+        } else {
+          commit('setTaskList', data || [])
+        }
       }
       cb && cb()
     })
   },
   getTaskDetail ({ commit }, taskId) {
     iwjw.ajax({
-      url: API.getUrl('getTaskDetail'),
+      url: API.getUrl('showTask'),
       data: { taskId }
     }).then(res => {
       if (res.code === 1) {
@@ -58,8 +74,11 @@ const mutations = {
   setOverview (state, data) {
     state.overview = data
   },
+  setPageInfo (state, data) {
+    state.pageInfo = data
+  },
   setTaskList (state, data) {
-    state.taskrList = data
+    state.taskList = data
   },
   setTaskDetail (state, data) {
     state.taskDetail = data

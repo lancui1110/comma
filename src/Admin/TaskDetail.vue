@@ -3,7 +3,7 @@
     <h1>任务详情</h1>
     <div class="row">
       <label>类型：</label>
-      <div class="content">{{task.type}}</div>
+      <div class="content">{{task.taskTypeInfo}}</div>
     </div>
     <div class="row">
       <label>货架地址：</label>
@@ -11,35 +11,35 @@
     </div>
     <div class="row">
       <label>公司名称：</label>
-      <div class="content">{{task.company}}</div>
+      <div class="content">{{task.companyName}}</div>
     </div>
     <div class="row">
       <label>货架编号：</label>
-      <div class="content">{{task.number}}</div>
+      <div class="content">{{task.shelfCode}}</div>
     </div>
     <div class="row">
       <label>分配人：</label>
-      <div class="content">{{task.assigner}}</div>
+      <div class="content">{{task.operator}}</div>
     </div>
     <div class="row">
       <label>分配时间：</label>
-      <div class="content">{{task.assignTime}}</div>
+      <div class="content">{{task.createTime}}</div>
     </div>
     <div class="row">
       <label>优先级：</label>
-      <div class="content">{{task.priority}}</div>
+      <div class="content">{{task.levelInfo}}</div>
     </div>
     <div class="row">
       <label>状态：</label>
-      <div class="content">{{task.status}}</div>
+      <div class="content">{{task.status ? '已完成' : '未完成'}}</div>
     </div>
     <div class="row">
-      <label>盘点商品：</label>
-      <div class="content">{{task.checkGoods}}</div>
-    </div>
-    <div class="row">
-      <label>补货商品：</label>
-      <div class="content">{{task.supplement}}</div>
+      <label>{{task.taskTypeInfo}}商品：</label>
+      <!-- allgoods=1 不显示商品列表 -->
+      <div class="content" v-if="task.allGoods === 1">全部</div>
+      <div class="content" v-else>
+        <div class="good-item" v-for="item in task.goodsList" :key="item.id">{{item.name}}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -54,25 +54,9 @@ export default {
       task: 'admin/taskDetail'
     })
   },
-  mounted () {
-    this.$store.dispatch('admin/getTaskDetail', this.$route.query.id)
+  activated () {
+    this.$store.dispatch('admin/getTaskDetail', this.$route.params.id)
   }
-  // data () {
-  //   return {
-  //     task: {
-  //       type: '盘点、补货',
-  //       address: '广州市越秀区环市东路10号广州市越秀区环市东路10号广州市越秀区环市东路10号',
-  //       company: ' 广州市xxxx有限公司',
-  //       number: ' 131242414124',
-  //       assigner: 'xxxx',
-  //       assignTime: '2017.12.12 10:30',
-  //       priority: ' 高',
-  //       status: '已完成',
-  //       checkGoods: '全部',
-  //       supplement: '我是商品1名称'
-  //     }
-  //   }
-  // }
 }
 </script>
 

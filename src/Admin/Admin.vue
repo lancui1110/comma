@@ -2,7 +2,7 @@
   <div class="admin">
     <admin-header></admin-header>
     <div class="task-list">
-      <task-item :task="item"  v-for="item in tasks" :key="item.id"></task-item>
+      <task-item :task="item" v-for="item in tasks" :key="item.taskId"></task-item>
     </div>
   </div>
 </template>
@@ -22,6 +22,9 @@ export default {
     ...mapGetters({
       tasks: 'admin/taskList'
     })
+  },
+  activated () {
+    this.$store.dispatch('admin/getTaskList')
   }
 }
 </script>

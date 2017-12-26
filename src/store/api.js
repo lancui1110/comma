@@ -32,8 +32,8 @@ const apiMapping = {
   getOrderShare: 'api/activity/orderShare',  // 获取红包分享
 
   // admin
-  pageTask: 'm/shellTask/pageTask',
-  getTaskDetail: 'm/shelfTask/showTask',
+  pageTask: 'm/shelfTask/pageTask',
+  showTask: 'm/shelfTask/showTask',
   adminOverview: 'm/shelfTask/overview'
 }
 

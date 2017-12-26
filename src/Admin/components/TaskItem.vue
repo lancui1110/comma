@@ -1,7 +1,7 @@
 <template>
   <div class="task-item">
     <router-link :to="{ name: 'taskDetail', params: { id: task.taskId } }" >
-      <div class="type">{{task.type}}</div>
+      <div class="type">{{task.taskTypeInfo}}</div>
       <div class="company">{{task.companyName}}</div>
       <div class="address">{{task.address}}</div>
     </router-link>

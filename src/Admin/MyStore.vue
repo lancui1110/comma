@@ -52,7 +52,7 @@ export default {
       overview: 'admin/overview'
     })
   },
-  mounted () {
+  activated () {
     this.$store.dispatch('admin/getOverview')
   }
 }

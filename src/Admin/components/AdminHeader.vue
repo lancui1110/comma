@@ -1,7 +1,7 @@
 <template>
   <div class="flex center admin-header">
     <h1 class="flex-1">XXX，您好~</h1>
-    <router-link class="flex center column link" :to="{name: 'adminMore'}">
+    <router-link class="flex center column link" :to="{name: 'myStore'}">
       <i class="icon icon-qr-code"></i>
       扫描货架
     </router-link>
