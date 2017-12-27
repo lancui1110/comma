@@ -23,7 +23,18 @@ const actions = {
       }
     })
   },
-  refreshOrders ({ commit, dispatch }, cb) {
+  refreshTaskList ({ commit, dispatch }, cb) {
+    commit('setPageInfo', {
+      total: 0,
+      page: 1,
+      pageSize: 20,
+      end: false
+    })
+    dispatch('getTaskList', { cb })
+  },
+  loadMoreTaskList ({ commit, dispatch }, cb) {
+    commit('setPageInfo', Object.assign({}, state.pageInfo, { page: state.pageInfo.page + 1 }))
+    dispatch('getTaskList', { cb })
   },
   getTaskList ({ commit }, { params, cb }) {
     let data = {
@@ -83,6 +94,9 @@ const mutations = {
 const getters = {
   overview (state) {
     return state.overview
+  },
+  pageInfo (state) {
+    return state.pageInfo
   },
   taskList (state) {
     return state.taskList

@@ -1,9 +1,11 @@
 <template>
   <div class="admin">
     <admin-header></admin-header>
-    <div class="task-list">
-      <task-item :task="item" v-for="item in tasks" :key="item.taskId"></task-item>
-    </div>
+    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
+      <div class="task-list">
+        <task-item :task="item" v-for="item in tasks" :key="item.taskId"></task-item>
+      </div>
+    </mt-loadmore>
   </div>
 </template>
 
@@ -20,11 +22,20 @@ export default {
   },
   computed: {
     ...mapGetters({
-      tasks: 'admin/taskList'
+      tasks: 'admin/taskList',
+      pageInfo: 'admin/pageInfo'
     })
   },
   activated () {
     this.$store.dispatch('admin/getTaskList', {})
+  },
+  methods: {
+    loadTop () {
+      this.$store.dispatch('admin/refreshTaskList', this.$refs.loadmore.onTopLoaded)
+    },
+    loadBottom () {
+      this.$store.dispatch('admin/loadMoreTaskList', this.$refs.loadmore.onBottomLoaded)
+    }
   }
 }
 </script>

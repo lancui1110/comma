@@ -6,17 +6,19 @@
     </mt-navbar>
 
     <!-- tab-container -->
-    <mt-tab-container v-model="currentTab">
-      <mt-tab-container-item id="0">
-        <div>
+    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
+      <mt-tab-container v-model="currentTab">
+        <mt-tab-container-item id="0">
+          <div>
+            <task-item :task="item" v-for="item in tasks" :key="item.id"></task-item>
+          </div>
+        </mt-tab-container-item>
+        <mt-tab-container-item id="1">
           <task-item :task="item" v-for="item in tasks" :key="item.id"></task-item>
-        </div>
-      </mt-tab-container-item>
-      <mt-tab-container-item id="1">
-        <task-item :task="item" v-for="item in tasks" :key="item.id"></task-item>
-      </mt-tab-container-item>
-    </mt-tab-container>
-  </div>
+        </mt-tab-container-item>
+      </mt-tab-container>
+    </mt-loadmore>
+ </div>
 </template>
 
 <script>
@@ -42,26 +44,29 @@ export default {
   },
   computed: {
     ...mapGetters({
-      tasks: 'admin/taskList'
+      tasks: 'admin/taskList',
+      pageInfo: 'admin/pageInfo'
     })
   },
   watch: {
     currentTab (newVal) {
-      if (newVal === '1') {
-        this.getList(1)
-      } else {
-        this.getList(0)
-      }
+      this.getList()
     }
   },
   activated () {
-    this.getList(0)
+    this.getList()
   },
   methods: {
-    getList (status) {
+    getList () {
       this.$store.dispatch('admin/getTaskList', {
-        params: { status }
+        params: { status: this.currentTab === '1' ? 1 : 0 }
       })
+    },
+    loadTop () {
+      this.$store.dispatch('admin/refreshTaskList', this.$refs.loadmore.onTopLoaded)
+    },
+    loadBottom () {
+      this.$store.dispatch('admin/loadMoreTaskList', this.$refs.loadmore.onBottomLoaded)
     }
   }
 }
