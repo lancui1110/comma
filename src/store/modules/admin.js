@@ -64,6 +64,16 @@ const actions = {
       cb && cb()
     })
   },
+  getFormTaskDetail ({ commit }, taskId) {
+    iwjw.ajax({
+      url: API.getUrl('taskDetail'),
+      data: { taskId }
+    }).then(res => {
+      if (res.code === 1) {
+        commit('setTaskDetail', res.data)
+      }
+    })
+  },
   getTaskDetail ({ commit }, taskId) {
     iwjw.ajax({
       url: API.getUrl('showTask'),

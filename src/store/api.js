@@ -33,6 +33,7 @@ const apiMapping = {
 
   // admin
   pageTask: 'm/shelfTask/pageTask',
+  taskDetail: 'm/shelfTask/taskDetail',
   showTask: 'm/shelfTask/showTask',
   adminOverview: 'm/shelfTask/overview'
 }
