@@ -67,7 +67,7 @@ const router = new Router({
     { name: 'myStore', path: '/admin/mystore', component: MyStore },
     { name: 'myTask', path: '/admin/mytask', component: MyTask },
     { name: 'taskDetail', path: '/admin/task/:id', component: TaskDetail },
-    { name: 'handleTask', path: '/admin/handle/:taskId/:type', component: HandleTask },
+    { name: 'handleTask', path: '/admin/handle/:taskId/:taskType', component: HandleTask },
     { name: 'adminFeedback', path: '/admin/feedBack', component: AdminFeedback },
 
     { name: 'error', path: '/error', component: Error },

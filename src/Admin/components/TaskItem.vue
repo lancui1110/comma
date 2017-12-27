@@ -6,7 +6,7 @@
       <div class="address">{{task.address}}</div>
     </router-link>
     <router-link
-      :to="{ name: 'handleTask', params: { taskId: task.taskId, type: task.type } }"
+      :to="{ name: 'handleTask', params: { taskId: task.taskId, taskType: task.taskType } }"
       class="flex center deal-btn"
       v-if="task.status === 0">
       去处理
