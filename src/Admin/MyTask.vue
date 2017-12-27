@@ -63,7 +63,9 @@ export default {
       })
     },
     loadTop () {
-      this.$store.dispatch('admin/refreshTaskList', this.$refs.loadmore.onTopLoaded)
+      this.$store.dispatch('admin/refreshTaskList', {
+        cb: this.$refs.loadmore.onTopLoaded
+      })
     },
     loadBottom () {
       this.$store.dispatch('admin/loadMoreTaskList', this.$refs.loadmore.onBottomLoaded)

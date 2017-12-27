@@ -1,6 +1,6 @@
 <template>
   <div class="admin">
-    <admin-header></admin-header>
+    <admin-header @scan="scan"></admin-header>
     <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
       <div class="task-list">
         <task-item :task="item" v-for="item in tasks" :key="item.taskId"></task-item>
@@ -31,10 +31,20 @@ export default {
   },
   methods: {
     loadTop () {
-      this.$store.dispatch('admin/refreshTaskList', this.$refs.loadmore.onTopLoaded)
+      this.$store.dispatch('admin/refreshTaskList', {
+        cb: this.$refs.loadmore.onTopLoaded
+      })
     },
     loadBottom () {
       this.$store.dispatch('admin/loadMoreTaskList', this.$refs.loadmore.onBottomLoaded)
+    },
+    scan (shelfCode) {
+      this.$store.dispatch('admin/refreshTaskList', {
+        params: {
+          shelfCode
+        },
+        cb: this.$refs.loadmore.onTopLoaded
+      })
     }
   }
 }

@@ -1,10 +1,10 @@
 <template>
   <div class="flex center admin-header">
     <h1 class="flex-1">XXX，您好~</h1>
-    <router-link class="flex center column link" :to="{name: 'myStore'}">
+    <span class="flex center column link">
       <i class="icon icon-qr-code"></i>
       扫描货架
-    </router-link>
+    </span>
     <router-link class="flex center column link" :to="{name: 'myStore'}">
       <i class="icon icon-more"></i>
       我的店铺
@@ -13,8 +13,17 @@
 </template>
 
 <script>
+import weixin from 'weixin'
+
 export default {
-  name: 'AdminHeader'
+  name: 'AdminHeader',
+  methods: {
+    scanQRCode () {
+      weixin.weixinScanQRCode((res) => {
+        this.$emit('scan', res)
+      })
+    }
+  }
 }
 </script>
 

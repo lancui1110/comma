@@ -23,14 +23,14 @@ const actions = {
       }
     })
   },
-  refreshTaskList ({ commit, dispatch }, cb) {
+  refreshTaskList ({ commit, dispatch }, { params, cb }) {
     commit('setPageInfo', {
       total: 0,
       page: 1,
       pageSize: 20,
       end: false
     })
-    dispatch('getTaskList', { cb })
+    dispatch('getTaskList', { params, cb })
   },
   loadMoreTaskList ({ commit, dispatch }, cb) {
     commit('setPageInfo', Object.assign({}, state.pageInfo, { page: state.pageInfo.page + 1 }))
