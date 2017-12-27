@@ -15,6 +15,7 @@
         </mt-tab-container-item>
         <mt-tab-container-item id="1">
           <task-item :task="item" v-for="item in tasks" :key="item.id"></task-item>
+          <div class="no-data" v-if="!tasks.length">暂无数据</div>
         </mt-tab-container-item>
       </mt-tab-container>
     </mt-loadmore>
@@ -50,25 +51,24 @@ export default {
   },
   watch: {
     currentTab (newVal) {
-      this.getList()
+      this.loadTop()
     }
   },
   activated () {
-    this.getList()
+    this.loadTop()
   },
   methods: {
-    getList () {
-      this.$store.dispatch('admin/getTaskList', {
-        params: { status: this.currentTab === '1' ? 1 : 0 }
-      })
-    },
     loadTop () {
       this.$store.dispatch('admin/refreshTaskList', {
+        params: { status: this.currentTab === '1' ? 1 : 0 },
         cb: this.$refs.loadmore.onTopLoaded
       })
     },
     loadBottom () {
-      this.$store.dispatch('admin/loadMoreTaskList', this.$refs.loadmore.onBottomLoaded)
+      this.$store.dispatch('admin/loadMoreTaskList', {
+        params: { status: this.currentTab === '1' ? 1 : 0 },
+        cb: this.$refs.loadmore.onBottomLoaded
+      })
     }
   }
 }
@@ -80,6 +80,7 @@ export default {
 .my-task {
   .mint-tab-container {
     padding: 30/@R;
+    min-height: 1000/@R;
   }
 }
 </style>

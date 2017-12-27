@@ -27,7 +27,7 @@ export default {
     })
   },
   activated () {
-    this.$store.dispatch('admin/getTaskList', {})
+    this.loadTop()
   },
   methods: {
     loadTop () {

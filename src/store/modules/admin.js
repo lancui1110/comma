@@ -32,9 +32,9 @@ const actions = {
     })
     dispatch('getTaskList', { params, cb })
   },
-  loadMoreTaskList ({ commit, dispatch }, cb) {
+  loadMoreTaskList ({ commit, dispatch }, { params, cb }) {
     commit('setPageInfo', Object.assign({}, state.pageInfo, { page: state.pageInfo.page + 1 }))
-    dispatch('getTaskList', { cb })
+    dispatch('getTaskList', { params, cb })
   },
   getTaskList ({ commit }, { params, cb }) {
     let data = {

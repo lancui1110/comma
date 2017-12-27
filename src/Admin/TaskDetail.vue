@@ -31,7 +31,7 @@
     </div>
     <div class="row">
       <label>状态：</label>
-      <div class="content">{{task.status ? '已完成' : '未完成'}}</div>
+      <div class="content">{{task.status ? '已完成' : '进行中'}}</div>
     </div>
     <div class="row">
       <label>{{task.taskTypeInfo}}商品：</label>
