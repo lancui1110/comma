@@ -1,4 +1,4 @@
-import { concat } from 'lodash'
+import { concat, forEach } from 'lodash'
 import API from '../api'
 
 const state = {
@@ -70,6 +70,11 @@ const actions = {
       data: { taskId }
     }).then(res => {
       if (res.code === 1) {
+        forEach(res.data, item => {
+          if (!item.realNum) {
+            item.realNum = ''
+          }
+        })
         commit('setTaskDetail', res.data)
       }
     })
@@ -81,6 +86,17 @@ const actions = {
     }).then(res => {
       if (res.code === 1) {
         commit('setTaskDetail', res.data)
+      }
+    })
+  },
+  submitTask ({ commmit }, { taskId, params, cb }) {
+    iwjw.ajax({
+      method: 'POST',
+      url: API.getUrl('submitTask', taskId),
+      data: params
+    }).then(res => {
+      if (res.code === 1) {
+        cb && cb()
       }
     })
   }

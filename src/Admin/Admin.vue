@@ -4,6 +4,7 @@
     <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
       <div class="task-list">
         <task-item :task="item" v-for="item in tasks" :key="item.taskId"></task-item>
+        <div class="no-data" v-if="!tasks.length">暂无任务</div>
       </div>
     </mt-loadmore>
   </div>

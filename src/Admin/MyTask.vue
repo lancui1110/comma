@@ -9,9 +9,8 @@
     <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageInfo.end" :auto-fill="false" ref="loadmore">
       <mt-tab-container v-model="currentTab">
         <mt-tab-container-item id="0">
-          <div>
-            <task-item :task="item" v-for="item in tasks" :key="item.id"></task-item>
-          </div>
+          <task-item :task="item" v-for="item in tasks" :key="item.id"></task-item>
+          <div class="no-data" v-if="!tasks.length">暂无数据</div>
         </mt-tab-container-item>
         <mt-tab-container-item id="1">
           <task-item :task="item" v-for="item in tasks" :key="item.id"></task-item>

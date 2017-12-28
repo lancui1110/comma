@@ -35,11 +35,13 @@ const apiMapping = {
   pageTask: 'm/shelfTask/pageTask',
   taskDetail: 'm/shelfTask/taskDetail',
   showTask: 'm/shelfTask/showTask',
+  submitTask: 'm/shelfTask/submitTask/',  // 注意这个是动态 url
   adminOverview: 'm/shelfTask/overview'
 }
 
 export default {
-  getUrl: function (apiKey) {
-    return pageConfig.siteUrl + apiMapping[apiKey]
+  getUrl: function (apiKey, addon) {
+    return pageConfig.siteUrl + apiMapping[apiKey] + (addon || '')
+    // return 'http://aa.isfeel.cn/' + apiMapping[apiKey] + (addon || '')
   }
 }
