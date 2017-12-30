@@ -3,14 +3,15 @@
     <div class="content">
       <div class="content-area">
         <span class="word">{{feedback.length}}/{{maxWords}}</span>
-        <textarea v-model="feedback" cols="30" rows="10" :maxlength="maxWords" placeholder="请留下您的宝贵建议，促使我们进步~"></textarea>
+        <textarea v-model="feedback" cols="30" rows="10" :maxlength="maxWords" placeholder="备注（可不填）~"></textarea>
       </div>
+      <div class="word info">图片可不传，最多可以上传4张</div>
       <div class="addbtns">
         <div v-for="(item, key) in localPics" :key="key" class="img">
           <img @click="previewImages(item)" :src="item" class="addbtn" />
           <i class="icon icon-delete" @click="delPic(key)"></i>
         </div>
-        <img v-show="localPics.length < 5" @click="uploadImg(key)"  :src="defaultPic" class="addbtn" />
+        <img v-show="localPics.length < 4" @click="uploadImg(key)"  :src="defaultPic" class="addbtn" />
       </div>
       <div class="btns">
         <span class="btn bg-gray" @click="back">返回</span>
@@ -52,9 +53,6 @@ export default {
     this.taskId = this.$route.query.taskId
   },
   computed: {
-    ...mapGetters({
-      handleTaskParams: 'admin/handleTaskParams' // 补货的数据，注意这里是数组
-    })
   },
   methods: {
     uploadImg () {
@@ -77,17 +75,14 @@ export default {
       uploadPic.previewImages(pic, this.localPics)
     },
     submit () {
-      if (!this.feedback) {
-        Toast('请输入您的宝贵建议~')
-        return
-      }
       if (this.feedback.length > this.maxWords) {
         Toast(`最多输入${this.maxWords}字哦~`)
         return
       }
-
-      // 提交任务
-      this.submitTask()
+      if (!this.feedback && !this.serverPics.length) {
+        Toast('请输入备注或者选择图片~')
+        return
+      }
 
       // 提交反馈
       const params = {
@@ -100,23 +95,8 @@ export default {
         cb: (res) => {
           Toast('反馈成功～')
           setTimeout(() => {
-            this.$router.go(-2)
+            this.$router.back()
           }, 1000)
-        }
-      })
-    },
-    submitTask () {
-      this.$store.dispatch('admin/submitTask', {
-        taskId: this.taskId,
-        params: this.handleTaskParams,
-        cb: () => {
-          // TODO: 点击确认，如果该货架没有其他类型任务，则回到 1. 如有其他未完成类型任务，则打开新任务，同 2 提示1秒消失
-          Toast('提交成功～')
-          setTimeout(() => {
-            this.$router.go(-2)
-          }, 1000)
-          // 清空参数
-          this.$store.dispatch('admin/updateHandleTaskParams', [])
         }
       })
     },
@@ -156,6 +136,10 @@ export default {
         bottom: 20/@R;
         color: #999;
       }
+    }
+    .info {
+      text-align: left;
+      padding-left: 30/@R;
     }
     .addbtns {
       padding-left: 30/@R;

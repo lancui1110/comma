@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <mt-button type="primary" @click="toSubmit">提交</mt-button>
+    <mt-button type="primary" @click="submit">提交</mt-button>
   </div>
 </template>
 
@@ -67,14 +67,29 @@ export default {
     this.taskId = taskId
     this.taskType = taskType
 
-    if (this.handleTaskParams.length > 0) { // 从反馈返回的，则不用更新数据
-      this.$store.dispatch('admin/updateHandleTaskParams', [])
-    } else {
-      this.$store.dispatch('admin/getFormTaskDetail', this.taskId)
-    }
+    this.$store.dispatch('admin/getFormTaskDetail', this.taskId)
+
+    // if (this.handleTaskParams.length > 0) { // 从反馈返回的，则不用更新数据
+    //   this.$store.dispatch('admin/updateHandleTaskParams', [])
+    // } else {
+    //   this.$store.dispatch('admin/getFormTaskDetail', this.taskId)
+    // }
   },
   methods: {
-    toSubmit () {
+    toFeedBack () {
+      MessageBox({
+        title: '提示',
+        message: '是否需要拍照或备注?',
+        showCancelButton: true
+      }).then(action => {
+        if (action === 'confirm') {
+          this.$router.replace({ name: 'adminFeedback', query: {taskId: this.taskId} })
+        } else {
+          this.$router.back()
+        }
+      })
+    },
+    submit () {
       const params = map(this.tasks, item => {
         return {
           goodsId: item.goodsId,
@@ -92,36 +107,16 @@ export default {
         return
       }
 
-      // 不是补货，则直接提交
-      if (this.taskType !== 2) {
-        this.submit(params)
-        return
-      }
-
-      MessageBox({
-        title: '提示',
-        message: '是否需要拍照或备注?',
-        showCancelButton: true
-      }).then(action => {
-        if (action === 'confirm') {
-          // 存储修改数据到store，供反馈提交
-          this.$store.dispatch('admin/updateHandleTaskParams', params)
-          this.$router.push({ name: 'adminFeedback', query: {taskId: this.taskId} })
-        } else {
-          this.submit(params)
-        }
-      })
-    },
-    submit (params) {
       this.$store.dispatch('admin/submitTask', {
         taskId: this.taskId,
         params,
         cb: () => {
           // TODO: 点击确认，如果该货架没有其他类型任务，则回到 1. 如有其他未完成类型任务，则打开新任务，同 2 提示1秒消失
-          Toast('提交成功～')
-          setTimeout(() => {
-            this.$router.back()
-          }, 1000)
+          this.toFeedBack()
+          // Toast('提交成功～')
+          // setTimeout(() => {
+          //   this.$router.back()
+          // }, 1000)
         }
       })
     }
