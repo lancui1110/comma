@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <mt-button type="primary" @click="submit">提交</mt-button>
+    <mt-button type="primary" @click="toSubmit">提交</mt-button>
   </div>
 </template>
 
@@ -32,7 +32,7 @@
 import { map, forEach } from 'lodash'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import { Button, Toast } from 'mint-ui'
+import { Button, Toast, MessageBox } from 'mint-ui'
 
 Vue.component(Button.name, Button)
 
@@ -65,7 +65,7 @@ export default {
     this.$store.dispatch('admin/getFormTaskDetail', this.taskId)
   },
   methods: {
-    submit () {
+    toSubmit () {
       const params = map(this.tasks, item => {
         return {
           goodsId: item.goodsId,
@@ -83,6 +83,28 @@ export default {
         return
       }
 
+      // 不是补货，则直接提交
+      if (this.taskType !== 2) {
+        this.submit(params)
+        return
+      }
+
+      // 存储修改数据到store，供反馈提交
+      this.$store.dispatch('admin/updateHandleTaskParams', params)
+
+      MessageBox({
+        title: '提示',
+        message: '是否需要拍照或备注?',
+        showCancelButton: true
+      }).then(action => {
+        if (action === 'confirm') {
+          this.$router.push({ name: 'adminFeedback', query: {taskId: this.taskId} })
+        } else {
+          this.submit(params)
+        }
+      })
+    },
+    submit (params) {
       this.$store.dispatch('admin/submitTask', {
         taskId: this.taskId,
         params,
@@ -103,6 +125,7 @@ export default {
 @import "./style.less";
 .handle-task {
   background-color: #fff;
+  margin-bottom: 10/@R ;
   h2 {
     padding: 20/@R 0 30/@R;
     text-align: center;

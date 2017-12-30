@@ -10,7 +10,8 @@ const state = {
     end: false
   },
   taskList: [],
-  taskDetail: {}
+  taskDetail: {},
+  handleTaskParams: [] // 提交货架任务的参数
 }
 
 const actions = {
@@ -89,6 +90,20 @@ const actions = {
       }
     })
   },
+  updateHandleTaskParams ({ commit }, params) {
+    commit('setHandleTaskParams', params)
+  },
+  supplementTask ({ commmit }, { taskId, params, cb }) {
+    iwjw.ajax({
+      method: 'POST',
+      url: API.getUrl('supplementTask', taskId),
+      data: params
+    }).then(res => {
+      if (res.code === 1) {
+        cb && cb()
+      }
+    })
+  },
   submitTask ({ commmit }, { taskId, params, cb }) {
     iwjw.ajax({
       method: 'POST',
@@ -114,6 +129,9 @@ const mutations = {
   },
   setTaskDetail (state, data) {
     state.taskDetail = data
+  },
+  setHandleTaskParams (state, data) {
+    state.handleTaskParams = data
   }
 }
 
@@ -129,7 +147,10 @@ const getters = {
   },
   taskDetail (state) {
     return state.taskDetail
-  }
+  },
+  handleTaskParams (state) {
+    return state.handleTaskParams
+  } 
 }
 
 export default {

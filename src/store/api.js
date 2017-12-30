@@ -36,6 +36,7 @@ const apiMapping = {
   taskDetail: 'm/shelfTask/taskDetail',
   showTask: 'm/shelfTask/showTask',
   submitTask: 'm/shelfTask/submitTask/',  // 注意这个是动态 url
+  supplementTask: 'm/shelfTask/supplement/',  // 注意这个是动态 url
   adminOverview: 'm/shelfTask/overview'
 }
 

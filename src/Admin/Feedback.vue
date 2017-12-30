@@ -13,7 +13,7 @@
         <img v-show="localPics.length < 5" @click="uploadImg(key)"  :src="defaultPic" class="addbtn" />
       </div>
       <div class="btns">
-        <span class="btn bg-gray">返回</span>
+        <span class="btn bg-gray" @click="back">返回</span>
         <span class="btn" @click="submit">提交</span>
       </div>
     </div>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import { Toast } from 'mint-ui'
 
 import weixin from 'weixin'
@@ -34,6 +34,7 @@ export default {
   data () {
     const defaultPic = require('../assets/img_upload.png')
     return {
+      taskId: this.$route.query.taskId,
       maxWords: 200,
       defaultPic: defaultPic,
       localPics: [],
@@ -45,6 +46,9 @@ export default {
     weixin.init()
   },
   computed: {
+    ...mapGetters({
+      handleTaskParams: 'admin/handleTaskParams' // 注意这里是数组
+    })
   },
   methods: {
     uploadImg () {
@@ -75,21 +79,41 @@ export default {
         Toast(`最多输入${this.maxWords}字哦~`)
         return
       }
+
+      // 提交任务
+      this.submitTask()
+
+      // 提交反馈
       const params = {
         feedback: this.feedback,
         wxPicIds: this.serverPics
       }
-      this.$store.dispatch('customer/submit', {
+      this.$store.dispatch('admin/supplementTask', {
+        taskId: this.taskId,
         params: params,
         cb: (res) => {
-          if (res.code === 1) {
-            Toast('反馈成功')
-            window.history.go(-1)
-          } else {
-            Toast('提交失败啦')
-          }
+          Toast('反馈成功～')
+          setTimeout(() => {
+            this.$router.go(-2)
+          }, 1000)
         }
       })
+    },
+    submitTask () {
+      this.$store.dispatch('admin/submitTask', {
+        taskId: this.taskId,
+        params: this.handleTaskParams,
+        cb: () => {
+          // TODO: 点击确认，如果该货架没有其他类型任务，则回到 1. 如有其他未完成类型任务，则打开新任务，同 2 提示1秒消失
+          Toast('提交成功～')
+          setTimeout(() => {
+            this.$router.go(-2)
+          }, 1000)
+        }
+      })
+    },
+    back () {
+      this.$router.back()
     }
   }
 }
@@ -147,14 +171,24 @@ export default {
       }
     }
     .btns {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
       width: 100%;
-      height: 97/@R;
-      line-height: 97/@R;
-      font-size: 36/@R;
-      color: #fff;
-      border-radius: 4px;
-      background: #593C38;
-      margin: 0 auto;
+      display: flex;
+      .btn {
+        flex: 1;
+        height: 97/@R;
+        line-height: 97/@R;
+        font-size: 36/@R;
+        color: #fff;
+        background: #593C38;
+      }
+      .bg-gray {
+        background: #CCCCCC;
+        color: #333;
+      }
     }
   }
 </style>
