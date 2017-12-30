@@ -1,7 +1,7 @@
 <template>
   <div class="flex center admin-header">
     <h1 class="flex-1">{{name ? `${name}，` : ''}}您好~</h1>
-    <span class="flex center column link">
+    <span class="flex center column link" @click="scanQRCode">
       <i class="icon icon-qr-code"></i>
       扫描货架
     </span>
