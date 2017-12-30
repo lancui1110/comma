@@ -1,6 +1,6 @@
 <template>
   <div class="flex center admin-header">
-    <h1 class="flex-1">XXX，您好~</h1>
+    <h1 class="flex-1">{{name ? `${name}，` : ''}}您好~</h1>
     <span class="flex center column link">
       <i class="icon icon-qr-code"></i>
       扫描货架
@@ -13,10 +13,16 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 import weixin from 'weixin'
 
 export default {
   name: 'AdminHeader',
+  data () {
+    return {
+      name: Cookies.get('shelfManager')
+    }
+  },
   methods: {
     scanQRCode () {
       weixin.weixinScanQRCode((res) => {
