@@ -45,9 +45,15 @@ export default {
   mounted () {
     weixin.init()
   },
+  activated () {
+    this.feedback = ''
+    this.localPics = []
+    this.serverPics = []
+    this.taskId = this.$route.query.taskId
+  },
   computed: {
     ...mapGetters({
-      handleTaskParams: 'admin/handleTaskParams' // 注意这里是数组
+      handleTaskParams: 'admin/handleTaskParams' // 补货的数据，注意这里是数组
     })
   },
   methods: {
@@ -109,6 +115,8 @@ export default {
           setTimeout(() => {
             this.$router.go(-2)
           }, 1000)
+          // 清空参数
+          this.$store.dispatch('admin/updateHandleTaskParams', [])
         }
       })
     },
