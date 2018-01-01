@@ -164,11 +164,17 @@ export default {
         content: "：";
       }
     }
+    input {
+      width: 200/@R;
+    }
   }
   .mint-button {
     display: block;
     width: 90%;
     margin: 50/@R auto;
+    &.mint-button--primary {
+      background-color: @primary;
+    }
   }
 }
 </style>
