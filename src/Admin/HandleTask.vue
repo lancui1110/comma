@@ -2,7 +2,7 @@
   <div class="admin handle-task">
     <h2>请您{{TypeLabel[taskType]}}</h2>
 
-    <div class="task-row" v-for="item in tasks" :key="item.goodsId">
+    <div class="task-row" v-for="(item, $index) in tasks" :key="item.goodsId">
       <img :src="item.pic" alt="">
       <div class="right">
         <div class="field">
@@ -15,11 +15,21 @@
         </div>
         <div class="field" v-if="taskType === 2 || taskType === 4">
           <label>{{`实际${TypeLabel[taskType]}`}}</label>
-          <input type="tel" v-model="item.realNum" placeholder="点击输入">
+          <input
+            type="tel"
+            v-model="item.realNum"
+            placeholder="点击输入"
+            :ref="`input_${$index}`"
+            @keyup.enter="handleInputEnter($index, $event)">
         </div>
         <div class="field" v-else>
           <label>{{`${TypeLabel[taskType]}数量`}}</label>
-          <input type="tel" v-model="item.realNum" placeholder="点击输入">
+          <input
+            type="tel"
+            v-model="item.realNum"
+            placeholder="点击输入"
+            :ref="`input_${$index}`"
+            @keyup.enter="handleInputEnter($index, $event)">
         </div>
       </div>
     </div>
@@ -76,6 +86,12 @@ export default {
     // }
   },
   methods: {
+    handleInputEnter (index, e) {
+      const nextInput = this.$refs[`input_${index + 1}`]
+      if (nextInput) {
+        nextInput[0].focus()
+      }
+    },
     toFeedBack () {
       MessageBox({
         title: '提示',
