@@ -15,11 +15,11 @@
         </div>
         <div class="field" v-if="taskType === 2 || taskType === 4">
           <label>{{`实际${TypeLabel[taskType]}`}}</label>
-          <input type="number" v-model="item.realNum">
+          <input type="number" v-model="item.realNum" placeholder="点击输入">
         </div>
         <div class="field" v-else>
           <label>{{`${TypeLabel[taskType]}数量`}}</label>
-          <input type="number" v-model="item.realNum">
+          <input type="number" v-model="item.realNum" placeholder="点击输入">
         </div>
       </div>
     </div>
@@ -129,12 +129,13 @@ export default {
 <style lang="less">
 @import "./style.less";
 .handle-task {
-  background-color: #fff;
   margin-bottom: 10/@R ;
   h2 {
-    padding: 20/@R 0 30/@R;
+    height: 88/@R;
+    line-height: 88/@R;
     text-align: center;
-    font-size: 50/@R;
+    font-size: 34/@R;
+    background-color: #fff;
   }
   .task-row {
     display: flex;
@@ -142,6 +143,7 @@ export default {
     overflow: hidden;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, .3);
     font-size: 30/@R;
+    background-color: #fff;
     img {
       width: 250/@R;
       height: 250/@R;
