@@ -2,11 +2,11 @@
   <div class="flex center admin-header">
     <h1 class="flex-1">{{name ? `${name}，` : ''}}您好~</h1>
     <span class="flex center column link" @click="scanQRCode">
-      <i class="icon icon-qr-code"></i>
+      <i class="icon icon-admin-qr-code"></i>
       扫描货架
     </span>
     <router-link class="flex center column link" :to="{name: 'myStore'}">
-      <i class="icon icon-more"></i>
+      <i class="icon icon-my-store"></i>
       我的店铺
     </router-link>
   </div>
@@ -48,8 +48,6 @@ export default {
     color: @font-gray;
     font-weight: bold;
     .icon {
-      width: 60/@R;
-      height: 60/@R;
       margin-bottom: 10/@R;
       background-size: cover;
     }

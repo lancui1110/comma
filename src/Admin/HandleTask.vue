@@ -80,7 +80,9 @@ export default {
       MessageBox({
         title: '提示',
         message: '是否需要拍照或备注?',
-        showCancelButton: true
+        showCancelButton: true,
+        cancelButtonText: '不用，直接提交',
+        confirmButtonText: '是'
       }).then(action => {
         if (action === 'confirm') {
           this.$router.replace({ name: 'adminFeedback', query: {taskId: this.taskId} })
