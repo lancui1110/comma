@@ -1,24 +1,20 @@
 <template>
   <div class="pay-code-panel">
-    <div class="tel-box">
-      <p class="area-code">+86</p>
-      <input type="tel" class="tel-num" v-model="mobile" placeholder="请输入手机号">
+    <h2>账户登录</h2>
+    <div class="field-wrapper">
+      <input type="tel" class="tel-num" v-model="mobile" @keyup="handleTelChange" placeholder="请输入手机号">
     </div>
-    <div class="veri-code-box">
+    <div class="field-wrapper veri-code-box">
       <input type="number" class="code-input" v-model="code" placeholder="请输入验证码">
-      <button class="code-btn" :class="{'disabled': !mobile}" v-if="!isWaiting" @click="getVerificationCode()">验证码</button>
-      <button class="timeout-btn" v-else>{{waitingNum}}s</button>
-    </div>
-    <div class="pay-tips-box">
-      <div class="tip-icon-box">
-        <i class="icon icon-cue"></i>
-      </div>
-      <div class="tip-content">
-        <p>温馨提示：首次支付需要验证您的手机号码，通过后即可微信支付下单</p>
-      </div>
+      <button class="code-btn" :class="{'disabled': !mobile}" v-if="!isWaiting" @click="getVerificationCode()">{{isFristSend ? '点击获取' : '重新发送'}}</button>
+      <button class="code-btn timeout-btn" v-else>{{waitingNum}}秒后重发</button>
     </div>
     <div class="submit-btn-box">
-      <button class="submit" :disabled="!mobile || !code" @click="handleOnSubmitCode()">提交</button>
+      <button class="submit" :disabled="!mobile || !code" @click="handleOnSubmitCode()">登 录</button>
+    </div>
+    <div class="pay-tips-box">
+      <p>温馨提示：首次支付需要验证您的手机号码，</p>
+      <p>通过后即可微信支付下单</p>
     </div>
   </div>
 </template>
@@ -28,10 +24,17 @@
 import { trim } from 'lodash'
 import { Toast } from 'mint-ui'
 
+function formatMobile (v) {
+  const tmp = v.replace(/\s/g, '')
+  const result = [tmp.slice(0, 3), tmp.slice(3, 7), tmp.slice(7, 11)].join(' ')
+  return trim(result)
+}
+
 export default {
   name: 'Login',
   data () {
     return {
+      isFristSend: true,
       isWaiting: false,
       waitingNum: 60,
       isSubmit: false,
@@ -40,9 +43,13 @@ export default {
     }
   },
   methods: {
+    handleTelChange (e) {
+      let v = trim(e.target.value)
+      this.mobile = formatMobile(v)
+    },
     // 发请求获取验证码
     getVerificationCode () {
-      const m = trim(this.mobile)
+      const m = trim(this.mobile).replace(/\s/g, '')
       if (!m || !/^1[\d]{10}$/.test(m)) {
         Toast('请输入正确的手机号！')
         return
@@ -51,6 +58,7 @@ export default {
         mobile: m,
         cb: (res) => {
           if (res.code === 1) {
+            this.isFristSend = false
             this.isWaiting = true
             this.handleOnTimeOut()
           } else {
@@ -75,11 +83,15 @@ export default {
     handleOnSubmitCode () {
       this.isSubmit = true
       this.$store.dispatch('user/userLogin', {
-        mobile: this.mobile,
+        mobile: trim(this.mobile).replace(/\s/g, ''),
         code: this.code,
-        cb: () => {
+        cb: (res) => {
           this.isSubmit = false
-          this.$router.replace({ name: this.$route.query.to || 'home' })
+          if (res.code === 1) {
+            this.$router.replace({ name: this.$route.query.to || 'home' })
+          } else {
+            Toast(res.msg)
+          }
         }
       })
     }
@@ -92,101 +104,85 @@ export default {
   .pay-code-panel {
     position: relative;
     background: #F2F2F2;
-    padding: 30/@R;
-    padding-top: 48/@R;
+    padding: 50/@R;
     height: 100%;
-    font-size: 36/@R;
-    .tel-box {
-      display: flex;
-      flex-direction: row;
-      // justify-content: center;
-      align-items: center;
-      height: 100/@R;
-      background: #ffffff;
-      .area-code {
-        flex: 1;
-        padding-left: 30/@R;
-        margin: 30/@R 0;
-        margin-right: 5/@R;
-        color: #333;
-        border-right: solid 1px #d8d8d8;
-      }
-      .tel-num {
-        flex: 4;
-        height: 100%;
-        padding-left: 15/@R;
-        color: #333;
-        border: none;
-      }
-      ::-webkit-input-placeholder {
-        font-size: 36/@R;
-        color: #999;
-      }
+    color: #333;
+    h2 {
+      margin-bottom: 80/@R;
+      font-size: 48/@R;
+    }
+    input {
+      font-size: 36/@R;
+    }
+
+    .field-wrapper {
+      border-bottom: 0.5pt solid #e6e6e6;
+    }
+    .tel-num {
+      display: block;
+      width: 100%;
+      height: 80/@R;
+      padding: 20/@R 0;
+      border: none;
+      background-color: transparent;
+    }
+    ::-webkit-input-placeholder {
+      font-size: 28/@R;
+      color: #999;
     }
     .veri-code-box {
       display: flex;
-      flex-direction: row;
-      height: 100/@R;
       margin-top: 30/@R;
       .code-input {
-        flex: 2;
-        height: 100%;
-        padding-left: 30/@R;
-        background: #fff;
+        flex-grow: 1;
+        height: 80/@R;
+        padding: 20/@R 0;
         border: none;
+        background-color: transparent;
       }
       ::-webkit-input-placeholder {
         color: #999;
       }
-      .timeout-btn {
-        flex: 1;
-        margin-left: 20/@R;
-        height: 100%;
-        color: #fff;
-        outline: none;
-        border: none;
-        background: #a1a1a1;
-      }
+
     }
     .code-btn {
-      flex: 1;
-      margin-left: 20/@R;
-      height: 100%;
-      color: #fff;
+      width: 160/@R;
+      height: 80/@R;
+      text-align: right;
+      color: #2F73EF;
+      font-size: 28/@R;
       outline: none;
       border: none;
-      background: #593C38;
+      background-color: transparent;
+    }
+    .timeout-btn {
+      color: #333;
     }
     .pay-tips-box {
-      display: flex;
-      flex-direction: row;
-      margin-top: 25/@R;
-      padding: 0 15/@R;
-      .tip-icon-box {
-        margin-right: 20/@R;
-      }
-      .tip-content {
-        color: #999;
-        font-size: 24/@R;
-      }
+      width: 500/@R;
+      margin: 30/@R auto 0;
+      color: #999;
+      font-size: 24/@R;
     }
     .submit-btn-box {
       width: 100%;
       height: 100/@R;
-      margin-top: 196/@R;
+      margin-top: 80/@R;
     }
     .submit {
       width: 100%;
       height: 100%;
       color: #fff;
-      background: #593C38;
+      background: @primary;
+      box-shadow: 2/@R 8/@R 15/@R 0 rgba(0,170,140,0.2);
       border: none;
-      border-radius: 10/@R;
+      border-radius: 49/@R;
       outline: none;
-    }
-    .disabled,
-    button[disabled] {
-      background: #a1a1a1;
+      font-size: 36/@R;
+      &[disabled] {
+        background: @disabled;
+        box-shadow: none;
+      }
     }
   }
 

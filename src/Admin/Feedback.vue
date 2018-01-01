@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 import { Toast } from 'mint-ui'
 
 import weixin from 'weixin'

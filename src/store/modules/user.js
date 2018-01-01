@@ -32,7 +32,7 @@ const actions = {
       if (res.code === 1) {
         commit('setUser', Object.assign({}, state.user, res.data))
       }
-      cb && cb()
+      cb && cb(res)
     })
   },
   // 发短信获取验证码
