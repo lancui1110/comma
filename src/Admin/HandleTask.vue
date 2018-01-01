@@ -155,8 +155,9 @@ export default {
       margin-bottom: 10/@R;
     }
     label {
-      width: 150/@R;
+      width: 190/@R;
       flex-shrink: 0;
+      white-space: nowrap;
       &:after {
         content: "：";
       }
