@@ -15,11 +15,11 @@
         </div>
         <div class="field" v-if="taskType === 2 || taskType === 4">
           <label>{{`实际${TypeLabel[taskType]}`}}</label>
-          <input type="number" v-model="item.realNum" placeholder="点击输入">
+          <input type="tel" v-model="item.realNum" placeholder="点击输入">
         </div>
         <div class="field" v-else>
           <label>{{`${TypeLabel[taskType]}数量`}}</label>
-          <input type="number" v-model="item.realNum" placeholder="点击输入">
+          <input type="tel" v-model="item.realNum" placeholder="点击输入">
         </div>
       </div>
     </div>
