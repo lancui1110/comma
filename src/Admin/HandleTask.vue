@@ -20,7 +20,7 @@
             v-model="item.realNum"
             placeholder="点击输入"
             :ref="`input_${$index}`"
-            @keyup.enter="handleInputEnter($index, $event)">
+            @blur="handleInputEnter($index, $event)">
         </div>
         <div class="field" v-else>
           <label>{{`${TypeLabel[taskType]}数量`}}</label>
@@ -29,7 +29,7 @@
             v-model="item.realNum"
             placeholder="点击输入"
             :ref="`input_${$index}`"
-            @keyup.enter="handleInputEnter($index, $event)">
+            @blur="handleInputEnter($index, $event)">
         </div>
       </div>
     </div>
