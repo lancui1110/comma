@@ -54,6 +54,7 @@ export default {
   },
   data () {
     return {
+      queryTimes: 0,  // 轮询优惠券次数，20次就不再轮询
       code: this.$route.query.code,
       isShowLeftMenu: false,
       isShowSelProducts: false,
@@ -65,12 +66,8 @@ export default {
     if (!this.productList.length) {
       this.$store.dispatch('home/getHomePage')
     }
-    this.$store.dispatch('coupons/getAvailableCouponList', (newCouponList) => {
-      // 如果购物车里有东西，需要重新计算一下购物车数据
-      if (this.cart.count) {
-        this.$store.commit('home/setCart', calCartInfo(this.cart, newCouponList))
-      }
-    })
+    // 轮询优惠券
+    this.queryAvailableCoupon()
   },
   computed: {
     ...mapGetters({
@@ -81,6 +78,22 @@ export default {
     })
   },
   methods: {
+    queryAvailableCoupon () {
+      this.$store.dispatch('coupons/getAvailableCouponList', (newCouponList) => {
+        // 如果购物车里有东西，需要重新计算一下购物车数据
+        if (this.cart.count) {
+          this.$store.commit('home/setCart', calCartInfo(this.cart, newCouponList))
+        }
+
+        this.queryTimes += 1
+
+        if (this.queryTimes < 20) {
+          setTimeout(() => {
+            this.queryAvailableCoupon()
+          }, 3000)
+        }
+      })
+    },
     showLeftMenu () {
       this.isShowLeftMenu = true
     },
