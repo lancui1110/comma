@@ -8,27 +8,52 @@
     <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="pageEnd" :auto-fill="false" ref="loadmore">
       <mt-tab-container v-model="currentTab">
         <mt-tab-container-item id="coupon">
-          <div class="coupons-list-panel">
+          <div v-if="!isLoading && couponList.length === 0"
+            class="list-panel nodata">
+            <div class="logo"><i class="icon icon-logo-white"></i></div>
+            <div class="word">没有优惠券可用~</div>
+          </div>
+          <div class="list-panel coupons-list-panel">
             <div v-for="(item, key) in couponList" :key="key" class="coupons-item-panel">
-              <div class="coupons-item" :class="{'gray': item.status === 2  || item.status === 4}">
-                <div class="word red">
-                  <span class="left word large">{{item.price}}元</span>
-                  <span class="word">{{item.name}}</span>
-                </div>
+              <div class="coupons-item" :class="{'gray': item.status === 2  || item.status === 4 || item.status === 5}">
                 <div class="word">
+                  <span class="left word large red">{{item.price}}元</span>
+                  <span class="word name">
+                    {{item.name}}
+                    <!-- 1待使用 2已使用 4已过期 5返还中 -->
+                    <span :class="`status-btn ${item.status === 5 ? 'orange' : ''}`"
+                      v-if="item.status === 2 || item.status === 4 || item.status === 5">
+                      {{statusText[item.status]}}
+                    </span>
+                  </span>
+                </div>
+                <div class="word meta">
                   <span class="left word">满{{item.lowPrice}}元立减</span>
                   <span class="word">{{item.startDate}}~{{item.endDate}}</span>
                 </div>
               </div>
-              <!-- 1待使用 2已使用  4：过期 -->
-              <img v-if="item.status === 4" class="state-pic" :src="require('../assets/icon_coupon_gq.png')" />
-              <img v-if="item.status === 2" class="state-pic" :src="require('../assets/icon_coupon_sy.png')" />
-              <img v-if="item.status === 5" class="state-pic" :src="require('../assets/icon_coupon_lock.png')" />
             </div>
           </div>
         </mt-tab-container-item>
         <mt-tab-container-item id="order">
-          <div class="test">456</div>
+          <div v-if="!isLoading && orderList.length === 0"
+            class="list-panel nodata">
+            <div class="logo"><i class="icon icon-logo-white"></i></div>
+            <div class="word">没有更多订单啦~</div>
+          </div>
+          <div class="list-panel order-list-panel">
+            <div class="order-item" v-for="(item, key) in orderList" :key="key">
+              <p class="date">{{item.payTime}}</p>
+              <div class="product-pics">
+                <div class="pro-pic" v-for="(pro, k) in item.goodsInfos" :key="k">
+                  <img :src="pro.picUrl"/>
+                </div>
+                <span class="count">共{{item.count}}件</span>
+                <span class="price">¥{{item.realAmount}}</span>
+              </div>
+              <div class="detail-btn" @click="goDetail(item)">订单明细</div>
+            </div>
+          </div>
         </mt-tab-container-item>
       </mt-tab-container>
     </mt-loadmore>
@@ -49,16 +74,30 @@ export default {
   name: 'My',
   data () {
     return {
-      currentTab: 'coupon' // coupon, order
+      isLoading: true,
+      currentTab: 'coupon', // coupon, order
+      statusText: {
+        2: '已使用',
+        4: '已过期',
+        5: '返还中'
+      }
     }
   },
   computed: {
     ...mapGetters({
       couponList: 'coupons/couponList',
-      couponsPageInfo: 'coupons/pageInfo'
+      couponsPageInfo: 'coupons/pageInfo',
+      orderList: 'order/orderList',
+      orderPageInfo: 'order/pageInfo'
     }),
     pageEnd () {
-      return false
+      return this.currentTab === 'coupon' ? this.couponsPageInfo.end : this.orderPageInfo.end
+    },
+    refreshActionName () {
+      return this.currentTab === 'coupon' ? 'coupons/refreshOrders' : 'order/refreshOrders'
+    },
+    loadMoreActionName () {
+      return this.currentTab === 'coupon' ? 'coupons/loadMoreOrders' : 'order/loadMoreOrders'
     }
   },
   watch: {
@@ -71,21 +110,18 @@ export default {
   },
   methods: {
     loadTop () {
-      if (this.currentTab === 'coupon') {
-        this.$store.dispatch('coupons/refreshOrders', this.$refs.loadmore.onTopLoaded)
-      } else {
-
-      }
-      // this.$store.dispatch('admin/refreshTaskList', {
-      //   params: { status: this.currentTab === '1' ? 1 : 0 },
-      //   cb: this.$refs.loadmore.onTopLoaded
-      // })
+      this.isLoading = true
+      this.$store.dispatch(this.refreshActionName, () => {
+        this.isLoading = false
+        this.$refs.loadmore.onTopLoaded()
+      })
     },
     loadBottom () {
-      // this.$store.dispatch('admin/loadMoreTaskList', {
-      //   params: { status: this.currentTab === '1' ? 1 : 0 },
-      //   cb: this.$refs.loadmore.onBottomLoaded
-      // })
+      this.isLoading = true
+      this.$store.dispatch(this.loadMoreActionName, () => {
+        this.isLoading = false
+        this.$refs.loadmore.onBottomLoaded()
+      })
     }
   }
 }
@@ -128,31 +164,29 @@ export default {
   }
 }
 
-.coupons-list-panel {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: #F2F2F2;
-  padding: 30/@R 25/@R;
-  &.nodata {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 175/@R;
-    justify-content: flex-start;
-    background: #fff;
-    .logo .icon{
-      width: 147/@R;
-      height: 147/@R;
-      background-size: 147/@R 147/@R;
-    }
-    .word {
-      font-size: 36/@R;
-      padding: 100/@R 0 52/@R 0;
-    }
+.nodata {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: center;
+  align-items: center;
+  min-height: 600/@R;
+  .logo .icon{
+    width: 96/@R;
+    height: 130/@R;
+    background-size: 96/@R 130/@R;
   }
-
+  .word {
+    font-size: 36/@R;
+    padding: 68/@R 0 0;
+    color: @font-gray-light;
+  }
+}
+.panel-list {
+  padding: 30/@R 25/@R;
+  background: @panel-gray;
+}
+.coupons-list-panel {
   .word {
     font-size: 28/@R;
     display: flex;
@@ -162,11 +196,33 @@ export default {
     font-size: 44/@R;
   }
   .red {
-    color: #D86868;
+    color: #FF6600;
+  }
+  .name {
+    font-size: 28/@R;
+    font-weight: bold;
+  }
+  .meta {
+    margin-top: 15/@R;
+    color: @font-gray;
   }
   .gray {
     .word, .red {
       color: #D9D9D9;
+    }
+  }
+  .status-btn {
+    width: 100/@R;
+    height: 40/@R;
+    line-height: 40/@R;
+    margin-left: 20/@R;
+    text-align: center;
+    border-radius: 20/@R;
+    background-color: #D8D8D8;
+    color: #fff;
+    font-size: 24/@R;
+    &.orange {
+      background-color: #F5A623;
     }
   }
   .left {
@@ -211,12 +267,63 @@ export default {
     justify-content: center;
     align-items: left;
   }
-  .state-pic {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 127/@R;
-    height: 127/@R;
+}
+
+.order-list-panel {
+  .date {
+    margin-bottom: 20/@R;
+    font-size: 24/@R;
+    color: @font-gray;
+  }
+  .order-item {
+    position: relative;
+    height: 260/@R;
+    margin-bottom: 30/@R;
+    padding: 20/@R 30/@R;
+    border-radius: 4/@R;
+    background: #fff;
+    .product-pics {
+      display: flex;
+      align-items: center;
+    }
+    .pro-pic {
+      display: none;
+      width: 100/@R;
+      height: 100/@R;
+      margin-right: 20/@R;
+      &:nth-child(1),
+      &:nth-child(2) {
+        display: inline-block;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .count {
+      flex-grow: 1;
+      text-align: right;
+      font-size: 24/@R;
+      color: @font-gray;
+    }
+    .price {
+      width: 217/@R;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 36/@R;
+    }
+    .detail-btn {
+      position: absolute;
+      right: 30/@R;
+      bottom: 20/@R;
+      width: 160/@R;
+      height: 54/@R;
+      line-height: 50/@R;
+      text-align: center;
+      border: 2/@R solid @border-gray;
+      border-radius: 27/@R;
+      font-size: 24/@R;
+    }
   }
 }
 </style>
