@@ -182,7 +182,7 @@ export default {
     color: @font-gray-light;
   }
 }
-.panel-list {
+.list-panel {
   padding: 30/@R 25/@R;
   background: @panel-gray;
 }
