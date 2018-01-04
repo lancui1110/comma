@@ -122,6 +122,10 @@ export default {
         this.isLoading = false
         this.$refs.loadmore.onBottomLoaded()
       })
+    },
+    goDetail (item) {
+      // location.href = `${pageConfig.siteUrl}index/order/detail?orderNum=${item.orderNum}`
+      this.$router.push({ name: 'orderDetail', query: { orderNum: item.orderNum } })
     }
   }
 }

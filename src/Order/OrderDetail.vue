@@ -1,27 +1,26 @@
 <template>
   <div class="order-detail-panel">
-    <div class="content-panel">
-      <p class="word">订单状态：{{orderDetail.statusInfo}}</p>
-      <p class="word">支付方式：{{orderDetail.payMethod}}</p>
+    <h2 class="status">{{orderDetail.statusInfo}}</h2>
+    <div class="pay-type">{{orderDetail.payMethod}}</div>
+    <div class="amount">￥{{orderDetail.realAmount}}</div>
+    <div class="labels-panel">
+      <p class="word">商品金额：￥{{orderDetail.totalAmount}}</p>
+      <p class="word" v-if="orderDetail.discountAmount > 0">商品折扣：￥{{orderDetail.discountAmount}}</p>
+      <p class="word" v-if="orderDetail.couponAmount > 0">红包抵扣：￥{{orderDetail.couponAmount}}</p>
+      <p class="word" v-if="orderDetail.totalDiscounts > 0">优惠总计：￥{{orderDetail.totalDiscounts}}</p>
       <p class="word">订单编号：{{orderDetail.orderNum}}</p>
-      <p class="word">订单时间：{{orderDetail.payTime}}</p>
+      <p class="word">下单时间：{{orderDetail.payTime}}</p>
     </div>
-    <div class="content-panel price-panel">
-      <p class="word">商品金额：<span class="right red">￥{{orderDetail.totalAmount}}</span></p>
-      <p class="word">实际支付：<span class="right red">￥{{orderDetail.realAmount}}</span></p>
-      <p class="word" v-if="orderDetail.totalDiscounts > 0">优惠总计：<span class="right">￥{{orderDetail.totalDiscounts}}</span></p>
-      <p class="word small" v-if="orderDetail.discountAmount > 0">商品折扣：<span class="right">￥{{orderDetail.discountAmount}}</span></p>
-      <p class="word small" v-if="orderDetail.couponAmount > 0">红包抵扣：<span class="right">￥{{orderDetail.couponAmount}}</span></p>
+    <div class="good-label">
+      <div class="label">商品明细</div>
     </div>
     <div class="content-panel products">
       <div class="pro-info" v-for="(item, key) in orderDetail.goodsInfos" :key="key">
         <img class="pic" :src="item.picUrl"/>
-        <div class="infos">
-          <p class="small">{{item.name}}  {{item.specification}}…</p>
-          <p class="word red">¥ {{item.price}}</p>
-        </div>
-        <div class="count">
-          <span class="word small">x{{item.num}}</span>
+        <div class="info-wrap">
+          <div class="name">{{item.name}}  {{item.specification}}…</div>
+          <div class="num">x{{item.num}}</div>
+          <div class="price">¥{{item.price}}</div>
         </div>
       </div>
     </div>
@@ -45,7 +44,7 @@ export default {
       orderDetail: 'order/orderDetail'
     })
   },
-  mounted () {
+  activated () {
     this.loadData()
   },
   methods: {
@@ -61,33 +60,59 @@ export default {
 
   .order-detail-panel {
     height: 100%;
-    background: #F2F2F2;
-    .content-panel {
-      margin-bottom: 30/@R;
-      padding: 20/@R 20/@R;
-      background: #fff;
+    h2.status {
+      padding: 40/@R 0 30/@R;
+      text-align: center;
+      font-size: 48/@R;
+      font-weight: bold;
+    }
+    .pay-type {
+      text-align: center;
+      font-size: 28/@R;
+    }
+    .amount {
+      margin: 10/@R 0 70/@R;
+      line-height: 67/@R;
+      text-align: center;
+      font-size: 48/@R;
+      font-weight: bold;
+    }
+    .labels-panel {
+      padding: 0 50/@R;
     }
     .word {
-      font-size: 30/@R;
-      padding: 10/@R 0;
-    }
-    .small {
+      padding-bottom: 20/@R;
       font-size: 24/@R;
     }
-    .red {
-      color: #D86868;
-    }
-    .price-panel {
-      .word {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-      }
-      .small {
-        padding-left: 22/@R;
-      }
-      .right {
 
+    .good-label {
+      margin: 50/@R 0;
+      text-align: center;
+      .label {
+        position: relative;
+        display: inline-block;
+        padding: 0 30/@R;
+        line-height: 42/@R;
+        font-size: 30/@R;
+        font-weight: bold;
+        background-color: #fff;
+        &:before,
+        &:after {
+          content: " ";
+          display: block;
+          position: absolute;
+          width: 121/@R;
+          height: 3/@R;
+          background-color: #979797;
+        }
+        &:before {
+          top: 21/@R;
+          right: 100%;
+        }
+        &:after {
+          top: 21/@R;
+          left: 100%;
+        }
       }
     }
 
@@ -96,35 +121,34 @@ export default {
     }
     .pro-info {
       display: flex;
-      border-bottom: 1px solid #eee;
-      padding: 20/@R 20/@R;
+      padding: 0 50/@R;
+      margin-bottom: 50/@R;
+      font-size: 24/@R;
       .pic {
         width: 100/@R;
         height: 100/@R;
       }
-      .infos {
-        position: relative;
+      .info-wrap {
+        flex-grow: 1;
         display: flex;
-        flex: 1;
-        flex-direction: column;
-        align-content: space-between;
-        padding-left: 20/@R;
-        .red {
-          position: absolute;
-          padding: 0;
-          bottom: 0;
-        }
+        padding: 13/@R 0 0 30/@R;
       }
-      .count {
-        position: relative;
-        .word {
-          position: absolute;
-          bottom: 0;
-          right: 0;
-        }
+      .name {
+        max-width: 300/@R;
+        line-height: 37/@R;
+      }
+      .num {
+        flex-grow: 1;
+        line-height: 37/@R;
+        text-align: right;
+      }
+      .price {
+        flex-shrink: 0;
+        width: 130/@R;
+        line-height: 42/@R;
+        text-align: right;
+        font-size: 30/@R;
       }
     }
   }
-
-
 </style>
