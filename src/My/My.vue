@@ -1,5 +1,6 @@
 <template>
   <div class="my">
+    <my-header></my-header>
     <mt-navbar v-model="currentTab">
       <mt-tab-item id="coupon">优惠券</mt-tab-item>
       <mt-tab-item id="order">订单</mt-tab-item>
@@ -64,6 +65,7 @@
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import { Navbar, TabItem, TabContainer, TabContainerItem } from 'mint-ui'
+import MyHeader from './MyHeader'
 
 Vue.component(Navbar.name, Navbar)
 Vue.component(TabItem.name, TabItem)
@@ -72,6 +74,9 @@ Vue.component(TabContainerItem.name, TabContainerItem)
 
 export default {
   name: 'My',
+  components: {
+    MyHeader
+  },
   data () {
     return {
       isLoading: true,
