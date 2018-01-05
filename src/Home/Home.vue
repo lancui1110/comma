@@ -10,7 +10,7 @@
     <search-bar @toggleShowLeft="showLeftMenu" ></search-bar>
 
     <!-- 左侧菜单 -->
-    <left-menu :show.sync="isShowLeftMenu"></left-menu>
+    <!-- <left-menu :show.sync="isShowLeftMenu"></left-menu> -->
 
     <!-- 菜单选项 -->
     <menu-tabs></menu-tabs>

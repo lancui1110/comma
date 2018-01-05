@@ -2,15 +2,15 @@
   <div class="search-bar-wrapper" :class="{'nav-pos-sticky': isSupportSticky4all, 'hide-user': isNeedFixed}" ref="searchNav">
     <div :class="{'search-bar-panel': true, 'fix': fixTop}" >
       <div class="logo-user">
-        <i class="icon icon-head-top-border" @click="showLeftMenu"></i>
+        <i class="icon icon-head-top-border" @click="gotoPage('my')"></i>
         <span class="user-phone" v-if="user && user.mobile">用户中心</span>
         <span class="user-phone" v-else>未登录</span>
       </div>
       <div class="search-input">
         <i class="icon icon-search"></i>
-        <input type="search" placeholder="搜索" v-model.trim="searchKeyword" 
-          @keyup.enter="doSearch(false, $event)" 
-          @blur="doSearch(true, $event)" 
+        <input type="search" placeholder="搜索" v-model.trim="searchKeyword"
+          @keyup.enter="doSearch(false, $event)"
+          @blur="doSearch(true, $event)"
           @focus="onFocus"/>
         <i v-show="searchKeyword" @click="clearSearch" class="icon icon-close" ></i>
       </div>
@@ -59,7 +59,7 @@ export default {
 
     // 判断是否支持sticky
     this.isSupportSticky4all = this.isSupportSticky()
-    
+
     window.onscroll = throttle((e) => {
       // 是否超出可视范围
       this.isNeedFixed = (window.pageYOffset >= this.topOffset)
@@ -83,6 +83,13 @@ export default {
     },
     showLeftMenu () {
       this.$emit('toggleShowLeft')
+    },
+    gotoPage (type) {
+      if (this.user && this.user.mobile) {
+        this.$router.push({ name: type })
+      } else {
+        this.$router.push({ name: 'login', query: { to: type } })
+      }
     },
     onFocus () {
       if (this.isNeedFixed) {
@@ -175,7 +182,7 @@ export default {
       box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .3);
       z-index: 500;
     }
-    
+
     .logo-user {
       position: relative;
       width: 166/@R;

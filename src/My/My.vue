@@ -166,6 +166,11 @@ export default {
       display: inline-block;
     }
   }
+
+  .list-panel {
+    padding: 30/@R 25/@R;
+    background: @panel-gray;
+  }
 }
 
 .nodata {
@@ -186,10 +191,7 @@ export default {
     color: @font-gray-light;
   }
 }
-.list-panel {
-  padding: 30/@R 25/@R;
-  background: @panel-gray;
-}
+
 .coupons-list-panel {
   .word {
     font-size: 28/@R;

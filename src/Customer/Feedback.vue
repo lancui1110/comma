@@ -1,18 +1,22 @@
 <template>
   <div class="custermer-feedback">
     <div class="content">
+      <div class="text-label">问题和建议</div>
       <div class="content-area">
         <span class="word">{{feedback.length}}/{{maxWords}}</span>
         <textarea v-model="feedback" cols="30" rows="10" :maxlength="maxWords" placeholder="请留下您的宝贵建议，促使我们进步~"></textarea>
       </div>
-      <div class="addbtns">
-        <div v-for="(item, key) in localPics" :key="key" class="img">
-          <img @click="previewImages(item)" :src="item" class="addbtn" />
-          <i class="icon icon-delete" @click="delPic(key)"></i>
+      <div class="img-panel">
+        <div class="img-label">图片（选填，提供问题截图）</div>
+        <div class="addbtns">
+          <div v-for="(item, key) in localPics" :key="key" class="img">
+            <img @click="previewImages(item)" :src="item" class="addbtn" />
+            <i class="icon icon-delete" @click="delPic(key)"></i>
+          </div>
+          <img v-show="localPics.length < 4" @click="uploadImg(key)"  :src="defaultPic" class="addbtn" />
         </div>
-        <img v-show="localPics.length < 4" @click="uploadImg(key)"  :src="defaultPic" class="addbtn" />
       </div>
-      <div class="subBtn" @click="submit">提交</div>
+      <div class="subBtn" @click="submit">提 交</div>
     </div>
   </div>
 </template>
@@ -99,43 +103,54 @@ export default {
     width: 100%;
     height: 100%;
     background: #F2F2F2;
-    text-align: center;
+    font-size: 24/@R;
+    line-height: 33/@R;
     .content {
       width: 100%;
-      height: 444/@R;
       textarea {
         width: 100%;
+        height: 240/@R;
         background: #fff;
-        font-size: 36/@R;
-        padding: 20/@R;
+        padding: 20/@R 30/@R;
         outline: none;
         border: 0;
       }
     }
+    .text-label {
+      padding: 16/@R 30/@R 11/@R;
+      color: @font-gray-light;
+    }
     .content-area {
       position: relative;
       .word {
-        font-size: 36/@R;
         position: absolute;
         right: 20/@R;
         bottom: 20/@R;
         color: #999;
       }
     }
+    .img-panel {
+      margin: 30/@R 0 50/@R;
+      padding: 20/@R 30/@R;
+      background-color: #fff;
+    }
+    .img-label {
+      margin-bottom: 20/@R;
+    }
     .addbtns {
-      padding-left: 30/@R;
-      margin: 40/@R 0 171/@R 0;
       display: flex;
-      flex-direction: row;
+      flex-wrap: wrap;
       .img {
         position: relative;
         width: 150/@R;
         height: 150/@R;
         margin-right: 30/@R;
+        margin-bottom: 10/@R;
       }
       img {
         width: 150/@R;
         height: 150/@R;
+        margin-bottom: 10/@R;
       }
       .icon {
         position: absolute;
@@ -147,11 +162,12 @@ export default {
       width: 700/@R;
       height: 97/@R;
       line-height: 97/@R;
-      font-size: 36/@R;
-      color: #fff;
-      border-radius: 4px;
-      background: #593C38;
       margin: 0 auto;
+      text-align: center;
+      border-radius: 10/@R;
+      color: #fff;
+      font-size: 36/@R;
+      background: @primary;
     }
   }
 </style>
