@@ -55,6 +55,7 @@ export default {
   data () {
     return {
       queryTimes: 0,  // 轮询优惠券次数，20次就不再轮询
+      queryTimeout: -1, // 注意清掉
       code: this.$route.query.code,
       isShowLeftMenu: false,
       isShowSelProducts: false,
@@ -68,6 +69,11 @@ export default {
     }
     // 轮询优惠券
     this.queryAvailableCoupon()
+  },
+  deactivated () {
+    if (this.queryTimeout) {
+      clearTimeout(this.queryTimeout)
+    }
   },
   computed: {
     ...mapGetters({
@@ -88,7 +94,7 @@ export default {
         this.queryTimes += 1
 
         if (this.queryTimes < 20) {
-          setTimeout(() => {
+          this.queryTimeout = setTimeout(() => {
             this.queryAvailableCoupon()
           }, 3000)
         }

@@ -56,7 +56,7 @@ export default {
     color: @font-gray;
   }
   .left {
-    width: 100/@R;
+    width: 130/@R;
     * {
       visibility: hidden; // remove after next version
     }
@@ -69,13 +69,17 @@ export default {
     justify-content: center;
   }
   .right {
-    width: 100/@R;
+    width: 130/@R;
+    text-align: right;
   }
   .avatar {
     width: 180/@R;
     height: 180/@R;
     margin-bottom: 10/@R;
     border-radius: 50%;
+  }
+  .icon {
+    margin-right: 20/@R;
   }
 }
 </style>

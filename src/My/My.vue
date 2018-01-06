@@ -58,6 +58,10 @@
         </mt-tab-container-item>
       </mt-tab-container>
     </mt-loadmore>
+
+    <div class="footer">
+      <a :href="`tel:${phone}`"><i class="icon icon-support"></i>客服热线</a>
+    </div>
   </div>
 </template>
 
@@ -90,6 +94,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      phone: 'customer/phone',
       couponList: 'coupons/couponList',
       couponsPageInfo: 'coupons/pageInfo',
       orderList: 'order/orderList',
@@ -111,6 +116,7 @@ export default {
     }
   },
   activated () {
+    this.$store.dispatch('customer/getPhone')
     this.loadTop()
   },
   methods: {
@@ -141,6 +147,9 @@ export default {
 
 .my {
   background-color: @panel-gray;
+  a {
+    color: @font-gray;
+  }
   .mint-navbar {
     height: 100/@R;
     .mint-tab-item {
@@ -175,6 +184,14 @@ export default {
   .list-panel {
     padding: 30/@R 25/@R;
     background: @panel-gray;
+  }
+  .footer {
+    display: flex;
+    justify-content: center;
+    padding: 30/@R 0 50/@R;
+    .icon {
+      margin-right: 20/@R;
+    }
   }
 }
 

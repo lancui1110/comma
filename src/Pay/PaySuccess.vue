@@ -2,14 +2,13 @@
   <div class="pay-success-panel">
     <div class="suc-word-panel">
       <div class="suc-word">
-        <div class="logo"><i class="icon icon-head-top"></i></div>
-        <div class="word"><!-- 逗号迷你便利 --></div>
-        <div class="large">支付成功~小主，享受美食吧~</div>
-        <div class="word link"><a :href="homeUrl">返回首页</a></div>
+        <div class="title">订单支付成功</div>
+        <div class="amount">{{orderDetail.realAmount}} <span>元</span></div>
+        <div class="discount" v-if="orderDetail.totalDiscounts > 0">总优惠：-{{orderDetail.totalDiscounts}}元</div>
       </div>
       <img v-if="isRed" class="redpackt" @click="showShare(true, false)" :src="require('../assets/redpackt.png')" />
     </div>
-    
+
     <div v-show="isShowShare" class="share-panel">
       <div class="mask" v-show="!isShowShareWx" @click="showShare(false, false)"></div>
       <div v-show="isShowShareRedPacket" class="share-red-packet">
@@ -26,7 +25,7 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import wxMenu from 'wxMenu'
 
 export default {
@@ -43,6 +42,8 @@ export default {
     }
   },
   mounted () {
+    this.$store.dispatch('order/getOrderDetail', this.$route.query.orderNum)
+
     setTimeout(() => {
       // 初始化微信分享信息 type=1 一般分享 type=2&orderNum 抢红包 type=3 申请货架
       wxMenu.share({type: 2, orderNum: this.orderNum}, (res) => {
@@ -55,6 +56,9 @@ export default {
     }, 500)
   },
   computed: {
+    ...mapGetters({
+      orderDetail: 'order/orderDetail'
+    }),
     isShowShare () {
       return (this.isShowShareRedPacket || this.isShowShareWx)
     }
@@ -73,7 +77,7 @@ export default {
 
 <style lang="less">
   @import "../global/style/theme.less";
-  
+
   .pay-success-panel {
     position: relative;
     height: 100%;
@@ -82,12 +86,25 @@ export default {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding-top: 175/@R;
+      padding-top: 60/@R;
     }
-    .logo .icon{
-      width: 147/@R;
-      height: 147/@R;
-      background-size: 147/@R 147/@R;
+    .title {
+      font-size: 36/@R;
+      font-weight: bold;
+    }
+    .amount {
+      margin: 40/@R 0 20/@R;
+      line-height: 86/@R;
+      font-size: 72/@R;
+      font-family:Helvetica;
+      span {
+        line-height: 67/@R;
+        font-size: 48/@R;
+      }
+    }
+    .discount {
+      color: #FF6600;
+      font-size: 30/@R;
     }
     .word {
       font-size: 30/@R;
