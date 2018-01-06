@@ -10,13 +10,19 @@
     </div>
 
     <div v-show="isShowShare" class="share-panel">
-      <div class="mask" v-show="!isShowShareWx" @click="showShare(false, false)"></div>
+      <div class="mask"></div>
       <div v-show="isShowShareRedPacket" class="share-red-packet">
-        <p class="pic" @click="resetShare"><img :src="require('../assets/img_share.png')"/></p>
-        <p class="word">分享后自己也能领取哦～</p>
-        <p class="close" @click="showShare(false, false)"><i class="icon icon-close"></i></p>
+        <div class="pic">
+          <img :src="require('../assets/img_share.png')"/>
+          <div class="share-wrapper">
+            <div class="share-btn" @click.stop="showShare(true, true)"></div>
+          </div>
+          <div class="close-wrapper">
+            <div class="close-btn" @click="showShare(false, false)"></div>
+          </div>
+        </div>
       </div>
-      <div v-show="isShowShareWx" @click="showShare(false, false)" class="share-wx">
+      <div v-show="isShowShareWx" class="share-wx">
         <p class="pic"><img :src="require('../assets/img_share_wx.png')"/></p>
       </div>
     </div>
@@ -115,11 +121,10 @@ export default {
       color: #593C38;
     }
     .redpackt {
-      position: absolute;
-      bottom: 50/@R;
-      right: 42/@R;
-      width: 149/@R;
-      height: 125/@R;
+      display: block;
+      margin: 80/@R auto;
+      width: 180/@R;
+      height: 160/@R;
     }
 
     .share-panel {
@@ -135,8 +140,7 @@ export default {
         top: 0;
         width: 100%;
         height: 100%;
-        background: #EEE;
-        opacity: .9;
+        background:rgba(0,0,0,0.6);
       }
       .share-red-packet {
         position: absolute;
@@ -149,32 +153,52 @@ export default {
         justify-content: center;
         align-items: center;
         .pic {
-          width: 470/@R;
-          height: 354/@R;
+          position: relative;
+          width: 558/@R;
+          height: 803/@R;
           width: 100%;
           text-align: center;
           z-index: 2;
           img {
-            width: 470/@R;
-            height: 354/@R;
+            width: 558/@R;
+            height: 803/@R;
           }
         }
-        .word {
-
+        .share-wrapper {
+          position: absolute;
+          bottom: 190/@R;
+          left: 0;
+          width: 100%;
         }
-        .close {
-
+        .share-btn {
+          width: 450/@R;
+          height: 97/@R;
+          margin: 0 auto;
+        }
+        .close-wrapper {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+        }
+        .close-btn {
+          width: 70/@R;
+          height: 70/@R;
+          margin: 0 auto;
         }
       }
       .share-wx {
-        background: #fff;
-        height: 100%;
-        padding: 15/@R 28/@R 0 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 10/@R 50/@R 0 0;
         text-align: right;
+        z-index: 100;
         .pic, .pic img{
-          display: inline;
-          width: 330/@R;
-          height: 385/@R;
+          float: right;
+          width: 292/@R;
+          height: 287/@R;
         }
       }
     }
