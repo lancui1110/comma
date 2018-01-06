@@ -32,8 +32,8 @@ const actions = {
     iwjw.ajax({
       url: API.getUrl('orderList'),
       data: {
-        page: state.page,
-        pageSize: state.pageSize
+        page: state.pageInfo.page,
+        pageSize: state.pageInfo.pageSize
       }
     }).then(res => {
       if (res.code === 1) {

@@ -14,7 +14,7 @@
             <div class="logo"><i class="icon icon-logo-white"></i></div>
             <div class="word">没有优惠券可用~</div>
           </div>
-          <div class="list-panel coupons-list-panel">
+          <div v-else class="list-panel coupons-list-panel">
             <div v-for="(item, key) in couponList" :key="key" class="coupons-item-panel">
               <div class="coupons-item" :class="{'gray': item.status === 2  || item.status === 4 || item.status === 5}">
                 <div class="word">
@@ -42,7 +42,7 @@
             <div class="logo"><i class="icon icon-logo-white"></i></div>
             <div class="word">没有更多订单啦~</div>
           </div>
-          <div class="list-panel order-list-panel">
+          <div v-else class="list-panel order-list-panel">
             <div class="order-item" v-for="(item, key) in orderList" :key="key">
               <p class="date">{{item.payTime}}</p>
               <div class="product-pics">
@@ -182,6 +182,7 @@ export default {
   }
 
   .list-panel {
+    min-height: 650/@R;
     padding: 30/@R 25/@R;
     background: @panel-gray;
   }
