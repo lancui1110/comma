@@ -4,8 +4,8 @@
       <router-link to="">充值历史</router-link>
     </div>
     <div class="middle">
-      <img class="avatar" src="https://avatars3.githubusercontent.com/u/6167168?s=200&v=4" alt="">
-      <span class="name">韦进仕</span>
+      <img class="avatar" :src="avatar" alt="">
+      <span class="name">{{nickName}}</span>
     </div>
     <div class="right">
       <router-link :to="{ name: 'customerFeedback' }">
@@ -17,8 +17,28 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+const defaultAvatar = require('../assets/default_avatar.png')
+
 export default {
-  name: 'MyHeader'
+  name: 'MyHeader',
+  computed: {
+    ...mapGetters({
+      user: 'user/getUser'
+    }),
+    avatar () {
+      if (this.user && this.user.avatar) {
+        return this.user.avatar
+      }
+      return defaultAvatar
+    },
+    nickName () {
+      if (this.user && this.user.nickName) {
+        return this.user.nickName
+      }
+      return ''
+    }
+  }
 }
 </script>
 
