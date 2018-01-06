@@ -1,12 +1,14 @@
 <template>
   <div class="admin my-store">
-    <div class="flex center header">
-      <div class="flex-1 menu my-data">我的数据</div>
-      <div class="flex-1 menu">
-        <router-link :to="{ name: 'myTask' }" >
-          我的任务
-        </router-link>
-      </div>
+    <div class="mint-navbar">
+      <a class="mint-tab-item is-selected">
+        <div class="mint-tab-item-icon"></div>
+        <div class="mint-tab-item-label">我的数据</div>
+      </a>
+      <router-link class="mint-tab-item" :to="{ name: 'myTask' }" >
+        <div class="mint-tab-item-icon"></div>
+        <div class="mint-tab-item-label">我的任务</div>
+      </router-link>
     </div>
 
     <div class="statistical">
@@ -33,7 +35,12 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
+import { Navbar, TabItem } from 'mint-ui'
+
+Vue.component(Navbar.name, Navbar)
+Vue.component(TabItem.name, TabItem)
 
 export default {
   name: 'MyStore',
@@ -62,8 +69,6 @@ export default {
 @import "./style.less";
 
 .my-store {
-  padding: 30/@R;
-  background-color: #fff;
   .header {
     margin-bottom: 100/@R;
     .menu {
@@ -75,7 +80,9 @@ export default {
     }
   }
   .row {
-    margin-bottom: 60/@R;
+    margin: 18/@R 0;
+    padding: 30/@R 50/@R;
+    background-color: #fff;
   }
   .col {
     display: flex;
@@ -84,6 +91,7 @@ export default {
     justify-content: center;
   }
   .value {
+    margin-bottom: 30/@R;
     line-height: 70/@R;
     font-size: 70/@R;
     font-weight: bold;
@@ -92,6 +100,9 @@ export default {
     .value {
       font-size: 40/@R;
     }
+  }
+  .unit {
+    color: #999;
   }
 }
 </style>

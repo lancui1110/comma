@@ -2,7 +2,7 @@
   <div class="admin handle-task">
     <h2>请您{{TypeLabel[taskType]}}</h2>
 
-    <div class="task-row" v-for="item in tasks" :key="item.goodsId">
+    <div class="task-row" v-for="(item, $index) in tasks" :key="item.goodsId">
       <img :src="item.pic" alt="">
       <div class="right">
         <div class="field">
@@ -15,11 +15,21 @@
         </div>
         <div class="field" v-if="taskType === 2 || taskType === 4">
           <label>{{`实际${TypeLabel[taskType]}`}}</label>
-          <input type="number" v-model="item.realNum">
+          <input
+            type="tel"
+            v-model="item.realNum"
+            placeholder="点击输入"
+            :ref="`input_${$index}`"
+            @blur="handleInputEnter($index, $event)">
         </div>
         <div class="field" v-else>
           <label>{{`${TypeLabel[taskType]}数量`}}</label>
-          <input type="number" v-model="item.realNum">
+          <input
+            type="tel"
+            v-model="item.realNum"
+            placeholder="点击输入"
+            :ref="`input_${$index}`"
+            @blur="handleInputEnter($index, $event)">
         </div>
       </div>
     </div>
@@ -76,11 +86,19 @@ export default {
     // }
   },
   methods: {
+    handleInputEnter (index, e) {
+      const nextInput = this.$refs[`input_${index + 1}`]
+      if (nextInput) {
+        nextInput[0].focus()
+      }
+    },
     toFeedBack () {
       MessageBox({
         title: '提示',
         message: '是否需要拍照或备注?',
-        showCancelButton: true
+        showCancelButton: true,
+        cancelButtonText: '不用，直接提交',
+        confirmButtonText: '是'
       }).then(action => {
         if (action === 'confirm') {
           this.$router.replace({ name: 'adminFeedback', query: {taskId: this.taskId} })
@@ -127,12 +145,13 @@ export default {
 <style lang="less">
 @import "./style.less";
 .handle-task {
-  background-color: #fff;
   margin-bottom: 10/@R ;
   h2 {
-    padding: 20/@R 0 30/@R;
+    height: 88/@R;
+    line-height: 88/@R;
     text-align: center;
-    font-size: 50/@R;
+    font-size: 34/@R;
+    background-color: #fff;
   }
   .task-row {
     display: flex;
@@ -140,6 +159,7 @@ export default {
     overflow: hidden;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, .3);
     font-size: 30/@R;
+    background-color: #fff;
     img {
       width: 250/@R;
       height: 250/@R;
@@ -155,17 +175,24 @@ export default {
       margin-bottom: 10/@R;
     }
     label {
-      width: 150/@R;
+      width: 190/@R;
       flex-shrink: 0;
+      white-space: nowrap;
       &:after {
         content: "：";
       }
+    }
+    input {
+      width: 200/@R;
     }
   }
   .mint-button {
     display: block;
     width: 90%;
     margin: 50/@R auto;
+    &.mint-button--primary {
+      background-color: @primary;
+    }
   }
 }
 </style>

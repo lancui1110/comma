@@ -14,7 +14,7 @@
         <img v-show="localPics.length < 4" @click="uploadImg(key)"  :src="defaultPic" class="addbtn" />
       </div>
       <div class="btns">
-        <span class="btn bg-gray" @click="back">返回</span>
+        <span class="btn bg-gray" @click="back">不填，直接退出</span>
         <span class="btn" @click="submit">提交</span>
       </div>
     </div>
@@ -158,8 +158,13 @@ export default {
       }
       .icon {
         position: absolute;
-        right: -10/@R;
-        top: -10/@R;
+        right: -20/@R;
+        top: -20/@R;
+      }
+      .icon-delete {
+        width: 60/@R;
+        height: 60/@R;
+        background-size: 60/@R 60/@R;
       }
     }
     .btns {

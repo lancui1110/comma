@@ -57,7 +57,7 @@ export default {
 .admin {
   min-height: 1000/@R;
   .task-list {
-    padding: 30/@R;
+    padding: 30/@R 0;
   }
 }
 </style>

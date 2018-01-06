@@ -30,7 +30,6 @@ export default {
   margin-bottom: 30/@R;
   line-height: 50/@R;
   overflow: hidden;
-  border-radius: 10/@R;
   background-color: #fff;
   font-size: 28/@R;
   .type {
@@ -40,8 +39,9 @@ export default {
   }
   .deal-btn {
     height: 80/@R;
-    margin: 20/@R -30/@R -30/@R;
-    background-color: @highlight-text-color;
+    margin: 20/@R 0 0;
+    border-radius: 10/@R;
+    background-color: @primary;
     color: #fff;
   }
 }
