@@ -8,10 +8,10 @@
       <span class="name">{{nickName}}</span>
     </div>
     <div class="right">
-      <router-link :to="{ name: 'customerFeedback' }">
+      <a :href="`${baseUrl}/customer/feedBack`">
         <i class="icon icon-feedback"></i>
         反馈
-      </router-link>
+      </a>
     </div>
   </div>
 </template>
@@ -22,6 +22,11 @@ const defaultAvatar = require('../assets/default_avatar.png')
 
 export default {
   name: 'MyHeader',
+  data () {
+    return {
+      baseUrl: `${pageConfig.siteUrl}index`
+    }
+  },
   computed: {
     ...mapGetters({
       user: 'user/getUser'
