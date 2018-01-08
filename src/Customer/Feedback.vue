@@ -16,7 +16,7 @@
           <img v-show="localPics.length < 4" @click="uploadImg(key)"  :src="defaultPic" class="addbtn" />
         </div>
       </div>
-      <div class="subBtn" :disabled="submiting" @click="submit">提 交</div>
+      <div class="subBtn" :disabled="submiting" @click="submit">提 交{{submiting ? ' 中 ...' : ''}}</div>
     </div>
   </div>
 </template>
@@ -77,7 +77,11 @@ export default {
         Toast(`最多输入${this.maxWords}字哦~`)
         return
       }
-      this.submit = true
+      if (this.submiting) {
+        return
+      }
+
+      this.submiting = true
       const params = {
         feedback: this.feedback,
         wxPicIds: this.serverPics
@@ -85,7 +89,6 @@ export default {
       this.$store.dispatch('customer/submit', {
         params: params,
         cb: (res) => {
-          this.submit = false
           if (res.code === 1) {
             Toast('反馈成功')
             setTimeout(() => {
@@ -94,6 +97,7 @@ export default {
           } else {
             Toast('提交失败啦')
           }
+          this.submiting = false
         }
       })
     }
