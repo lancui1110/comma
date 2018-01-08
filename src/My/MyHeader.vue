@@ -78,8 +78,8 @@ export default {
     text-align: right;
   }
   .avatar {
-    width: 180/@R;
-    height: 180/@R;
+    width: 160/@R;
+    height: 160/@R;
     margin-bottom: 10/@R;
     border-radius: 50%;
   }
