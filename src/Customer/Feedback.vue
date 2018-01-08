@@ -16,7 +16,7 @@
           <img v-show="localPics.length < 4" @click="uploadImg(key)"  :src="defaultPic" class="addbtn" />
         </div>
       </div>
-      <div class="subBtn" @click="submit">提 交</div>
+      <div class="subBtn" :disabled="submiting" @click="submit">提 交</div>
     </div>
   </div>
 </template>
@@ -35,6 +35,7 @@ export default {
   data () {
     const defaultPic = require('../assets/img_upload.png')
     return {
+      submiting: false,
       maxWords: 200,
       defaultPic: defaultPic,
       localPics: [],
@@ -76,6 +77,7 @@ export default {
         Toast(`最多输入${this.maxWords}字哦~`)
         return
       }
+      this.submit = true
       const params = {
         feedback: this.feedback,
         wxPicIds: this.serverPics
@@ -83,11 +85,12 @@ export default {
       this.$store.dispatch('customer/submit', {
         params: params,
         cb: (res) => {
+          this.submit = false
           if (res.code === 1) {
             Toast('反馈成功')
             setTimeout(() => {
               window.history.go(-1)
-            }, 1000)
+            }, 2000)
           } else {
             Toast('提交失败啦')
           }
@@ -170,6 +173,9 @@ export default {
       color: #fff;
       font-size: 36/@R;
       background: @primary;
+      &[disabled] {
+        opacity: 0.4;
+      }
     }
   }
 </style>
