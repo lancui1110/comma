@@ -85,7 +85,9 @@ export default {
         cb: (res) => {
           if (res.code === 1) {
             Toast('反馈成功')
-            window.history.go(-1)
+            setTimeout(() => {
+              window.history.go(-1)
+            }, 1000)
           } else {
             Toast('提交失败啦')
           }
