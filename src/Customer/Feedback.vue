@@ -36,6 +36,7 @@ export default {
     const defaultPic = require('../assets/img_upload.png')
     return {
       submiting: false,
+      submitSuccess: false,
       maxWords: 200,
       defaultPic: defaultPic,
       localPics: [],
@@ -77,7 +78,7 @@ export default {
         Toast(`最多输入${this.maxWords}字哦~`)
         return
       }
-      if (this.submiting) {
+      if (this.submiting || this.submitSuccess) {
         return
       }
 
@@ -90,6 +91,7 @@ export default {
         params: params,
         cb: (res) => {
           if (res.code === 1) {
+            this.submitSuccess = true
             Toast('反馈成功')
             setTimeout(() => {
               window.history.go(-1)
