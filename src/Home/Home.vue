@@ -1,5 +1,7 @@
 <template>
-  <div class="home" :class="{'no-scroll' : isFixed}">
+  <div class="home">
+    <top-bar></top-bar>
+
     <div class="header">
       <a v-if="banner" :href="banner.linkUrl">
         <img class="banner" :src="banner.picUrl"/>
@@ -7,16 +9,18 @@
       <img v-else class="banner" :src="require('../assets/header-banner.png')"/>
     </div>
     <!-- 搜索 -->
-    <search-bar @toggleShowLeft="showLeftMenu" ></search-bar>
+    <!-- <search-bar @toggleShowLeft="showLeftMenu" ></search-bar> -->
 
     <!-- 左侧菜单 -->
     <!-- <left-menu :show.sync="isShowLeftMenu"></left-menu> -->
 
-    <!-- 菜单选项 -->
-    <menu-tabs></menu-tabs>
+    <div class="main">
+      <!-- 菜单选项 -->
+      <menu-tabs></menu-tabs>
 
-    <!-- 商品列表 -->
-    <product-list></product-list>
+      <!-- 商品列表 -->
+      <product-list></product-list>
+    </div>
 
     <!-- 支付条 -->
     <pay-bar @toggleSelProducts="toggleSelProducts"></pay-bar>
@@ -41,9 +45,13 @@ import LeftMenu from './components/LeftMenu'
 import SelProducts from './components/SelProducts'
 import NewuserRedbag from './components/NewUserRedBag'
 
+import TopBar from './components/TopBar'
+
 export default {
   name: 'Home',
   components: {
+    TopBar,
+
     ProductList,
     SearchBar,
     MenuTabs,
@@ -119,18 +127,22 @@ export default {
   @logoWidth: 94/@R;
 
   .home {
+    padding-top: 120/@R;
     font-family: PingFangHK-Regular;
     &.no-scroll {
       height: 100%;
       overflow: hidden;
     }
     .header {
+      padding: 10/@R 20/@R;
       font-size: 0;
-      width: 100%;
       .banner {
-        // width: 750/@R;
         width: 100%;
+        height: 180/@R;
       }
+    }
+    .main {
+      display: flex;
     }
     .mint-loadmore {
       margin-bottom: 120/@R;

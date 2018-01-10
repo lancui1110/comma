@@ -1,6 +1,5 @@
 <template>
   <div class="menu-tabs">
-    <!-- <ul class="menus" :class="{ 'more-show' : isShowMore}"> -->
     <ul class="menus">
       <li class="menu-ink-bar">
         <span class="menu-ink-bar-inner"></span>
@@ -12,17 +11,6 @@
         <span class="menu-item-text">{{item.name}}</span>
       </li>
     </ul>
-    <!-- <div v-if="isShowMore" class="menu-item-more" @click="toggleMoreMenus">
-      <i class="icon icon-more"></i>
-    </div> -->
-
-    <!-- <ul v-if="isShowMoreMenus" class="menu-items">
-      <li class="one-item"
-          v-for="(item, key) in category.list" :key="key"
-          @click="clickTab(item)">
-        {{item.name}}
-      </li>
-    </ul> -->
     <table v-if="isShowMoreMenus" class="menu-items">
       <tr v-for="(tr, key) in moreItems" :key="key">
         <td v-for="(item, k) in tr" :key="k" @click="clickTab(item)">{{ item.name }}</td>
@@ -40,7 +28,6 @@
  * 5.选择了 第二行 或者 第三行的  分类   展示效果 如选择了 之后  ， 展开的 折叠回去
  */
 
-import { findIndex } from 'lodash'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -79,49 +66,10 @@ export default {
       return tables
     }
   },
-  watch: {
-    curMenuItem (val, old) {
-      this.resetActiveBar(val, old)
-    }
-  },
   mounted () {
-    this.$nextTick(() => {
-      setTimeout(() => {
-        this.resetActiveBar(this.curMenuItem)
-      }, 0)
-    })
+
   },
   methods: {
-    resetActiveBar (val, old) {
-      this.isShowMoreMenus = false
-
-      if (!val) {
-        return
-      }
-
-      const valIndex = val ? findIndex(this.category.list, { id: val.id }) : -1
-      const oldIndex = old ? findIndex(this.category.list, { id: old.id }) : -1
-
-      const $ink = document.querySelector('.menu-ink-bar')
-      const $inkInner = document.querySelector('.menu-ink-bar-inner')
-      const $curMenuItem = document.getElementById(`menu-item-${val.id}`)
-      if ($curMenuItem) {
-        const $curMenuItemText = $curMenuItem.querySelector('.menu-item-text')
-
-        const left = $curMenuItem.offsetLeft
-        const innerWidth = $curMenuItemText.clientWidth
-
-        $ink.style.left = `${left}px`
-        $inkInner.style.width = `${innerWidth}px`
-
-        const addFwd = valIndex > oldIndex ? 'menu-ink-foreward' : 'menu-ink-backward'
-        const removeFwd = valIndex < oldIndex ? 'menu-ink-foreward' : 'menu-ink-backward'
-        $ink.classList.remove(removeFwd)
-        $ink.classList.add(addFwd)
-
-        $curMenuItem.scrollIntoView(false)
-      }
-    },
     clickTab (item) {
       this.$store.dispatch('home/changeCategoryType', item)
     },
@@ -140,18 +88,19 @@ export default {
 <style lang="less">
   @import "../../global/style/theme.less";
   @itemPadding: 30/@R;
-  @menuHeight: 80/@R;
+  @menuWidth: 160/@R;
+  @menuHeight: 100/@R;
   /* 菜单 */
   .menu-tabs {
+    flex-grow: 0;
+    flex-shrink: 0;
     position: relative;
-    background: #F6EDE1;
+    background-color: #F5F5F5;
     .menus {
-      position: relative;
       display: flex;
+      flex-direction: column;
+      position: relative;
       overflow: scroll;
-      &.more-show {
-        margin-right: 72/@R;
-      }
     }
     .menu-item, .one-item {
       height: @menuHeight;
@@ -160,6 +109,9 @@ export default {
       display: inline-block;
       white-space: nowrap;
       padding: 0 @itemPadding;
+      &.active {
+        background-color: #fff;
+      }
     }
     // .menu-item:nth-last-child(1) {
     //   padding: 0 1rem 0 0.3rem;
