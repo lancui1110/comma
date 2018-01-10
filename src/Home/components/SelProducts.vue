@@ -14,13 +14,18 @@
               ¥ {{(item.product.discountPrice || item.product.price).toFixed(2)}}
             </p>
           </div>
-          <div class="counter-panel">
+          <!-- <div class="counter-panel">
             <p class="counter-line">
               <i class="icon icon-minus" @click="removeFromCart(item.product)"></i>
               <span class="count" >{{item.count}}</span>
               <i class="icon icon-plus" @click="addToCart(item.product)"></i>
             </p>
-          </div>
+          </div> -->
+          <count-ctrl
+            :num="item.count"
+            :onAdd="() => addToCart(item.product)"
+            :onMinus="() => removeFromCart(item.product)">
+          </count-ctrl>
         </div>
         <p class="coupon-info" v-if="cart.coupon">
           红包可抵 ￥{{cart.coupon.price.toFixed(2)}}
@@ -36,9 +41,13 @@
 <script>
 import { sum, map } from 'lodash'
 import { mapGetters } from 'vuex'
+import CountCtrl from './CountCtrl'
 
 export default {
   name: 'SelProducts',
+  components: {
+    CountCtrl
+  },
   props: {
     show: {
       type: Boolean,
@@ -110,8 +119,7 @@ export default {
       top: 0;
       width: 100%;
       height: 100%;
-      background: #eee;
-      opacity: .5;
+      background: rgba(0, 0, 0, .5);
     }
     .sel-products {
       position: fixed;

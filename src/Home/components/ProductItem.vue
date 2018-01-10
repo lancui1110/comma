@@ -15,19 +15,19 @@
         <span class="orig-price" v-if="data.discountPrice">{{data.price.toFixed(2)}}元</span>
       </div>
     </div>
-    <div class="buy-ctrl">
-      <div class="buy" @click="clickBuy"><i class="icon icon-minus"></i></div>
-      <span class="num">1</span>
-      <div class="buy" @click="clickBuy"><i class="icon icon-plus"></i></div>
-    </div>
+    <count-ctrl :onAdd="clickBuy"></count-ctrl>
   </div>
 </template>
 
 <script>
 // import { mapGetters } from 'vuex'
+import CountCtrl from './CountCtrl'
 
 export default {
   name: 'ProductItem',
+  components: {
+    CountCtrl
+  },
   props: {
     data: {
       type: Object
@@ -58,6 +58,7 @@ export default {
       height: @itemHeight;
     }
     .detail {
+      flex-grow: 1;
       display: flex;
       flex-direction: column;
     }
