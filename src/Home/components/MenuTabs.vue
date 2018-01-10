@@ -1,9 +1,6 @@
 <template>
   <div class="menu-tabs">
     <ul class="menus">
-      <li class="menu-ink-bar">
-        <span class="menu-ink-bar-inner"></span>
-      </li>
       <li class="menu-item" :id="'menu-item-' + item.id"
           :class="{ 'active': item.id === category.current.id }"
           v-for="(item, key) in category.list" :key="key"
@@ -11,11 +8,6 @@
         <span class="menu-item-text">{{item.name}}</span>
       </li>
     </ul>
-    <table v-if="isShowMoreMenus" class="menu-items">
-      <tr v-for="(tr, key) in moreItems" :key="key">
-        <td v-for="(item, k) in tr" :key="k" @click="clickTab(item)">{{ item.name }}</td>
-      </tr>
-    </table>
   </div>
 </template>
 
@@ -32,42 +24,13 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'MenuTabs',
-  data () {
-    return {
-      isShowMoreMenus: false
-    }
-  },
   computed: {
     ...mapGetters({
       category: 'home/getCategory'
     }),
     curMenuItem () {
       return this.category.current
-    },
-    isShowMore () {
-      console.log(this.category.list)
-      return this.category.list.length > 5
-    },
-    moreItems () {
-      const list = this.category.list
-      let [ tables, tr ] = [ [], [] ]
-      for (let i = 0; i < list.length; i++) {
-        if (i > 0 && i % 5 === 0) {
-          tables.push(tr)
-          tr = []
-        }
-        tr.push(list[i])
-
-        if (i === list.length - 1) {
-          tables.push(tr)
-        }
-      }
-      console.log(tables)
-      return tables
     }
-  },
-  mounted () {
-
   },
   methods: {
     clickTab (item) {
@@ -76,12 +39,7 @@ export default {
     toggleMoreMenus () {
       this.isShowMoreMenus = !this.isShowMoreMenus
     }
-    // this method not been used now, maybe use for someday
-    // loadMenus () {
-    //   this.$store.dispatch('home/getCategory')
-    // }
   }
-
 }
 </script>
 
@@ -103,14 +61,25 @@ export default {
       overflow: scroll;
     }
     .menu-item, .one-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      width: @menuWidth;
       height: @menuHeight;
-      line-height: @menuHeight;
-      font-size: 36/@R;
-      display: inline-block;
       white-space: nowrap;
-      padding: 0 @itemPadding;
+      font-size: 36/@R;
       &.active {
         background-color: #fff;
+        &:before {
+          content: " ";
+          position: absolute;
+          top: 37/@R;
+          left: 0;
+          width: 8/@R;
+          height: 26/@R;
+          background-color: #000;
+        }
       }
     }
     // .menu-item:nth-last-child(1) {
@@ -119,53 +88,7 @@ export default {
     .menu-item-text {
       display: inline-block;
     }
-    .menu-ink-bar {
-      position: absolute;
-      display: block;
-      left: 0%;
-      right: 90%;
-      bottom: 0;
-      height: 2px;
-      text-align: center;
-      .menu-ink-bar-inner {
-        display: block;
-        background-color: #333;
-        width: 100%;
-        height: 100%;
-        margin: 0 @itemPadding;
-      }
-      &.menu-ink-foreward {
-        transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1), left 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s;
-      }
-      &.menu-ink-backward {
-        transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, left 0.3s cubic-bezier(0.35, 0, 0.25, 1);
-      }
-    }
 
-    .menu-item-more {
-      position: absolute;
-      right: 0;
-      top: 0;
-      height: @menuHeight;
-      line-height: @menuHeight;
-      background: #F6EDE1;
-      text-align: center;
-      padding: 0 21/@R 0 10/@R;
-    }
-    .icon-more {
-
-    }
-
-    // .menu-items {
-    //   display: flex;
-    //   flex-wrap: nowrap;
-    //   border-top: 1px solid #fff;
-    //   display: flex;
-    //   flex-wrap: wrap;
-    //   .one-item {
-
-    //   }
-    // }
     .menu-items {
       border: 0;
       tr {

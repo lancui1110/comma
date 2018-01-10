@@ -1,18 +1,16 @@
 <template>
 <div class="product-list">
-  <mt-loadmore :top-method="loadTop" 
-    :bottom-method="loadBottom" 
-    :bottom-all-loaded="pageInfo.end" 
+  <mt-loadmore :top-method="loadTop"
+    :bottom-method="loadBottom"
+    :bottom-all-loaded="pageInfo.end"
     @top-status-change="handleTopChange"
     @bottom-status-change="handleBottomChange"
-    :auto-fill="false" 
+    :auto-fill="false"
     :bottomDistance="5"
     ref="loadmore">
     <div class="product-list-panel">
       <ul class="list-panel" v-if="productList.length">
-        <li class="list-item" v-for="(item, key) in productList" :key="key">
-          <product-item :data="item"></product-item>
-        </li>
+        <product-item :data="item" v-for="(item, key) in productList" :key="key"></product-item>
       </ul>
       <div class="no-result" v-else>
         <img :src="require('../../assets/head_top_none.png')"/>
@@ -91,13 +89,13 @@ export default {
       display: flex;
       flex-wrap: wrap;
     }
-    .list-item {
-      width: 250/@R;
-      height: 340/@R;
-      border: 1px solid #D8D8D8;
-      border-top: 0;
-      border-left: 0;
-    }
+    // .list-item {
+    //   width: 250/@R;
+    //   height: 340/@R;
+    //   border: 1px solid #D8D8D8;
+    //   border-top: 0;
+    //   border-left: 0;
+    // }
     .list-item:nth-child(3n) {
       border-right: 0;
     }
@@ -143,7 +141,7 @@ export default {
       font-size: 18/@R;
     }
     .mint-loadmore-bottom {
-      
+
     }
   }
 </style>

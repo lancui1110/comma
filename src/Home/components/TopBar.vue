@@ -13,8 +13,28 @@
 </template>
 
 <script>
+import weixin from 'weixin'
+import { Toast } from 'mint-ui'
+
 export default {
-  name: 'TopBar'
+  name: 'TopBar',
+  methods: {
+    scanQRCode () {
+      const self = this
+      weixin.weixinScanQRCode((res) => {
+        self.$store.dispatch('home/findProductByQrCode', {
+          code: res,
+          cb: (res) => {
+            if (res.code === 1) {
+              self.$store.dispatch('home/addToCart', res.data)
+            } else {
+              Toast(res.msg)
+            }
+          }
+        })
+      })
+    }
+  }
 }
 </script>
 

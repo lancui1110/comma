@@ -5,20 +5,15 @@
     </transition> -->
     <div class="order-detail" @click="toggleSelProducts">
       <div class="logo">
-        <i v-if="cart.count > 0" class="icon icon-head-top"></i>
-        <i v-else class="icon icon-head-top-none"></i>
+        <i class="icon icon-cart"></i>
         <span v-if="cart.count > 0" class="product-count">{{cart.count}}</span>
       </div>
       <div class="pay-info">
-        <div v-if="cart.count > 0">
-          <p v-if="cart.discount" class="discounts">已优惠：- ¥{{cart.discount.toFixed(2)}}</p>
-          <p class="total-price" :class="{ 'has-discount' : cart.discount}">合计：¥{{cart.total.toFixed(2)}}</p>
-        </div>
-        <p v-else class="no-choose">还未选购商品</p>
+        <div class="total-price">合计：{{cart.total.toFixed(2)}}元</div>
+        <div class="discounts" v-if="cart.discount">已优惠{{cart.discount.toFixed(2)}}元</div>
       </div>
     </div>
-    <div class="pay-btn" @click="addOrder">去支付</div>
-
+    <div class="pay-btn" :class="{ 'active': cart.count > 0 }" @click="addOrder">去支付</div>
   </div>
 </template>
 
@@ -149,81 +144,74 @@ export default {
     width: 100%;
     height: 100/@R;
     line-height: 100/@R;
-    background: #593C38;
+    background: #777;
     color: #fff;
     font-size: 30/@R;
     z-index: 1000;
-    &.no-choose-any {
-      color: #999;
-    }
     .order-detail {
       flex: 1;
       display: flex;
       .logo {
         position: relative;
-        width: 126/@R;
+        width: 160/@R;
         text-align: center;
       }
-      .icon {
-        width: 77/@R;
-        height: 77/@R;
-        background-size: 77/@R 77/@R;
-      }
-      .product-count{
-        font-family: PingFangHK-Medium;
-        position: absolute;
-        top: 11/@R;
-        left: 79/@R;
+      .product-count {
         display: inline-block;
-        min-width: 34/@R;
-        height: 34/@R;
-        line-height: 34/@R;
-        background: #C30000;
+        position: absolute;
+        top: 10/@R;
+        left: 80/@R;
+        min-width: 45/@R;
+        height: 45/@R;
+        line-height: 45/@R;
+        border-radius: 50%;
+        text-align: center;
+        background-color: @primary;
         color: #fff;
-        border-radius: 17/@R;
-        padding: 0 7/@R;
-        font-size: 20/@R;
+        font-size: 34/@R;
+        font-weight: bold;
+        font-family: "Helvetica";
       }
       .pay-info {
         flex: 1;
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        justify-content: center;
       }
-      .no-choose {
-
+      .total-price {
+        line-height: 48/@R;
+        font-size: 34/@R;
       }
       .discounts {
-        font-size: 24/@R;
-        line-height: 33/@R;
-        padding-top: 12/@R;
-      }
-      .total-price.has-discount{
-        line-height: 42/@R;
-        margin-bottom: 11/@R;
+        line-height: 30/@R;
+        font-size: 22/@R;
       }
     }
 
     .pay-btn {
-      background: #26100D;
+      background-color: #555;
       font-size: 36/@R;
       width: 240/@R;
       text-align: center;
-    }
-
-    .notify {
-      position: fixed;
-      left: 0;
-      bottom: 100/@R;
-      width: 100%;
-      height: 60/@R;
-      line-height: 60/@R;
-      text-align: center;
-      font-size: 24/@R;
-      background-color: #F6EDE1;
-      a {
-        color: red;
+      &.active {
+        background-color: @primary;
       }
     }
+
+    // .notify {
+    //   position: fixed;
+    //   left: 0;
+    //   bottom: 100/@R;
+    //   width: 100%;
+    //   height: 60/@R;
+    //   line-height: 60/@R;
+    //   text-align: center;
+    //   font-size: 24/@R;
+    //   background-color: #F6EDE1;
+    //   a {
+    //     color: red;
+    //   }
+    // }
   }
   .fade-enter-active, .fade-leave-active {
     transition: opacity .5s
