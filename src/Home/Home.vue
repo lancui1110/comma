@@ -13,6 +13,7 @@
 
     <!-- 左侧菜单 -->
     <!-- <left-menu :show.sync="isShowLeftMenu"></left-menu> -->
+    <!-- <menu-tabs></menu-tabs> -->
 
     <div class="main">
       <!-- 菜单选项 -->
@@ -143,6 +144,7 @@ export default {
     }
     .main {
       display: flex;
+      background-color: #F5F5F5;
     }
     .mint-loadmore {
       margin-bottom: 120/@R;

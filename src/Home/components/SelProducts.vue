@@ -3,24 +3,16 @@
     <div class="mask" @click="hidePanel"></div>
 
     <div class="sel-products">
-      <div class="title">已选商品</div>
+      <div class="title">已选商品 {{cart.count ? `（${cart.count}）` : ''}}</div>
       <div class="product-list">
         <div class="product-item" v-for="(item, key) in cart.list" :key="key">
-          <img class="pic" :src="item.product.picUrl || require('../../assets/pic_motu.png')">
           <div class="content">
             <p class="word">{{item.product.name}}</p>
             <p class="orig-price" v-if="item.product.discountPrice">¥ {{item.product.price.toFixed(2)}}</p>
             <p class="price" :class="{'twoline' : item.product.discountPrice}">
-              ¥ {{(item.product.discountPrice || item.product.price).toFixed(2)}}
+              {{(item.product.discountPrice || item.product.price).toFixed(2)}}元
             </p>
           </div>
-          <!-- <div class="counter-panel">
-            <p class="counter-line">
-              <i class="icon icon-minus" @click="removeFromCart(item.product)"></i>
-              <span class="count" >{{item.count}}</span>
-              <i class="icon icon-plus" @click="addToCart(item.product)"></i>
-            </p>
-          </div> -->
           <count-ctrl
             :num="item.count"
             :onAdd="() => addToCart(item.product)"
@@ -128,36 +120,26 @@ export default {
       left: 0;
       width: 100%;
       max-height: 695/@R;
-      padding-bottom: 100/@R;
-      background: transparent;
+      padding: 0 40/@R 100/@R;
+      background-color: #fff;
       transition: 0.4s;
       .title {
         height: 100/@R;
         line-height: 100/@R;
-        padding: 0 24/@R;
-        background: #F7F7F7;
-        font-size: 36/@R;
-        color: #593C38;
+        font-size: 30/@R;
+        font-weight: bold;
       }
       .product-list {
         max-height: 510/@R;
         padding-bottom: 28/@R;
         overflow-y: auto;
-        background-color: #fff;
       }
       .product-item{
         display: flex;
-        width: 100%;
-        height: 150/@R;
-        padding: 24/@R 21/@R 24/@R 37/@R;
-        border-bottom: 1/@R solid #D9D9D9;
-        &:last-child {
-          border-bottom: none;
-        }
-        .pic {
-          width: 100/@R;
-          height: 100/@R;
-        }
+        align-items: center;
+        height: 92/@R;
+        border-top: 1/@R solid #e6e6e6;
+
         .content {
           font-size: 24/@R;
           color: #333333;

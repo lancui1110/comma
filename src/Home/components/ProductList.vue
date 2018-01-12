@@ -84,20 +84,11 @@ export default {
 
   .product-list {
     overflow: hidden;
+    background: #fff;
     .list-panel {
       width: 100%;
       display: flex;
       flex-wrap: wrap;
-    }
-    // .list-item {
-    //   width: 250/@R;
-    //   height: 340/@R;
-    //   border: 1px solid #D8D8D8;
-    //   border-top: 0;
-    //   border-left: 0;
-    // }
-    .list-item:nth-child(3n) {
-      border-right: 0;
     }
     .no-result {
       display: flex;

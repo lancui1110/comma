@@ -15,12 +15,13 @@
         <span class="orig-price" v-if="data.discountPrice">{{data.price.toFixed(2)}}元</span>
       </div>
     </div>
-    <count-ctrl :onAdd="clickBuy"></count-ctrl>
+    <count-ctrl :num="selectedAmount" :onAdd="addToCart" :onMinus="removeFromCart"></count-ctrl>
   </div>
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { find } from 'lodash'
+import { mapGetters } from 'vuex'
 import CountCtrl from './CountCtrl'
 
 export default {
@@ -33,9 +34,27 @@ export default {
       type: Object
     }
   },
+  computed: {
+    ...mapGetters({
+      cart: 'home/getCart'
+    }),
+    selectedAmount () {
+      const cartItem = find(this.cart.list, item => item.product.id === this.data.id)
+      if (cartItem) {
+        return cartItem.count
+      }
+      return 0
+    }
+  },
   methods: {
-    clickBuy (e) {
+    addToCart () {
       this.$store.dispatch('home/addToCart', this.data)
+    },
+    removeFromCart () {
+      this.$store.dispatch('home/removeFromCart', this.data)
+      if (!this.cart.count) {
+        this.hidePanel()
+      }
     }
   }
 }
@@ -47,6 +66,7 @@ export default {
   .product-item {
     display: flex;
     min-height: @itemHeight;
+    width: 100%;
     margin-bottom: 30/@R;
     padding-right: 40/@R;
     font-family: PingFangHK-Medium;
@@ -61,9 +81,10 @@ export default {
       flex-grow: 1;
       display: flex;
       flex-direction: column;
+      min-width: 0;
     }
     .title {
-      max-width: 200/@R;
+      // max-width: 200/@R;
       line-height: 42/@R;
       overflow: hidden;
       white-space: nowrap;

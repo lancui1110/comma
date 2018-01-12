@@ -4,7 +4,7 @@
       <i class="icon icon-qr-code-white"></i>
       扫码购物
     </div>
-    <div class="logo">comma</div>
+    <div class="logo"><img :src="require('../../assets/new_logo.png')" alt="comma"></div>
     <router-link class="menu" :to="{ name: 'my' }">
       <i class="icon icon-my"></i>
       我的
@@ -51,6 +51,8 @@ export default {
   height: 110/@R;
   padding: 22/@R 40/@R 0;
   background-color: #000;
+  background: url(../../assets/top_bg.png) no-repeat;
+  background-size: 100% 100%;
   color: #fff;
   z-index: 500;
   .menu {
@@ -64,10 +66,12 @@ export default {
   }
   .logo {
     flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 50/@R;
+    text-align: center;
+    img {
+      width: 232/@R;
+      height: 50/@R;
+      margin-top: 11/@R;
+    }
   }
 }
 </style>

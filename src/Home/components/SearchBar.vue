@@ -168,7 +168,7 @@ export default {
     top: 0;
     left: 0;
     z-index: 500;
-    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .3);
+    // box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, .3);
   }
   .search-bar-panel {
     display: flex;
