@@ -31,6 +31,15 @@ const state = {
 }
 
 const actions = {
+  getBanner ({ commit }) {
+    iwjw.ajax({
+      url: API.getUrl('homeBannerList')
+    }).then(res => {
+      if (res.code === 1) {
+        commit('setBanner', res.data[0])
+      }
+    })
+  },
   setCode ({ commit }, v) {
     commit('setCode', v)
   },
@@ -59,10 +68,9 @@ const actions = {
       url: API.getUrl('homePage')
     }).then(res => {
       if (res.code === 1) {
-        const { userInfo, banner, categories, firstCategoryInfo } = res.data
+        const { userInfo, categories, firstCategoryInfo } = res.data
         commit('setUser', userInfo)
         // banner.picUrl = 'http://icomma.oss-cn-shenzhen.aliyuncs.com/manage/20171107/5dc9b9226477440b85e8767dce8806ac.png'
-        commit('setBanner', banner)
         commit('setCategory', { current: categories[0], list: categories })
         const { total, page, allPage, end, data } = firstCategoryInfo
         commit('setProductList', data || [])

@@ -1,5 +1,8 @@
 const apiMapping = {
 
+  homeBannerList: 'home/getBannerList',
+  homeGoodsList: 'home/getGoodsList',
+
   homePage: 'api/shelf/homePage', // 首页数据
   getGoodsByName: 'api/getGoodsByName', // 商品搜索
   getGoodsByType: 'api/getGoodsByType', // 商品分类展示

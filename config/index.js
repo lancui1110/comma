@@ -29,11 +29,11 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       mockServer: {
-        target: 'http://localhost:3888/api/fete_api/4F1IoD/wbJMez/mock',
-        // target: 'http://aa.isfeel.cn',
+        // target: 'http://localhost:3888/api/fete_api/4F1IoD/wbJMez/mock',
+        target: 'http://wx.isfeel.cn',
         filter: function (pathname, req) {
           // 因为接口url定义的时候，没有统一规范，比如 /api/ 打头之类的，所以只能一个个加了。。。
-          return /api|m\//.test(req.url)
+          return /api|m\/|home\//.test(req.url)
         }
       }
     },

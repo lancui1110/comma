@@ -73,6 +73,7 @@ export default {
   },
   mounted () {
     this.$store.dispatch('home/setCode', this.code)
+    this.$store.dispatch('home/getBanner')
     if (!this.productList.length) {
       this.$store.dispatch('home/getHomePage')
     }
