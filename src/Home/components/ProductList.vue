@@ -1,13 +1,13 @@
 <template>
 <div class="product-list">
-  <mt-loadmore :top-method="loadTop"
+  <!-- <mt-loadmore :top-method="loadTop"
     :bottom-method="loadBottom"
     :bottom-all-loaded="pageInfo.end"
     @top-status-change="handleTopChange"
     @bottom-status-change="handleBottomChange"
     :auto-fill="false"
     :bottomDistance="5"
-    ref="loadmore">
+    ref="loadmore"> -->
     <div class="product-list-panel">
       <ul class="list-panel" v-if="productList.length">
         <product-item :data="item" v-for="(item, key) in productList" :key="key"></product-item>
@@ -17,16 +17,16 @@
         <p>小主，没有找到商品哦~</p>
       </div>
 
-      <div class="down-loaded up-loaded" v-show="productList.length && !pageInfo.end && !isLoad">
+      <!-- <div class="down-loaded up-loaded" v-show="productList.length && !pageInfo.end && !isLoad">
         <i class="icon icon-arrow-up"></i>
         <div class="text">上拉加载</div>
-      </div>
+      </div> -->
       <div class="down-loaded all-loaded" v-show="productList.length && pageInfo.end && !isLoad">
         <div class="line"></div>
         <div class="text">我是有底线的</div>
       </div>
     </div>
-  </mt-loadmore>
+  <!-- </mt-loadmore> -->
 </div>
 </template>
 
@@ -47,8 +47,13 @@ export default {
   computed: {
     ...mapGetters({
       pageInfo: 'home/getPageInfo',
-      productList: 'home/getProductList'
+      category: 'home/getCategory',
+      // productList: 'home/getProductList',
+      allProductList: 'home/allProductList'
     }),
+    productList () {
+      return this.allProductList[this.category.current] || []
+    },
     isLoad () {
       if (this.loadStatus === '') {
         return true
@@ -83,6 +88,7 @@ export default {
   @import "../../global/style/theme.less";
 
   .product-list {
+    padding-top: 30/@R;
     overflow: hidden;
     background: #fff;
     .list-panel {

@@ -1,4 +1,4 @@
-import { find, map, filter, cloneDeep, concat, sum, orderBy, maxBy } from 'lodash'
+import { find, map, filter, cloneDeep, concat, sum, orderBy, maxBy, keys } from 'lodash'
 import { Indicator } from 'mint-ui'
 import API from '../api'
 
@@ -20,6 +20,7 @@ const state = {
   },
   categoryList: [],
   productList: [],
+  allProductList: {},
   cart: {
     list: [],
     count: 0,
@@ -37,6 +38,17 @@ const actions = {
     }).then(res => {
       if (res.code === 1) {
         commit('setBanner', res.data[0])
+      }
+    })
+  },
+  getGoodsList ({ commit }) {
+    iwjw.ajax({
+      url: API.getUrl('homeGoodsList')
+    }).then(res => {
+      if (res.code === 1) {
+        const ks = keys(res.data)
+        commit('setCategory', { current: ks[0], list: ks })
+        commit('setAllProductList', res.data)
       }
     })
   },
@@ -58,9 +70,9 @@ const actions = {
   },
   changeCategoryType ({ commit, dispatch }, cat) {
     // reset search
-    commit('setSearch', '')
+    // commit('setSearch', '')
     commit('setCategory', Object.assign({}, state.category, { current: cat }))
-    dispatch('refreshGoods')
+    // dispatch('refreshGoods')
   },
   getHomePage ({ commit }, cb) {
     Indicator.open()
@@ -251,6 +263,9 @@ const mutations = {
   setProductList (state, payload) {
     state.productList = payload
   },
+  setAllProductList (state, payload) {
+    state.allProductList = payload
+  },
   setCart (state, payload) {
     state.cart = payload
   }
@@ -277,6 +292,9 @@ const getters = {
   },
   getProductList (state) {
     return state.productList
+  },
+  allProductList (state) {
+    return state.allProductList
   },
   getCart (state) {
     return state.cart

@@ -75,7 +75,7 @@ export default {
     this.$store.dispatch('home/setCode', this.code)
     this.$store.dispatch('home/getBanner')
     if (!this.productList.length) {
-      this.$store.dispatch('home/getHomePage')
+      this.$store.dispatch('home/getGoodsList')
     }
     // 轮询优惠券
     this.queryAvailableCoupon()

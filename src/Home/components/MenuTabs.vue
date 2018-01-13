@@ -1,11 +1,13 @@
 <template>
   <div class="menu-tabs" :class="{'nav-pos-sticky': isSupportSticky4all, 'hide-user': isNeedFixed}" ref="leftMenu">
     <ul class="menus" :class="{'fix': fixTop}">
-      <li class="menu-item" :id="'menu-item-' + item.id"
-          :class="{ 'active': item.id === category.current.id }"
-          v-for="(item, key) in category.list" :key="key"
-          @click="clickTab(item)">
-        <span class="menu-item-text">{{item.name}}</span>
+      <li class="menu-item"
+        :id="'menu-item-' + key"
+        :class="{ 'active': item === category.current }"
+        v-for="(item, key) in category.list"
+        :key="key"
+        @click="clickTab(item)">
+        <span class="menu-item-text">{{item}}</span>
       </li>
     </ul>
   </div>
@@ -125,7 +127,7 @@ export default {
       width: @menuWidth;
       height: @menuHeight;
       white-space: nowrap;
-      font-size: 36/@R;
+      font-size: 30/@R;
       &.active {
         background-color: #fff;
         &:before {

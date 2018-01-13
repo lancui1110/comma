@@ -5,8 +5,14 @@
     </div>
     <div class="detail">
       <div class="title">{{data.name}}</div>
-      <div>
-        <span class="tag tejia">特价</span>
+      <div class="tag-wrapper">
+        <span
+          class="tag"
+          :style="{ 'border-color': item.color, 'color': item.color }"
+          v-for="(item, key) in data.goodsMarks"
+          :key="key">
+          {{item.name}}
+        </span>
       </div>
       <div>
         <span class="price" :class="{'twoline' : data.discountPrice}">
@@ -77,6 +83,10 @@ export default {
       flex-shrink: 0;
       width: @itemHeight;
       height: @itemHeight;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
     .detail {
       flex-grow: 1;
@@ -91,10 +101,15 @@ export default {
       text-overflow: ellipsis;
       font-size: 30/@R;
     }
+    .tag-wrapper {
+      height: 32/@R;
+      margin: 10/@R 0 20/@R;
+    }
     .tag {
       display: inline-block;
-      margin: 10/@R 0 20/@R;
+      height: 32/@R;
       padding: 0 10/@R;
+      margin-right: 10/@R;
       border: 1px solid #fff;
       border-radius: 15/@R;
       font-size: 20/@R;

@@ -46,6 +46,6 @@ const apiMapping = {
 export default {
   getUrl: function (apiKey, addon) {
     return pageConfig.siteUrl + apiMapping[apiKey] + (addon || '')
-    // return 'http://aa.isfeel.cn/' + apiMapping[apiKey] + (addon || '')
+    // return 'http://wx.isfeel.cn/' + apiMapping[apiKey] + (addon || '')
   }
 }
