@@ -1,11 +1,12 @@
 <template>
   <div class="my-header">
     <div class="left">
-      <router-link to="">充值历史</router-link>
+      <router-link :to="{ name: 'rechargeList' }">充值历史</router-link>
     </div>
     <div class="middle">
-      <img class="avatar" :src="avatar" alt="">
-      <span class="name">{{nickName}}</span>
+      <label>账户余额</label>
+      <span class="amount">¥<span class="num">100.00</span></span>
+      <router-link class="recharge-btn" :to="{ name: 'recharge' }">充值有礼</router-link>
     </div>
     <div class="right">
       <a :href="`${baseUrl}/customer/feedBack`">
@@ -62,9 +63,6 @@ export default {
   }
   .left {
     width: 130/@R;
-    * {
-      visibility: hidden; // remove after next version
-    }
   }
   .middle {
     flex-grow: 1;
@@ -72,19 +70,34 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    color: @text-color;
+    label {
+      font-size: 32/@R;
+      font-weight: bold;
+    }
   }
   .right {
     width: 130/@R;
     text-align: right;
   }
-  .avatar {
-    width: 160/@R;
-    height: 160/@R;
-    margin-bottom: 10/@R;
-    border-radius: 50%;
+  .amount {
+    line-height: 84/@R;
+    margin: 15/@R 0 20/@R;
+    font-size: 60/@R;
+    .num {
+      font-weight: bold;
+      font-family: "Helvetica";
+    }
   }
-  .icon {
-    margin-right: 20/@R;
+  .recharge-btn {
+    width: 200/@R;
+    height: 70/@R;
+    line-height: 67/@R;
+    text-align: center;
+    border-radius: 33/@R;
+    border: 2/@R solid @primary;
+    color: @primary;
+    font-size: 32/@R;
   }
 }
 </style>

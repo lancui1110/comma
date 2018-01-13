@@ -22,6 +22,10 @@ const PaySuccess = r => require.ensure([], () => r(require('../Pay/PaySuccess.vu
 const Login = r => require.ensure([], () => r(require('../Login/Login.vue')), 'Login')
 // 个人中心
 const My = r => require.ensure([], () => r(require('../My/My.vue')), 'My')
+// 充值
+const Recharge = r => require.ensure([], () => r(require('../Recharge/Recharge.vue')), 'Recharge')
+const RechargeList = r => require.ensure([], () => r(require('../Recharge/RechargeList.vue')), 'Recharge')
+const Agreement = r => require.ensure([], () => r(require('../Recharge/Agreement.vue')), 'Recharge')
 // 订单
 const OrderList = r => require.ensure([], () => r(require('../Order/OrderList.vue')), 'Order')
 const OrderDetail = r => require.ensure([], () => r(require('../Order/OrderDetail.vue')), 'Order')
@@ -56,6 +60,9 @@ const router = new Router({
     { name: 'paySuc', path: '/pay/success', component: PaySuccess },
     { name: 'login', path: '/login', component: Login },
     { name: 'my', path: '/my', component: My },
+    { name: 'recharge', path: '/recharge', component: Recharge },
+    { name: 'rechargeList', path: '/recharge/list', component: RechargeList },
+    { name: 'agreement', path: '/recharge/agreement', component: Agreement },
     { name: 'orderList', path: '/order/list', component: OrderList },
     { name: 'orderDetail', path: '/order/detail', component: OrderDetail },
     { name: 'customerMain', path: '/customer', component: CustomerMain },

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import global from './modules/global'
 import home from './modules/home'
 import user from './modules/user'
+import recharge from './modules/recharge'
 import order from './modules/order'
 import coupons from './modules/coupons'
 import customer from './modules/customer'
@@ -25,6 +26,10 @@ export default new Vuex.Store({
     user: {
       namespaced: true,
       ...user
+    },
+    recharge: {
+      namespaced: true,
+      ...recharge
     },
     order: {
       namespaced: true,

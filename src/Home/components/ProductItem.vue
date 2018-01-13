@@ -52,9 +52,6 @@ export default {
     },
     removeFromCart () {
       this.$store.dispatch('home/removeFromCart', this.data)
-      if (!this.cart.count) {
-        this.hidePanel()
-      }
     }
   }
 }
