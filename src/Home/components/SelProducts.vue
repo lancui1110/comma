@@ -5,27 +5,23 @@
     <div class="sel-products">
       <div class="title">已选商品 {{cart.count ? `（${cart.count}）` : ''}}</div>
       <div class="product-list">
-        <div class="product-item" v-for="(item, key) in cart.list" :key="key">
-          <div class="content">
-            <p class="word">{{item.product.name}}</p>
-            <p class="orig-price" v-if="item.product.discountPrice">¥ {{item.product.price.toFixed(2)}}</p>
-            <p class="price" :class="{'twoline' : item.product.discountPrice}">
-              {{(item.product.discountPrice || item.product.price).toFixed(2)}}元
-            </p>
-          </div>
+        <div class="item" v-for="(item, key) in cart.list" :key="key">
+          <div class="name">{{item.product.name}}</div>
+          <div class="orig-price" v-if="item.product.discountPrice">{{item.product.price.toFixed(2)}}</div>
+          <div class="price">{{(item.product.discountPrice || item.product.price).toFixed(2)}}<span class="unit">元</span></div>
           <count-ctrl
             :num="item.count"
             :onAdd="() => addToCart(item.product)"
             :onMinus="() => removeFromCart(item.product)">
           </count-ctrl>
         </div>
-        <p class="coupon-info" v-if="cart.coupon">
-          红包可抵 ￥{{cart.coupon.price.toFixed(2)}}
-          <span v-if="cart.coupon && cart.maxCoupon && cart.coupon.numberCode !== cart.maxCoupon.numberCode">
-            (再购{{(cart.maxCoupon.lowPrice - this.cartDiscountAmount).toFixed(2)}}元，可用{{cart.maxCoupon.price}}元红包哦~)
-          </span>
-        </p>
       </div>
+      <p class="coupon-info" v-if="cart.coupon">
+        红包抵扣：-{{cart.coupon.price.toFixed(2)}}元
+        <span v-if="cart.coupon && cart.maxCoupon && cart.coupon.numberCode !== cart.maxCoupon.numberCode">
+          (再购{{(cart.maxCoupon.lowPrice - this.cartDiscountAmount).toFixed(2)}}元，可用{{cart.maxCoupon.price}}元红包哦~)
+        </span>
+      </p>
     </div>
   </div>
 </template>
@@ -131,73 +127,55 @@ export default {
       }
       .product-list {
         max-height: 510/@R;
-        padding-bottom: 28/@R;
         overflow-y: auto;
       }
-      .product-item{
+      .item{
         display: flex;
         align-items: center;
         height: 92/@R;
         border-top: 1/@R solid #e6e6e6;
-
-        .content {
-          font-size: 24/@R;
-          color: #333333;
-          padding-left: 20/@R;
-          display: flex;
-          flex: 1;
-          flex-direction: column;
-          justify-content: space-between;
+        &:last-child {
+          border-bottom: 1/@R solid #e6e6e6;
         }
-        .word {
-          max-width: 360/@R;
+
+        .name {
+          flex-grow: 1;
+          min-width: 0;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+          font-size: 30/@R;
         }
         .price {
           line-height: 30/@R;
-          font-size: 30/@R;
-          color: #D86868;
+          margin-left: 40/@R;
+          white-space: nowrap;
+          font-size: 34/@R;
+          font-family: "Helvetica";
+          color: @font-orange;
+          .unit {
+            font-size: 24/@R;
+          }
         }
         .orig-price {
           line-height: 20/@R;
-          font-size: 20/@R;
-          color: #999999;
+          margin-left: 40/@R;
+          white-space: nowrap;
+          font-size: 24/@R;
+          font-family: "Helvetica";
+          color: @font-gray-light;
           text-decoration: line-through;
         }
       }
+      .count-ctrl {
+        margin-left: 40/@R;
+      }
       .coupon-info {
-        margin-bottom: -28/@R;
-        padding-left: 37/@R;
-        line-height: 45/@R;
-        color: red;
+        padding: 25/@R 0;
+        line-height: 42/@R;
+        color: @font-orange;
         font-size: 24/@R;
       }
-      .counter-panel {
-        position: relative;
-        text-align: end;
-        width: 140/@R;
-        height: 100%;
-        .counter-line {
-          position: absolute;
-          right: 0;
-          bottom: 0;
-          display: flex;
-        }
-        .icon {
-
-        }
-        .count {
-          padding: 0 5/@R;
-          width: 60/@R;
-          text-align: center;
-          display: inline-block;
-          height: 34/@R;
-          line-height: 34/@R;
-        }
-      }
     }
-
   }
 </style>

@@ -66,7 +66,6 @@ export default {
     width: 100%;
     margin-bottom: 30/@R;
     padding-right: 40/@R;
-    font-family: PingFangHK-Medium;
     font-size: 20/@R;
 
     .pic {
@@ -81,7 +80,6 @@ export default {
       min-width: 0;
     }
     .title {
-      // max-width: 200/@R;
       line-height: 42/@R;
       overflow: hidden;
       white-space: nowrap;

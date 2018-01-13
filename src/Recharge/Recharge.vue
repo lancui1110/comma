@@ -83,7 +83,18 @@
       border: 1/@R solid @font-gray-light;
       font-size: 28/@R;
       &.selected {
+        position: relative;
         border: 1/@R solid @primary;
+        &:after {
+          content: " ";
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 42/@R;
+          height: 42/@R;
+          background: url('../assets/check.png') no-repeat;
+          background-size: 42/@R 42/@R;
+        }
       }
       .amount {
         font-size: 32/@R;
