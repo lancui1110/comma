@@ -50,7 +50,7 @@ export default {
 
 <style lang="less">
   @import "../../global/style/theme.less";
-  
+
   .newuser-redbag-panel {
       position: absolute;
       left: 0;

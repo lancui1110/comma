@@ -32,6 +32,7 @@ const OrderDetail = r => require.ensure([], () => r(require('../Order/OrderDetai
 // 客服
 const CustomerMain = r => require.ensure([], () => r(require('../Customer/Main.vue')), 'Customer')
 const CustomerFeedback = r => require.ensure([], () => r(require('../Customer/Feedback.vue')), 'Customer')
+const Wish = r => require.ensure([], () => r(require('../Customer/Wish.vue')), 'Customer')
 // 优惠券
 const Coupons = r => require.ensure([], () => r(require('../Coupons/List.vue')), 'Coupons')
 // 活动
@@ -67,6 +68,7 @@ const router = new Router({
     { name: 'orderDetail', path: '/order/detail', component: OrderDetail },
     { name: 'customerMain', path: '/customer', component: CustomerMain },
     { name: 'customerFeedback', path: '/customer/feedBack', component: CustomerFeedback },
+    { name: 'wish', path: '/customer/wish', component: Wish },
     { name: 'coupons', path: '/coupons', component: Coupons },
     { name: 'receiveRedBag', path: '/activity/receiveRedBag', component: ReceiveRedBag },
     { name: 'recommend', path: '/activity/recommend', component: Recommend },

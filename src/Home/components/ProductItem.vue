@@ -22,6 +22,7 @@
 <script>
 import { find } from 'lodash'
 import { mapGetters } from 'vuex'
+import { MessageBox } from 'mint-ui'
 import CountCtrl from './CountCtrl'
 
 export default {
@@ -48,7 +49,11 @@ export default {
   },
   methods: {
     addToCart () {
-      this.$store.dispatch('home/addToCart', this.data)
+      if (this.data.status === '售罄') {
+        MessageBox('商品可能售罄了', '请您在货架上确认后再购买！')
+      } else {
+        this.$store.dispatch('home/addToCart', this.data)
+      }
     },
     removeFromCart () {
       this.$store.dispatch('home/removeFromCart', this.data)

@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" :class="{ 'no-scroll': isFixed }">
     <top-bar></top-bar>
 
     <div class="header">
