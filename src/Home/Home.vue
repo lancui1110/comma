@@ -36,7 +36,8 @@
     <!-- 所选商品 -->
     <sel-products :show.sync="isShowSelProducts"></sel-products>
 
-    <newuser-redbag @noScroll="noScroll"/>
+    <!-- <newuser-redbag @noScroll="noScroll"/> -->
+    <popup v-if="popup" :show="popup"></popup>
   </div>
 </template>
 
@@ -54,6 +55,7 @@ import PayBar from './components/PayBar'
 import LeftMenu from './components/LeftMenu'
 import SelProducts from './components/SelProducts'
 import NewuserRedbag from './components/NewUserRedBag'
+import Popup from './components/Popup'
 
 import TopBar from './components/TopBar'
 
@@ -64,6 +66,7 @@ export default {
   name: 'Home',
   components: {
     TopBar,
+    Popup,
 
     ProductList,
     SearchBar,
@@ -83,9 +86,19 @@ export default {
       isFixed: true
     }
   },
+  computed: {
+    ...mapGetters({
+      popup: 'home/popup',
+      user: 'user/getUser',
+      bannerList: 'home/bannerList',
+      cart: 'home/getCart',
+      productList: 'home/getProductList'
+    })
+  },
   mounted () {
     this.$store.dispatch('home/setCode', this.code)
     this.$store.dispatch('home/getBanner')
+    this.$store.dispatch('home/getPopup')
     if (!this.productList.length) {
       this.$store.dispatch('home/getGoodsList')
     }
@@ -96,14 +109,6 @@ export default {
     if (this.queryTimeout) {
       clearTimeout(this.queryTimeout)
     }
-  },
-  computed: {
-    ...mapGetters({
-      user: 'user/getUser',
-      bannerList: 'home/bannerList',
-      cart: 'home/getCart',
-      productList: 'home/getProductList'
-    })
   },
   methods: {
     queryAvailableCoupon () {
