@@ -8,6 +8,7 @@ const state = {
   myRedPacket: {},
   redPackets: [],
   cityData: [],
+  couponInfoList: [], // 线下优惠券
   recommendForm: {
     companyName: '',
     linkName: '',
@@ -50,6 +51,57 @@ const actions = {
     }).then(res => {
       cb && cb(res)
     })
+  },
+  getScanCouponActivity ({ commit }, params) {
+    iwjw.ajax({
+      url: API.getUrl('scanCouponActivity'),
+      data: params
+    }).then(res => {
+      res = {
+        code: 1,
+        data: [
+          {
+            endDate: '2017.12.30',
+            endHour: '',
+            goodsTypeMap: {},
+            lowPrice: 110,
+            name: '货架红包',
+            numberCode: '',
+            price: 10,
+            startDate: '2017.12.15',
+            startHour: '',
+            status: 1
+          },
+          {
+            endDate: '2017.12.30',
+            endHour: '',
+            goodsTypeMap: {},
+            lowPrice: 110,
+            name: '货架红包',
+            numberCode: '',
+            price: 10,
+            startDate: '2017.12.15',
+            startHour: '',
+            status: 1
+          },
+          {
+            endDate: '2017.12.30',
+            endHour: '',
+            goodsTypeMap: {},
+            lowPrice: 110,
+            name: '货架红包',
+            numberCode: '',
+            price: 10,
+            startDate: '2017.12.15',
+            startHour: '',
+            status: 1
+          }
+        ]
+      }
+      if (res.code === 1) {
+        commit('setCouponInfoList', res.data || [])
+      }
+    })
   }
 }
 
@@ -68,6 +120,9 @@ const mutations = {
   },
   setMessage (state, payload) {
     state.message = payload
+  },
+  setCouponInfoList (state, payload) {
+    state.couponInfoList = payload
   }
 }
 
@@ -86,6 +141,9 @@ const getters = {
   },
   message () {
     return state.message
+  },
+  couponInfoList () {
+    return state.couponInfoList
   }
 }
 

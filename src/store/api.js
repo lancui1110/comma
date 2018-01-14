@@ -33,6 +33,7 @@ const apiMapping = {
   getWxShare: 'api/wx/share',  // 获得微信分享init信息
 
   getOrderShare: 'api/activity/orderShare',  // 获取红包分享
+  scanCouponActivity: 'api/activity/scanCouponActivity',  //  线下扫码领券
 
   // admin
   pageTask: 'm/shelfTask/pageTask',
