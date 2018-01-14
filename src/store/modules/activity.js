@@ -57,47 +57,6 @@ const actions = {
       url: API.getUrl('scanCouponActivity'),
       data: params
     }).then(res => {
-      res = {
-        code: 1,
-        data: [
-          {
-            endDate: '2017.12.30',
-            endHour: '',
-            goodsTypeMap: {},
-            lowPrice: 110,
-            name: '货架红包',
-            numberCode: '',
-            price: 10,
-            startDate: '2017.12.15',
-            startHour: '',
-            status: 1
-          },
-          {
-            endDate: '2017.12.30',
-            endHour: '',
-            goodsTypeMap: {},
-            lowPrice: 110,
-            name: '货架红包',
-            numberCode: '',
-            price: 10,
-            startDate: '2017.12.15',
-            startHour: '',
-            status: 1
-          },
-          {
-            endDate: '2017.12.30',
-            endHour: '',
-            goodsTypeMap: {},
-            lowPrice: 110,
-            name: '货架红包',
-            numberCode: '',
-            price: 10,
-            startDate: '2017.12.15',
-            startHour: '',
-            status: 1
-          }
-        ]
-      }
       if (res.code === 1) {
         commit('setCouponInfoList', res.data || [])
       }
