@@ -6,6 +6,7 @@ const state = {
   code: null,
   user: null,
   banner: null,
+  bannerList: [],
   search: '',
   category: {
     current: null,
@@ -37,7 +38,7 @@ const actions = {
       url: API.getUrl('homeBannerList')
     }).then(res => {
       if (res.code === 1) {
-        commit('setBanner', res.data[0])
+        commit('setBannerList', res.data)
       }
     })
   },
@@ -251,6 +252,9 @@ const mutations = {
   setBanner (state, payload) {
     state.banner = payload
   },
+  setBannerList (state, payload) {
+    state.bannerList = payload
+  },
   setSearch (state, payload) {
     state.search = payload
   },
@@ -280,6 +284,9 @@ const getters = {
   },
   getBanner (state) {
     return state.banner
+  },
+  bannerList (state) {
+    return state.bannerList
   },
   getSearch (state) {
     return state.search

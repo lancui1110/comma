@@ -98,6 +98,7 @@ export default {
     flex-grow: 0;
     flex-shrink: 0;
     position: relative;
+    min-height: 930/@R;
     background-color: #F5F5F5;
     &.nav-pos-sticky {
       position: sticky;

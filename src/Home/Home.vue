@@ -3,10 +3,17 @@
     <top-bar></top-bar>
 
     <div class="header">
-      <a v-if="banner" :href="banner.linkUrl">
+      <mt-swipe :auto="4000">
+        <mt-swipe-item v-for="(banner, key) in bannerList" :key="key">
+          <a v-if="banner" :href="banner.linkUrl">
+            <img class="banner" :src="banner.picUrl"/>
+          </a>
+        </mt-swipe-item>
+      </mt-swipe>
+      <!-- <a v-if="banner" :href="banner.linkUrl">
         <img class="banner" :src="banner.picUrl"/>
       </a>
-      <img v-else class="banner" :src="require('../assets/header-banner.png')"/>
+      <img v-else class="banner" :src="require('../assets/header-banner.png')"/> -->
     </div>
     <!-- 搜索 -->
     <!-- <search-bar @toggleShowLeft="showLeftMenu" ></search-bar> -->
@@ -34,7 +41,9 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
+import { Swipe, SwipeItem } from 'mint-ui'
 
 import { calCartInfo } from '../store/modules/home'
 
@@ -47,6 +56,9 @@ import SelProducts from './components/SelProducts'
 import NewuserRedbag from './components/NewUserRedBag'
 
 import TopBar from './components/TopBar'
+
+Vue.component(Swipe.name, Swipe)
+Vue.component(SwipeItem.name, SwipeItem)
 
 export default {
   name: 'Home',
@@ -88,7 +100,7 @@ export default {
   computed: {
     ...mapGetters({
       user: 'user/getUser',
-      banner: 'home/getBanner',
+      bannerList: 'home/bannerList',
       cart: 'home/getCart',
       productList: 'home/getProductList'
     })
@@ -136,6 +148,7 @@ export default {
       overflow: hidden;
     }
     .header {
+      height: 180/@R;
       padding: 10/@R 20/@R;
       font-size: 0;
       .banner {
