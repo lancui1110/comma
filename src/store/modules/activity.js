@@ -8,6 +8,7 @@ const state = {
   myRedPacket: {},
   redPackets: [],
   cityData: [],
+  couponInfoList: [], // 线下优惠券
   recommendForm: {
     companyName: '',
     linkName: '',
@@ -50,6 +51,16 @@ const actions = {
     }).then(res => {
       cb && cb(res)
     })
+  },
+  getScanCouponActivity ({ commit }, params) {
+    iwjw.ajax({
+      url: API.getUrl('scanCouponActivity'),
+      data: params
+    }).then(res => {
+      if (res.code === 1) {
+        commit('setCouponInfoList', res.data || [])
+      }
+    })
   }
 }
 
@@ -68,6 +79,9 @@ const mutations = {
   },
   setMessage (state, payload) {
     state.message = payload
+  },
+  setCouponInfoList (state, payload) {
+    state.couponInfoList = payload
   }
 }
 
@@ -86,6 +100,9 @@ const getters = {
   },
   message () {
     return state.message
+  },
+  couponInfoList () {
+    return state.couponInfoList
   }
 }
 

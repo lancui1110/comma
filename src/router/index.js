@@ -35,6 +35,8 @@ const CustomerFeedback = r => require.ensure([], () => r(require('../Customer/Fe
 const Wish = r => require.ensure([], () => r(require('../Customer/Wish.vue')), 'Customer')
 // 优惠券
 const Coupons = r => require.ensure([], () => r(require('../Coupons/List.vue')), 'Coupons')
+// 线下优惠券
+const OfflineCoupon = r => require.ensure([], () => r(require('../Offline/Coupon.vue')), 'OfflineCoupon')
 // 活动
 const ReceiveRedBag = r => require.ensure([], () => r(require('../Activity/ReceiveRedBag.vue')), 'Activity')
 const Recommend = r => require.ensure([], () => r(require('../Activity/Recommend.vue')), 'Activity')
@@ -70,6 +72,7 @@ const router = new Router({
     { name: 'customerFeedback', path: '/customer/feedBack', component: CustomerFeedback },
     { name: 'wish', path: '/customer/wish', component: Wish },
     { name: 'coupons', path: '/coupons', component: Coupons },
+    { name: 'offlineCoupon', path: '/offline/coupon', component: OfflineCoupon },
     { name: 'receiveRedBag', path: '/activity/receiveRedBag', component: ReceiveRedBag },
     { name: 'recommend', path: '/activity/recommend', component: Recommend },
     { name: 'recommendForm', path: '/activity/recommendForm', component: RecommendForm },

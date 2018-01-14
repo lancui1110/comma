@@ -15,25 +15,7 @@
             <div class="word">没有优惠券可用~</div>
           </div>
           <div v-else class="list-panel coupons-list-panel">
-            <div v-for="(item, key) in couponList" :key="key" class="coupons-item-panel">
-              <div class="coupons-item" :class="{'gray': item.status === 2  || item.status === 4 || item.status === 5}">
-                <div class="word">
-                  <span class="left word large red">{{item.price}}元</span>
-                  <span class="word name">
-                    {{item.name}}
-                    <!-- 1待使用 2已使用 4已过期 5返还中 -->
-                    <span :class="`status-btn ${item.status === 5 ? 'orange' : ''}`"
-                      v-if="item.status === 2 || item.status === 4 || item.status === 5">
-                      {{statusText[item.status]}}
-                    </span>
-                  </span>
-                </div>
-                <div class="word meta">
-                  <span class="left word">满{{item.lowPrice}}元立减</span>
-                  <span class="word">{{item.startDate}}~{{item.endDate}}</span>
-                </div>
-              </div>
-            </div>
+            <coupon-item :coupon="item" v-for="(item, key) in couponList" :key="key" ></coupon-item>
           </div>
         </mt-tab-container-item>
         <mt-tab-container-item id="order">
@@ -70,6 +52,7 @@ import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import { Navbar, TabItem, TabContainer, TabContainerItem } from 'mint-ui'
 import MyHeader from './MyHeader'
+import CouponItem from '../components/CouponItem'
 
 Vue.component(Navbar.name, Navbar)
 Vue.component(TabItem.name, TabItem)
@@ -79,7 +62,8 @@ Vue.component(TabContainerItem.name, TabContainerItem)
 export default {
   name: 'My',
   components: {
-    MyHeader
+    MyHeader,
+    CouponItem
   },
   data () {
     return {
@@ -212,89 +196,6 @@ export default {
     font-size: 36/@R;
     padding: 68/@R 0 0;
     color: @font-gray-light;
-  }
-}
-
-.coupons-list-panel {
-  .word {
-    font-size: 28/@R;
-    display: flex;
-    align-items: center;
-  }
-  .large {
-    font-size: 44/@R;
-  }
-  .red {
-    color: #FF6600;
-  }
-  .name {
-    font-size: 28/@R;
-    font-weight: bold;
-  }
-  .meta {
-    margin-top: 15/@R;
-    color: @font-gray;
-  }
-  .gray {
-    .word, .red {
-      color: #D9D9D9;
-    }
-  }
-  .status-btn {
-    width: 100/@R;
-    height: 40/@R;
-    line-height: 40/@R;
-    margin-left: 20/@R;
-    text-align: center;
-    border-radius: 20/@R;
-    background-color: #D8D8D8;
-    color: #fff;
-    font-size: 24/@R;
-    &.orange {
-      background-color: #F5A623;
-    }
-  }
-  .left {
-    display: inline-block;
-    width: 250/@R;
-    text-align: center;
-    margin-right: 100/@R;
-  }
-  .coupons-item-panel {
-    position: relative;
-    height: 200/@R;
-    padding: 10/@R;
-    margin-bottom: 30/@R;
-    border-radius: 8/@R;
-    box-shadow: 0 2/@R 4/@R 0 rgba(0, 0, 0, .05);
-    background: #fff;
-    &:before,
-    &:after {
-      display: block;
-      position: absolute;
-      content: " ";
-      width: 30/@R;
-      height: 30/@R;
-      border-radius: 50%;
-      background-color: @panel-gray;
-    }
-    &:before {
-      top: 85/@R;
-      left: -15/@R;
-    }
-    &:after {
-      top: 85/@R;
-      right: -15/@R;
-    }
-  }
-  .coupons-item {
-    width: 100%;
-    height: 100%;
-    border-radius: 2px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: left;
   }
 }
 
