@@ -3,10 +3,17 @@
     <top-bar></top-bar>
 
     <div class="header">
-      <a v-if="banner" :href="banner.linkUrl">
+      <mt-swipe :auto="4000">
+        <mt-swipe-item v-for="(banner, key) in bannerList" :key="key">
+          <a v-if="banner" :href="banner.linkUrl">
+            <img class="banner" :src="banner.picUrl"/>
+          </a>
+        </mt-swipe-item>
+      </mt-swipe>
+      <!-- <a v-if="banner" :href="banner.linkUrl">
         <img class="banner" :src="banner.picUrl"/>
       </a>
-      <img v-else class="banner" :src="require('../assets/header-banner.png')"/>
+      <img v-else class="banner" :src="require('../assets/header-banner.png')"/> -->
     </div>
     <!-- 搜索 -->
     <!-- <search-bar @toggleShowLeft="showLeftMenu" ></search-bar> -->
@@ -29,12 +36,15 @@
     <!-- 所选商品 -->
     <sel-products :show.sync="isShowSelProducts"></sel-products>
 
-    <newuser-redbag @noScroll="noScroll"/>
+    <!-- <newuser-redbag @noScroll="noScroll"/> -->
+    <popup v-if="popup" :show="popup"></popup>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
+import { Swipe, SwipeItem } from 'mint-ui'
 
 import { calCartInfo } from '../store/modules/home'
 
@@ -45,13 +55,18 @@ import PayBar from './components/PayBar'
 import LeftMenu from './components/LeftMenu'
 import SelProducts from './components/SelProducts'
 import NewuserRedbag from './components/NewUserRedBag'
+import Popup from './components/Popup'
 
 import TopBar from './components/TopBar'
+
+Vue.component(Swipe.name, Swipe)
+Vue.component(SwipeItem.name, SwipeItem)
 
 export default {
   name: 'Home',
   components: {
     TopBar,
+    Popup,
 
     ProductList,
     SearchBar,
@@ -71,9 +86,19 @@ export default {
       isFixed: true
     }
   },
+  computed: {
+    ...mapGetters({
+      popup: 'home/popup',
+      user: 'user/getUser',
+      bannerList: 'home/bannerList',
+      cart: 'home/getCart',
+      productList: 'home/getProductList'
+    })
+  },
   mounted () {
     this.$store.dispatch('home/setCode', this.code)
     this.$store.dispatch('home/getBanner')
+    this.$store.dispatch('home/getPopup')
     if (!this.productList.length) {
       this.$store.dispatch('home/getGoodsList')
     }
@@ -84,14 +109,6 @@ export default {
     if (this.queryTimeout) {
       clearTimeout(this.queryTimeout)
     }
-  },
-  computed: {
-    ...mapGetters({
-      user: 'user/getUser',
-      banner: 'home/getBanner',
-      cart: 'home/getCart',
-      productList: 'home/getProductList'
-    })
   },
   methods: {
     queryAvailableCoupon () {
@@ -136,6 +153,7 @@ export default {
       overflow: hidden;
     }
     .header {
+      height: 180/@R;
       padding: 10/@R 20/@R;
       font-size: 0;
       .banner {

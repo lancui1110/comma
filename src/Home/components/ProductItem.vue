@@ -113,15 +113,6 @@ export default {
       border: 1px solid #fff;
       border-radius: 15/@R;
       font-size: 20/@R;
-      &.tejia,
-      &.cuxiao {
-        border-color: @font-orange;
-        color: @font-orange;
-      }
-      &.shouqing {
-        border-color: #999;
-        color: #999;
-      }
     }
     .price {
       margin-right: 20/@R;

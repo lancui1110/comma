@@ -21,7 +21,9 @@
         <i class="icon icon-arrow-up"></i>
         <div class="text">上拉加载</div>
       </div> -->
-      <div class="down-loaded all-loaded" v-show="productList.length && pageInfo.end && !isLoad">
+
+      <router-link class="wish-btn" :to="{ name: 'wish' }">您想要的告诉我吧</router-link>
+      <div class="down-loaded all-loaded">
         <div class="line"></div>
         <div class="text">我是有底线的</div>
       </div>
@@ -89,6 +91,7 @@ export default {
 
   .product-list {
     padding-top: 30/@R;
+    padding-bottom: 130/@R;
     overflow: hidden;
     background: #fff;
     .list-panel {
@@ -107,13 +110,24 @@ export default {
         margin-bottom: 30/@R;
       }
     }
+    .wish-btn {
+      display: block;
+      width: 520/@R;
+      height: 80/@R;
+      line-height: 80/@R;
+      margin: 0 auto 60/@R;
+      text-align: center;
+      border-radius: 40/@R;
+      border: 1/@R solid @border-gray;
+      font-size: 30/@R;
+      color: @text-color;
+    }
     .down-loaded {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-top: 20/@R;
       color: gray;
-      font-size: 18/@R;
+      font-size: 24/@R;
       .text {
         width: 200/@R;
         text-align: center;
@@ -130,7 +144,7 @@ export default {
       &:after {
         content: " ";
         display: block;
-        width: 50/@R;
+        width: 120/@R;
         border-bottom: 2/@R solid lightgray;
       }
     }
