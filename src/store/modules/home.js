@@ -54,13 +54,14 @@ const actions = {
       }
     })
   },
-  getPopup ({ commit }) {
+  getPopup ({ commit }, cb) {
     iwjw.ajax({
       url: API.getUrl('homePopup')
     }).then(res => {
       if (res.code === 1) {
         commit('setPopup', res.data)
       }
+      cb && cb(res)
     })
   },
   setCode ({ commit }, v) {

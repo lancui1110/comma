@@ -37,7 +37,12 @@
     <sel-products :show.sync="isShowSelProducts"></sel-products>
 
     <!-- <newuser-redbag @noScroll="noScroll"/> -->
-    <popup v-if="popup" :show="popup"></popup>
+    <popup
+      v-if="popup"
+      :show.sync="showPopup"
+      @noScroll="noScroll"
+      @hidePopup="hidePopup">
+    </popup>
   </div>
 </template>
 
@@ -83,7 +88,8 @@ export default {
       code: this.$route.query.code,
       isShowLeftMenu: false,
       isShowSelProducts: false,
-      isFixed: true
+      isFixed: true,
+      showPopup: false
     }
   },
   computed: {
@@ -98,7 +104,11 @@ export default {
   mounted () {
     this.$store.dispatch('home/setCode', this.code)
     this.$store.dispatch('home/getBanner')
-    this.$store.dispatch('home/getPopup')
+    this.$store.dispatch('home/getPopup', (res) => {
+      if (res.code === 1) {
+        this.showPopup = true
+      }
+    })
     if (!this.productList.length) {
       this.$store.dispatch('home/getGoodsList')
     }
@@ -135,6 +145,9 @@ export default {
     },
     noScroll (isFixed) {
       this.isFixed = isFixed
+    },
+    hidePopup () {
+      this.showPopup = false
     }
   }
 }
