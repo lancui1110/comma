@@ -2,9 +2,9 @@
   <div class="sel-products-panel" :class="{'hide-menu': !isShow}">
     <div class="mask" @click="hidePanel"></div>
 
-    <div class="sel-products">
+    <div v-show="!showPayType" class="sel-products">
       <div class="title">已选商品 {{cart.count ? `（${cart.count}）` : ''}}</div>
-      <div class="product-list">
+      <div class="sel-product-list">
         <div class="item" v-for="(item, key) in cart.list" :key="key">
           <div class="name">{{item.product.name}}</div>
           <div class="orig-price" v-if="item.product.discountPrice">{{item.product.price.toFixed(2)}}</div>
@@ -16,12 +16,40 @@
           </count-ctrl>
         </div>
       </div>
-      <p class="coupon-info" v-if="cart.coupon">
+      <div class="coupon-info" v-if="cart.coupon">
         红包抵扣：-{{cart.coupon.price.toFixed(2)}}元
         <span v-if="cart.coupon && cart.maxCoupon && cart.coupon.numberCode !== cart.maxCoupon.numberCode">
           (再购{{(cart.maxCoupon.lowPrice - this.cartDiscountAmount).toFixed(2)}}元，可用{{cart.maxCoupon.price}}元红包哦~)
         </span>
-      </p>
+      </div>
+      <div class="pay-type" @click="showPayType = true">
+        <div class="label">支付方式</div>
+        <div class="value">
+          <i class="icon icon-wx"></i>
+          微信支付
+          <i class="icon icon-arrow-down"></i>
+        </div>
+      </div>
+    </div>
+    <div v-show="showPayType" class="sel-products">
+      <div class="title" @click="showPayType = false">
+        <div class="text">请选择支付方式</div>
+        <i class="icon icon-arrow-up"></i>
+      </div>
+      <div class="item" @click="changePayType('yue')">
+        <div class="name">
+          <i class="icon icon-yue"></i>
+          账户余额（0.00元，余额不足）
+        </div>
+        <i class="icon icon-check-black" v-if="payType === 'yue'"></i>
+      </div>
+      <div class="item" @click="changePayType('wx')">
+        <div class="name">
+          <i class="icon icon-wx"></i>
+          微信支付
+        </div>
+        <i class="icon icon-check-black" v-if="payType === 'wx'"></i>
+      </div>
     </div>
   </div>
 </template>
@@ -44,12 +72,14 @@ export default {
   },
   data () {
     return {
+      showPayType: false,
       isShow: this.show
     }
   },
   computed: {
     ...mapGetters({
-      cart: 'home/getCart'
+      cart: 'home/getCart',
+      payType: 'home/payType'
     }),
     cartDiscountAmount () {
       return sum(map(this.cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
@@ -58,6 +88,9 @@ export default {
   watch: {
     show (val) {
       this.isShow = val
+      if (val) {
+        this.showPayType = false
+      }
     }
   },
   methods: {
@@ -77,6 +110,9 @@ export default {
       if (!this.cart.count) {
         this.hidePanel()
       }
+    },
+    changePayType (type) {
+      this.$store.commit('home/setPayType', type)
     }
   }
 }
@@ -122,10 +158,11 @@ export default {
       .title {
         height: 100/@R;
         line-height: 100/@R;
+        border-bottom: 1/@R solid #e6e6e6;
         font-size: 30/@R;
         font-weight: bold;
       }
-      .product-list {
+      .sel-product-list {
         max-height: 510/@R;
         overflow-y: auto;
       }
@@ -133,10 +170,7 @@ export default {
         display: flex;
         align-items: center;
         height: 92/@R;
-        border-top: 1/@R solid #e6e6e6;
-        &:last-child {
-          border-bottom: 1/@R solid #e6e6e6;
-        }
+        border-bottom: 1/@R solid #e6e6e6;
 
         .name {
           flex-grow: 1;
@@ -173,8 +207,30 @@ export default {
       .coupon-info {
         padding: 25/@R 0;
         line-height: 42/@R;
+        border-bottom: 1/@R solid #e6e6e6;
         color: @font-orange;
         font-size: 24/@R;
+      }
+    }
+    .pay-type {
+      display: flex;
+      align-items: center;
+      height: 92/@R;
+      .label {
+        flex-grow: 1;
+      }
+      .icon {
+        margin-right: 10/@R;
+      }
+    }
+    .title {
+      display: flex;
+      align-items: center;
+      .text {
+        flex-grow: 1;
+      }
+      .icon {
+        margin-right: 10/@R;
       }
     }
   }
