@@ -27,6 +27,7 @@ const apiMapping = {
 
   feedbackPhone: 'api/feedBack/phone', // 获取反馈电话
   feedbackSubmit: 'api/feedBack/submit', // 提交反馈
+  feedbackSubmitWant: 'api/feedBack/submitWant', // 提交许愿
 
   couponList: 'api/user/pageCoupon', // 优惠券列表
   availableCouponList: 'api/user/getAvailableCoupon',  // 可用的优惠券

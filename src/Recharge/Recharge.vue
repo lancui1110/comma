@@ -29,6 +29,7 @@
 
   import { mapGetters } from 'vuex'
   import { MessageBox } from 'mint-ui'
+  import weixin from 'weixin'
 
   export default {
     name: 'Rechart',
@@ -66,15 +67,23 @@
           MessageBox.alert('请选择充值金额')
           return
         }
-        
+
         this.$store.dispatch('recharge/addRecharge', {
           activityId: this.selectedAmount,
-          cb: (user) => {
+          cb: (result) => {
             this.isSubmit = false
-            // 跳转到列表页
-            this.$router.push({name: 'RechargeList'})
+            // 微信支付
+            weixin.weixinPay(result.data, (res) => {
+              // go 支付成功
+              if (res.err_msg === 'get_brand_wcpay_request:ok') { // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+                this.goPaySuc()
+              }
+            })
           }
         })
+      },
+      goPaySuc () {
+        this.$router.push({ name: 'rechargeList' })
       }
     }
   }
