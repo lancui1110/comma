@@ -38,9 +38,9 @@ const apiMapping = {
   getOrderShare: 'api/activity/orderShare',  // 获取红包分享
   scanCouponActivity: 'api/activity/scanCouponActivity',  // 线下扫码领券
 
-  addRecharge: '/api/deposit/pay', // 支付充值？？？
-  rechargeList: '/api/deposit/pageSuccessOrder',  // 充值记录（成功）
-  depositListActivity: '/api/deposit/listActivity',  // 获取充值活动
+  addRecharge: 'v2/api/addOrder/deposit/', // 支付充值 :注意这个是动态 url, /:activityId
+  rechargeList: 'api/deposit/pageSuccessOrder',  // 充值记录（成功）
+  getDepositListActivity: 'api/deposit/listActivity',  // 获取充值活动
 
   // admin
   pageTask: 'm/shelfTask/pageTask',
