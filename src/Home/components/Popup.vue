@@ -36,6 +36,7 @@
     props: {
       show: {
         type: Boolean,
+        twoWay: true,
         default: false
       }
     },
@@ -49,7 +50,7 @@
         window.location.href = this.popup.url
       },
       hide () {
-        this.show = false
+        this.$emit('hidePopup')
       }
     }
   }

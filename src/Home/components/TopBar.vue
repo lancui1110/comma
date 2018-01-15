@@ -5,6 +5,10 @@
       扫码购物
     </div>
     <div class="logo"><img :src="require('../../assets/new_logo.png')" alt="comma"></div>
+    <router-link class="menu recharge" :to="{ name: 'recharge' }">
+      <i class="icon icon-recharge"></i>
+      充值
+    </router-link>
     <router-link class="menu" :to="{ name: 'my' }">
       <i class="icon icon-my"></i>
       我的
@@ -56,12 +60,16 @@ export default {
   color: #fff;
   z-index: 500;
   .menu {
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     font-size: 20/@R;
     .icon {
       margin-bottom: 5/@R;
+    }
+    &.recharge {
+      margin-right: 60/@R;
     }
   }
   .logo {
@@ -71,6 +79,7 @@ export default {
       width: 232/@R;
       height: 50/@R;
       margin-top: 11/@R;
+      margin-right: -90/@R;
     }
   }
 }

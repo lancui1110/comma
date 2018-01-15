@@ -2,7 +2,7 @@
   <div class="count-ctrl">
     <i class="icon icon-minus" v-show="num > 0" @click="onMinus"></i>
     <span class="num" v-show="num > 0">{{num}}</span>
-    <i class="icon icon-plus" @click="onAdd"></i>
+    <i class="icon icon-plus-black" @click="onAdd"></i>
   </div>
 </template>
 

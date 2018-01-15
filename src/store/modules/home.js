@@ -1,5 +1,5 @@
 import { find, map, filter, cloneDeep, concat, sum, orderBy, maxBy, keys } from 'lodash'
-import { Indicator } from 'mint-ui'
+import { Indicator, Toast } from 'mint-ui'
 import API from '../api'
 
 const state = {
@@ -8,6 +8,7 @@ const state = {
   banner: null,
   bannerList: [],
   popup: null,
+  payType: 'wx',  // 'wx' or 'yue'
   search: '',
   category: {
     current: null,
@@ -54,13 +55,14 @@ const actions = {
       }
     })
   },
-  getPopup ({ commit }) {
+  getPopup ({ commit }, cb) {
     iwjw.ajax({
       url: API.getUrl('homePopup')
     }).then(res => {
       if (res.code === 1) {
         commit('setPopup', res.data)
       }
+      cb && cb(res)
     })
   },
   setCode ({ commit }, v) {
@@ -211,6 +213,9 @@ const actions = {
   addToCart ({ commit, rootState }, product) {
     const p = find(state.cart.list, item => item.product.id === product.id)
     if (p) {
+      if (p.special) {
+        Toast('今日限购一件，超出按原价')
+      }
       p.count += 1
     } else {
       state.cart.list.push(Object.assign(
@@ -268,6 +273,9 @@ const mutations = {
   setPopup (state, payload) {
     state.popup = payload
   },
+  setPayType (state, payload) {
+    state.payType = payload
+  },
   setSearch (state, payload) {
     state.search = payload
   },
@@ -303,6 +311,9 @@ const getters = {
   },
   popup (state) {
     return state.popup
+  },
+  payType (state) {
+    return state.payType
   },
   getSearch (state) {
     return state.search
