@@ -16,11 +16,12 @@
           </count-ctrl>
         </div>
       </div>
-      <div class="coupon-info" v-if="cart.coupon">
-        红包抵扣：-{{cart.coupon.price.toFixed(2)}}元
+      <div class="coupon-info" v-show="cartDiscountTextInfo">
+        {{cartDiscountTextInfo}}
+        <!-- 红包抵扣：-{{cart.coupon.price.toFixed(2)}}元
         <span v-if="cart.coupon && cart.maxCoupon && cart.coupon.numberCode !== cart.maxCoupon.numberCode">
           (再购{{(cart.maxCoupon.lowPrice - this.cartDiscountAmount).toFixed(2)}}元，可用{{cart.maxCoupon.price}}元红包哦~)
-        </span>
+        </span> -->
       </div>
       <div class="pay-type" @click="showPayType = true">
         <div class="label">支付方式</div>
@@ -83,6 +84,18 @@ export default {
     }),
     cartDiscountAmount () {
       return sum(map(this.cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
+    },
+    cartDiscountTextInfo () {
+      const { coupon, discount } = this.cart
+      let res = []
+      if (coupon) {
+        res.push(`红包抵扣：-${coupon.price.toFixed(2)}元`)
+      }
+      if (discount) {
+        // TODO
+        res.push(`商品折扣：-${(coupon ? 0 : discount).toFixed(2)}元`)
+      }
+      return [].join('，')
     }
   },
   watch: {

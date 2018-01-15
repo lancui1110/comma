@@ -1,9 +1,10 @@
 const apiMapping = {
 
+  homeCalculateCart: 'home/calculateCart',
   homeBannerList: 'home/getBannerList',
   homeGoodsList: 'home/getGoodsList',
   homePopup: 'home/getPop',
-  userBuySpecialIds: 'v2/api/addOrder/getUserBuySpecialIds',
+  userBuySpecialIds: 'v2/api/addOrder/getUserBuySpecialGoodsIds',
 
   homePage: 'api/shelf/homePage', // 首页数据
   // getGoodsByName: 'api/getGoodsByName', // 商品搜索

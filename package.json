@@ -16,6 +16,7 @@
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.4",
     "mint-ui": "2.2.9",
+    "moment": "^2.20.1",
     "nprogress": "^0.2.0",
     "object-assign": "^4.1.1",
     "tooltip.js": "^1.1.2",

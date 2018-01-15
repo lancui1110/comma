@@ -1,4 +1,5 @@
-import { find, map, filter, cloneDeep, concat, sum, orderBy, maxBy, keys } from 'lodash'
+import { find, findIndex, map, filter, cloneDeep, concat, sum, orderBy, maxBy, keys } from 'lodash'
+import moment from 'moment'
 import { Indicator, Toast } from 'mint-ui'
 import API from '../api'
 
@@ -361,14 +362,64 @@ export default {
 export function calCartInfo (unCalCart, couponList) {
   const cart = cloneDeep(unCalCart)
   cart.count = sum(map(cart.list, 'count'))
+  const specialList = filter(cart.list, item => item.product.special)
+  const notSpecialList = filter(cart.list, item => !item.product.special)
+  const hasSpecial = specialList.length > 0
 
   const originTotal = sum(map(cart.list, item => item.count * item.product.price))
+
+  // 有特价商品，不能使用优惠券，直接 return 算好的 cart
+  if (hasSpecial) {
+    let discountTotal = sum(map(notSpecialList, item => item.count * (item.product.discountPrice || item.product.price)))
+    discountTotal += sum(
+      map(specialList, item => {
+        const isBuy = findIndex(state.buySpecialIds, b => b === item.product.id) > -1
+        if (isBuy) {
+          return item.count * item.product.price
+        } else {
+          return 1 * item.product.discountPrice + (item.count - 1) * item.product.price
+        }
+      })
+    )
+
+    cart.coupon = null
+    // cart.maxCoupon = null
+    cart.discount = originTotal - discountTotal
+    cart.total = discountTotal
+    return cart
+  }
+
   const discountTotal = sum(map(cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
 
+  // 筛选能够使用的券，state = 1 && 有时间段的话，时间段要符合 && lowPrice <= discount
+  const matchCoupons = filter(couponList, item => {
+    if (item.status === 1 && item.lowPrice <= discountTotal) {
+      const { startHour, endHour } = item
+      if (startHour && endHour) {
+        const now = moment().format('hh:mm:ss')
+        if (now >= startHour && now <= endHour) {
+          return true
+        } else {
+          return false
+        }
+      } else {
+        return true
+      }
+    }
+    return false
+  })
+
+  // 没有合适的优惠券
+  if (!matchCoupons.length) {
+    cart.coupon = null
+    // cart.maxCoupon = null
+    cart.discount = originTotal - discountTotal
+    cart.total = discountTotal
+    return cart
+  }
+
   // 价格最大那张优惠券
-  const maxCoupon = maxBy(filter(couponList, { status: 1 }), 'price')
-  // 筛选能够使用的券，state = 1 && lowPrice <= discount
-  const matchCoupons = filter(couponList, item => item.status === 1 && item.lowPrice <= discountTotal)
+  // const maxCoupon = maxBy(filter(couponList, { status: 1 }), 'price')
   // zeroMatchCoupons 使用后，能把总价减为 <= ０
   const zeroMatchCoupons = filter(matchCoupons, item => item.price >= discountTotal)
   let coupon
@@ -382,12 +433,12 @@ export function calCartInfo (unCalCart, couponList) {
 
   if (coupon) {
     cart.coupon = coupon
-    cart.maxCoupon = maxCoupon
+    // cart.maxCoupon = maxCoupon
     cart.discount = originTotal - discountTotal + (discountTotal > coupon.price ? coupon.price : discountTotal)
     cart.total = discountTotal - coupon.price
   } else {
     cart.coupon = null
-    cart.maxCoupon = null
+    // cart.maxCoupon = null
     cart.discount = originTotal - discountTotal
     cart.total = discountTotal
   }
