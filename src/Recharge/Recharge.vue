@@ -46,7 +46,16 @@
     },
     methods: {
       submit () {
-
+        this.$store.dispatch('recharge/addRecharge', {
+          params: {
+            amount: this.amountData[this.selectedAmount].amount
+          },
+          cb: (user) => {
+            this.isSubmit = false
+            // 跳转到列表页
+            this.$router.push({name: 'RechargeList'})
+          }
+        })
       }
     }
   }

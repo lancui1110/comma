@@ -20,7 +20,7 @@
           </div>
           <div class="form-item yellow-btn" :disabled="!mobile || !code" @click="handleOnSubmitCode()">领取礼包</div>
         </div>
-
+        <!-- 优惠券列表 -->
         <div v-if="couponInfoList && couponInfoList.length > 0" class="coupons-list-panel">
           <coupon-item :coupon="item" v-for="(item, key) in couponInfoList" :key="key" ></coupon-item>
         </div>
@@ -114,9 +114,6 @@ export default {
           window.location.reload()
         }
       })
-    },
-    goPage () {
-      location.href = `${pageConfig.siteUrl}index/activity/recommend`
     }
   }
 }
@@ -125,12 +122,11 @@ export default {
 <style lang="less">
   @import "../global/style/theme.less";
   @pink: #EC4269;
-  @red:#E93C4D;
-  @brown: #2A0E0C;
 
   .offline-coupon-panel {
     position: relative;
     width: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;

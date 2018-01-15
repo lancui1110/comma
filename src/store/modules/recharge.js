@@ -18,7 +18,7 @@ const state = {
 }
 
 const actions = {
-  getRechargeList ({ commit }, cb) {
+  getRechargeList ({ commit }, { params, cb }) {
     iwjw.ajax({
       url: API.getUrl('rechargeList')
     }).then(res => {

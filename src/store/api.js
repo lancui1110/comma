@@ -5,10 +5,12 @@ const apiMapping = {
   homePopup: 'home/getPop',
 
   homePage: 'api/shelf/homePage', // 首页数据
-  getGoodsByName: 'api/getGoodsByName', // 商品搜索
-  getGoodsByType: 'api/getGoodsByType', // 商品分类展示
-  getGoodsByIds: 'api/getGoodsByIds', // 商品信息获取
-  findProductByQrCode: 'api/findProductByQrCode', // 扫码二维码找商品
+  // getGoodsByName: 'api/getGoodsByName', // 商品搜索
+  // getGoodsByType: 'api/getGoodsByType', // 商品分类展示
+  // getGoodsByIds: 'api/getGoodsByIds', // 商品信息获取
+  // findProductByQrCode: 'api/findProductByQrCode', // 扫码二维码找商品
+  getGoodsByIds: 'v2/api/goods/getGoodsByIds', // 商品信息获取
+  findProductByQrCode: 'v2/api/goods/findProductByQrCode', // 扫码二维码找商品
 
   shelfRecommend: 'api/shelf/recommendShelf', // 推荐审核
   shelfCategory: 'api/shelf/getCategory', // 货架分类
@@ -34,7 +36,11 @@ const apiMapping = {
   getWxShare: 'api/wx/share',  // 获得微信分享init信息
 
   getOrderShare: 'api/activity/orderShare',  // 获取红包分享
-  scanCouponActivity: 'api/activity/scanCouponActivity',  //  线下扫码领券
+  scanCouponActivity: 'api/activity/scanCouponActivity',  // 线下扫码领券
+
+  addRecharge: '/api/deposit/pay', // 支付充值？？？
+  rechargeList: '/api/deposit/pageSuccessOrder',  // 充值记录（成功）
+  depositListActivity: '/api/deposit/listActivity',  // 获取充值活动
 
   // admin
   pageTask: 'm/shelfTask/pageTask',

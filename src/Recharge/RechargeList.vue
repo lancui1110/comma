@@ -42,9 +42,14 @@
     methods: {
       loadList () {
         Indicator.open()
-        this.$store.dispatch('recharge/getRechargeList', () => {
-          this.loading = false
-          Indicator.close()
+        this.$store.dispatch('recharge/getRechargeList', {
+          params: {
+            
+          },
+          cb: () => {
+            this.loading = false
+            Indicator.close()
+          }
         })
       }
     }
