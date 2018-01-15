@@ -7,6 +7,7 @@ const state = {
   user: null,
   banner: null,
   bannerList: [],
+  buySpecialIds: [],
   popup: null,
   payType: 'wx',  // 'wx' or 'yue'
   search: '',
@@ -52,6 +53,15 @@ const actions = {
         const ks = keys(res.data)
         commit('setCategory', { current: ks[0], list: ks })
         commit('setAllProductList', res.data)
+      }
+    })
+  },
+  getUserBuySpecialIds ({ commit }) {
+    iwjw.ajax({
+      url: API.getUrl('userBuySpecialIds')
+    }).then(res => {
+      if (res.code === 1) {
+        commit('setBuySpecialIds', res.data)
       }
     })
   },
@@ -270,6 +280,9 @@ const mutations = {
   setBannerList (state, payload) {
     state.bannerList = payload
   },
+  setBuySpecialIds (state, payload) {
+    state.buySpecialIds = payload
+  },
   setPopup (state, payload) {
     state.popup = payload
   },
@@ -308,6 +321,9 @@ const getters = {
   },
   bannerList (state) {
     return state.bannerList
+  },
+  buySpecialIds (state) {
+    return state.buySpecialIds
   },
   popup (state) {
     return state.popup

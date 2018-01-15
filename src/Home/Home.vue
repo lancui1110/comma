@@ -104,6 +104,7 @@ export default {
   mounted () {
     this.$store.dispatch('home/setCode', this.code)
     this.$store.dispatch('home/getBanner')
+    this.$store.dispatch('home/getUserBuySpecialIds')
     this.$store.dispatch('home/getPopup', (res) => {
       if (res.code === 1) {
         this.showPopup = true
