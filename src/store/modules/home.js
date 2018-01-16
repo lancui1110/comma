@@ -1,7 +1,7 @@
 import { find, findIndex, map, filter, cloneDeep, concat, sum,
   // orderBy, maxBy,
   keys } from 'lodash'
-// import moment from 'moment'
+import moment from 'moment'
 import { Indicator, Toast } from 'mint-ui'
 import API from '../api'
 
@@ -440,10 +440,6 @@ export function calCartInfo (unCalCart, couponList) {
     return cart
   }
 
-  // TODO: 临时改的，都调用后端接口
-  return false
-
-  /*
   const discountTotal = sum(map(cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
 
   // 筛选能够使用的券，state = 1 && 有时间段的话，时间段要符合 && lowPrice <= discount
@@ -473,6 +469,10 @@ export function calCartInfo (unCalCart, couponList) {
     return cart
   }
 
+  // 调用后端接口
+  return false
+
+  /*
   // 价格最大那张优惠券
   // const maxCoupon = maxBy(filter(couponList, { status: 1 }), 'price')
   // zeroMatchCoupons 使用后，能把总价减为 <= ０
