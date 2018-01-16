@@ -72,13 +72,13 @@ const actions = {
     iwjw.ajax({
       url: API.getUrl('homeCalculateCart'),
       method: 'POST',
-      data: { goods }
+      data: goods
     }).then(res => {
       if (res.code === 1) {
-        const c = find(rootState.coupon.availableCouponList, { numberCode: res.data.couponNum })
+        const c = find(rootState.coupons.availableCouponList, { numberCode: res.data.couponNum })
         commit('setCart', {
           list: state.cart.list,
-          count: state.cart.count,
+          count: sum(map(state.cart.list, item => item.count)),
           discount: res.data.totalDiscounts,
           total: res.data.realAmount,
           // maxCoupon: null,
