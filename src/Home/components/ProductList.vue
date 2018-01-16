@@ -90,6 +90,7 @@ export default {
   @import "../../global/style/theme.less";
 
   .product-list {
+    flex-grow: 1;
     padding-top: 30/@R;
     padding-bottom: 130/@R;
     overflow: hidden;
