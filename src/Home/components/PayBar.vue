@@ -72,8 +72,6 @@ export default {
           params,
           cb: (res) => {
             if (res.code === 1) {
-              // reset cart
-              this.$store.dispatch('home/clearCart')
               // go to '/pay'
               // location.href = `${pageConfig.siteUrl}index/pay?orderNum=${res.data.orderNum}`
               this.goPay(res.data)
@@ -157,6 +155,9 @@ export default {
     },
     // 支付成功页面
     goPaySuc (orderNum) {
+      // reset cart
+      this.$store.dispatch('home/clearCart')
+      
       location.href = `${pageConfig.siteUrl}index/pay/success?orderNum=${orderNum}`
     },
     toggleSelProducts () {

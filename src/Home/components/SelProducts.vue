@@ -106,7 +106,6 @@ export default {
     },
     canUseYue () {
       // 是否可用余额
-      console.log(this.cart.total)
       return this.user && this.user.money >= this.cart.total
     }
   },
