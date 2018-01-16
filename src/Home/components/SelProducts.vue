@@ -203,6 +203,9 @@ export default {
           .price {
             margin-left: 0;
           }
+          .icon-check-black {
+            margin-right: 10/@R;
+          }
         }
 
         .name {

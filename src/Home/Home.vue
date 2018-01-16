@@ -178,7 +178,6 @@ export default {
 
   .home {
     padding-top: 120/@R;
-    font-family: PingFangHK-Regular;
     &.no-scroll {
       height: 100%;
       overflow: hidden;
