@@ -21,6 +21,16 @@ const actions = {
       commit('setPhone', res.data)
       cb && cb(res)
     })
+  },
+  // 许愿
+  feedbackSubmitWant ({ commit }, { params, cb }) {
+    iwjw.ajax({
+      url: API.getUrl('feedbackSubmitWant'),
+      data: params,
+      method: 'POST'
+    }).then(res => {
+      cb && cb(res)
+    })
   }
 }
 

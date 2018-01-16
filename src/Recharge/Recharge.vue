@@ -5,17 +5,18 @@
     <div class="row">
       <div
         class="amount-btn"
-        :class="{ 'selected': item.amount === selectedAmount }"
-        v-for="(item, key) in amountData"
+        :class="{ 'selected': item.activityId === selectedAmount }"
+        v-for="(item, key) in depositList"
         :key="key"
-        @click="selectedAmount = item.amount">
-        <span class="amount"><span class="num">{{item.amount}}</span>元</span>
-        <span>{{item.text}}</span>
+        @click="selectedAmount = item.activityId">
+        <div class="amount"><span class="num">{{item.money}}</span>元</div>
+        <span>送{{item.totalCouponMoney}}元券</span>
       </div>
     </div>
 
-    <div class="submit-btn" @click="submit">立即支付</div>
-    <div class="tip">点击立即支付，即表示您已同意《<router-link :to="{ name: 'agreement' }">充值协议</router-link>》</div>
+    <div class="submit-btn" @click="toSubmit">立即支付</div>
+    <!-- <div class="tip">点击立即支付，即表示您已同意《<router-link :to="{ name: 'agreement' }">充值协议</router-link>》</div> -->
+    <div class="tip">点击立即支付，即表示您已同意《<a href="/index/recharge/agreement">充值协议</a>》</div>
 
     <div class="info">
       <h5>充值说明：</h5>
@@ -25,16 +26,21 @@
 </template>
 
 <script>
+
+  import { mapGetters } from 'vuex'
+  import { MessageBox } from 'mint-ui'
+  import weixin from 'weixin'
+
   export default {
     name: 'Rechart',
     data () {
       return {
-        amountData: [
-          { amount: 30, text: '送1张3元券' },
-          { amount: 50, text: '送2张3元券' },
-          { amount: 100, text: '送6张3元券' }
-        ],
-        selectedAmount: 0,
+        // amountData: [
+        //   { amount: 30, text: '送1张3元券' },
+        //   { amount: 50, text: '送2张3元券' },
+        //   { amount: 100, text: '送6张3元券' }
+        // ],
+        selectedAmount: '',
         infos: [
           '本次活动仅适用于广州；',
           '充值30元赠送3元券（1张3元券）、50元赠送6元券（2张3元券）、100元赠送18元（6张3元券）、以上赠券有效期均为发放后30天，满10元可用，单笔消费仅限使用一张；',
@@ -44,18 +50,40 @@
         ]
       }
     },
+    computed: {
+      ...mapGetters({
+        depositList: 'recharge/depositListActivity' // 充值活动列表
+      })
+    },
+    activated () {
+      this.getActivityList()
+    },
     methods: {
-      submit () {
+      getActivityList () {
+        this.$store.dispatch('recharge/getDepositListActivity')
+      },
+      toSubmit () {
+        if (!this.selectedAmount) {
+          MessageBox.alert('请选择充值金额')
+          return
+        }
+
         this.$store.dispatch('recharge/addRecharge', {
-          params: {
-            amount: this.amountData[this.selectedAmount].amount
-          },
-          cb: (user) => {
+          activityId: this.selectedAmount,
+          cb: (result) => {
             this.isSubmit = false
-            // 跳转到列表页
-            this.$router.push({name: 'RechargeList'})
+            // 微信支付
+            weixin.weixinPay(result.data, (res) => {
+              // go 支付成功
+              if (res.err_msg === 'get_brand_wcpay_request:ok') { // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+                this.goPaySuc()
+              }
+            })
           }
         })
+      },
+      goPaySuc () {
+        this.$router.push({ name: 'rechargeList' })
       }
     }
   }

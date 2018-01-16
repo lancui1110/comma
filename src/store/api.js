@@ -29,6 +29,7 @@ const apiMapping = {
 
   feedbackPhone: 'api/feedBack/phone', // 获取反馈电话
   feedbackSubmit: 'api/feedBack/submit', // 提交反馈
+  feedbackSubmitWant: 'api/feedBack/submitWant', // 提交许愿
 
   couponList: 'api/user/pageCoupon', // 优惠券列表
   availableCouponList: 'api/user/getAvailableCoupon',  // 可用的优惠券
@@ -40,9 +41,9 @@ const apiMapping = {
   getOrderShare: 'api/activity/orderShare',  // 获取红包分享
   scanCouponActivity: 'api/activity/scanCouponActivity',  // 线下扫码领券
 
-  addRecharge: '/api/deposit/pay', // 支付充值？？？
-  rechargeList: '/api/deposit/pageSuccessOrder',  // 充值记录（成功）
-  depositListActivity: '/api/deposit/listActivity',  // 获取充值活动
+  addRecharge: 'v2/api/addOrder/deposit/', // 支付充值 :注意这个是动态 url, /:activityId
+  rechargeList: 'api/deposit/pageSuccessOrder',  // 充值记录（成功）
+  getDepositListActivity: 'api/deposit/listActivity',  // 获取充值活动
 
   // admin
   pageTask: 'm/shelfTask/pageTask',

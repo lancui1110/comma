@@ -87,7 +87,7 @@ export default {
         feedback: this.feedback,
         wxPicIds: this.serverPics
       }
-      this.$store.dispatch('customer/submit', {
+      this.$store.dispatch('customer/feedbackSubmitWant', {
         params: params,
         cb: (res) => {
           if (res.code === 1) {

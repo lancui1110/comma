@@ -34,8 +34,9 @@ module.exports = {
         target: 'http://localhost',
         filter: function (pathname, req) {
           // 因为接口url定义的时候，没有统一规范，比如 /api/ 打头之类的，所以只能一个个加了。。。
-          return /api|home\//.test(req.url)
-          // return (pathname.match('^/api/'))
+          return /(v2\/)?(api|home)\//.test(req.url)
+          // return (pathname.match('^/v2/api/'))
+          //         || pathname.match('^/api/')
           //         || pathname.match('^/home/')
         }
       }
