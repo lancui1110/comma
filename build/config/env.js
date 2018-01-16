@@ -8,7 +8,9 @@ module.exports = {
     publicPath: '//house-test-water.oss.aliyuncs.com/resource/fyb-pc_test/'
   },
   beta: {
-    publicPath: '//house-test-water.oss.aliyuncs.com/resource/fyb-pc_beta/'
+    // publicPath: '//house-test-water.oss.aliyuncs.com/resource/fyb-pc_beta/'
+    publicPath: '//comma.isfeel.cn/'
+    
   },
   prod: {
     publicPath: '//nb.comma.com.cn/h5/'
