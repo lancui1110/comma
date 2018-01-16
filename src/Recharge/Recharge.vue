@@ -6,11 +6,12 @@
       <div
         class="amount-btn"
         :class="{ 'selected': item.activityId === selectedAmount }"
+        
         v-for="(item, key) in depositList"
         :key="key"
         @click="selectedAmount = item.activityId">
         <div class="amount"><span class="num">{{item.money}}</span>元</div>
-        <span>送{{item.totalCouponMoney}}元券</span>
+        <span v-if="item.totalCouponMoney > 0">送{{item.totalCouponMoney}}元券</span>
       </div>
     </div>
 
