@@ -71,6 +71,7 @@ const actions = {
   serverCalCartInfo ({ commit, rootState }, goods) {
     iwjw.ajax({
       url: API.getUrl('homeCalculateCart'),
+      method: 'POST',
       data: { goods }
     }).then(res => {
       if (res.code === 1) {
