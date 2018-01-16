@@ -28,7 +28,7 @@
 <script>
 
   import { mapGetters } from 'vuex'
-  import { MessageBox } from 'mint-ui'
+  import { Toast } from 'mint-ui'
   import weixin from 'weixin'
 
   export default {
@@ -55,6 +55,9 @@
         depositList: 'recharge/depositListActivity' // 充值活动列表
       })
     },
+    mounted () {
+      weixin.init()
+    },
     activated () {
       this.getActivityList()
     },
@@ -64,7 +67,7 @@
       },
       toSubmit () {
         if (!this.selectedAmount) {
-          MessageBox.alert('请选择充值金额')
+          Toast('请选择充值金额')
           return
         }
 
@@ -72,18 +75,18 @@
           activityId: this.selectedAmount,
           cb: (result) => {
             this.isSubmit = false
-            // 微信支付
-            weixin.weixinPay(result.data, (res) => {
-              // go 支付成功
-              if (res.err_msg === 'get_brand_wcpay_request:ok') { // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
-                this.goPaySuc()
-              }
-            })
+            this.goPay(result.data)
           }
         })
       },
-      goPaySuc () {
-        this.$router.push({ name: 'rechargeList' })
+      goPay (params) {
+        // 微信支付
+        weixin.weixinPay(params, (res) => {
+          // go 支付成功
+          if (res.err_msg === 'get_brand_wcpay_request:ok') { // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+            this.$router.push({ name: 'rechargeList' })
+          }
+        })
       }
     }
   }

@@ -22,6 +22,7 @@ import { each, map, find, findIndex, sum, round, cloneDeep } from 'lodash'
 import { mapGetters } from 'vuex'
 import { Toast } from 'mint-ui'
 import { calCartInfo } from '../../store/modules/home'
+import weixin from 'weixin'
 
 export default {
   name: 'PayBar',
@@ -33,6 +34,9 @@ export default {
       notifyUserLogin: 'user/notifyUserLogin',
       user: 'user/getUser'
     })
+  },
+  mounted () {
+    weixin.init()
   },
   methods: {
     addOrder () {
@@ -71,8 +75,8 @@ export default {
               // reset cart
               this.$store.dispatch('home/clearCart')
               // go to '/pay'
-              // this.$router.push({ name: 'pay', query: { orderNum: res.data.orderNum } })
-              location.href = `${pageConfig.siteUrl}index/pay?orderNum=${res.data.orderNum}`
+              // location.href = `${pageConfig.siteUrl}index/pay?orderNum=${res.data.orderNum}`
+              this.goPay(res.data)
             } else {
               Toast(res.msg)
               // 先更新 可用优惠券列表
@@ -123,6 +127,23 @@ export default {
       } else {
         this.$router.push({ name: 'login', query: { to: 'home' } })
       }
+    },
+    goPay (params) {
+      if (params.payStatus === 1) { // 0元无需支付
+        this.goPaySuc(params.orderNum)
+        return
+      }
+      // 微信支付
+      weixin.weixinPay(params, (res) => {
+        // go 支付成功
+        if (res.err_msg === 'get_brand_wcpay_request:ok') { // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+          this.goPaySuc(params.orderNum)
+        }
+      })
+    },
+    // 支付成功页面
+    goPaySuc (orderNum) {
+      location.href = `${pageConfig.siteUrl}index/pay/success?orderNum=${orderNum}`
     },
     toggleSelProducts () {
       if (this.cart.count) {

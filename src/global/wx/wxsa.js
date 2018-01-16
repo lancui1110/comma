@@ -13,7 +13,7 @@ const weixin = {
     }).then(res => {
       if (res && res.code === 1) {
         wx.config({
-          debug: false,
+          debug: true,
           appId: res.data.appId,
           timestamp: res.data.timestamp,
           nonceStr: res.data.nonceStr,
@@ -96,6 +96,7 @@ const weixin = {
     })
   },
   weixinPay: (wxPayParams, cb) => {
+    alert(JSON.stringify(wxPayParams))
     const onBridgeReady = () => {
       WeixinJSBridge.invoke('getBrandWCPayRequest', wxPayParams, (res) => {
         cb && cb(res)

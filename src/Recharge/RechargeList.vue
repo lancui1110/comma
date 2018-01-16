@@ -9,12 +9,12 @@
     <div class="list" v-else>
       <div class="item" v-for="(item, key) in rechargeList" :key="key">
         <div class="title">
-          <div class="type">{{item.type}}</div>
-          <div class="amount">{{item.amount}}元</div>
+          <div class="type">{{item.payMethod}}</div>
+          <div class="amount">{{item.money}}元</div>
         </div>
-        <div class="meta">{{item.time}}</div>
-        <div class="meta">充值金额：{{item.amount}}元</div>
-        <div class="meta">充值编号：{{item.code}}</div>
+        <div class="meta">{{item.payTime}}</div>
+        <div class="meta">充值金额：{{item.money}}元</div>
+        <div class="meta">充值编号：{{item.orderNum}}</div>
       </div>
     </div>
   </div>
@@ -41,6 +41,7 @@
     },
     methods: {
       loadList () {
+        alert(11)
         Indicator.open()
         this.$store.dispatch('recharge/getRechargeList', {
           params: {

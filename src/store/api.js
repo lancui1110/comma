@@ -20,7 +20,8 @@ const apiMapping = {
 
   orderList: 'api/order/page', // 订单列表
   orderDetail: 'api/order/detail', // 订单详情
-  addOrder: 'api/order/addOrder', // 订单提交
+  // addOrder: 'api/order/addOrder', // 订单提交
+  addOrder: 'v2/api/addOrder/goods', // 订单提交
   orderStatus: 'api/order/getOrderStatus', // 订单付款结果查询
 
   userInfo: 'api/user/userInfo', // 用户信息

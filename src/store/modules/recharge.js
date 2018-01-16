@@ -35,7 +35,7 @@ const actions = {
       url: API.getUrl('rechargeList')
     }).then(res => {
       if (res.code === 1) {
-        commit('setRechargeList', res.data || [])
+        commit('setRechargeList', res.data.data || [])
       }
       cb && cb()
     })

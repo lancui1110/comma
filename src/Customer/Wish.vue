@@ -47,6 +47,11 @@ export default {
   mounted () {
     weixin.init()
   },
+  activated () {
+    this.localPics = []
+    this.feedback = '',
+    this.serverPics = []
+  },
   computed: {
   },
   methods: {
@@ -92,7 +97,7 @@ export default {
         cb: (res) => {
           if (res.code === 1) {
             this.submitSuccess = true
-            Toast('反馈成功')
+            Toast('许愿成功')
             setTimeout(() => {
               window.history.go(-1)
             }, 2000)
