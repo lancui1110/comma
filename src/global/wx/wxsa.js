@@ -96,7 +96,6 @@ const weixin = {
     })
   },
   weixinPay: (wxPayParams, cb) => {
-    alert(JSON.stringify(wxPayParams))
     const onBridgeReady = () => {
       WeixinJSBridge.invoke('getBrandWCPayRequest', wxPayParams, (res) => {
         cb && cb(res)

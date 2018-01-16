@@ -41,7 +41,6 @@
     },
     methods: {
       loadList () {
-        alert(11)
         Indicator.open()
         this.$store.dispatch('recharge/getRechargeList', {
           params: {
