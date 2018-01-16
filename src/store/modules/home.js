@@ -237,6 +237,7 @@ const actions = {
     }
 
     commit('setCart', calCartInfo(state.cart, rootState.coupons.availableCouponList))
+    commit('setPayType', state.cart.total <= rootState.user.money ? 'yue' : 'wx')
   },
   removeFromCart ({ commit, rootState }, product) {
     const p = find(state.cart.list, item => item.product.id === product.id)
@@ -247,6 +248,7 @@ const actions = {
     }
 
     commit('setCart', calCartInfo(state.cart, rootState.coupons.availableCouponList))
+    commit('setPayType', state.cart.total <= rootState.user.money ? 'yue' : 'wx')
   },
   clearCart ({ commit }) {
     commit('setCart', {

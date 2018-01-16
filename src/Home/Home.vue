@@ -127,6 +127,7 @@ export default {
         // 如果购物车里有东西，需要重新计算一下购物车数据
         if (this.cart.count) {
           this.$store.commit('home/setCart', calCartInfo(this.cart, newCouponList))
+          this.$store.commit('home/setPayType', this.cart.total <= this.user.money ? 'yue' : 'wx')
         }
 
         this.queryTimes += 1

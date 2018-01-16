@@ -113,6 +113,7 @@ export default {
                     this.$store.commit('home/setProductList', productList)
                     // 重算 cart 信息
                     this.$store.commit('home/setCart', calCartInfo(cart, this.availableCouponList))
+                    this.$store.commit('home/setPayType', this.cart.total <= this.user.money ? 'yue' : 'wx')
                   }
                 })
               })
