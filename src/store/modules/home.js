@@ -1,5 +1,7 @@
-import { find, findIndex, map, filter, cloneDeep, concat, sum, orderBy, maxBy, keys } from 'lodash'
-import moment from 'moment'
+import { find, findIndex, map, filter, cloneDeep, concat, sum,
+  // orderBy, maxBy,
+  keys } from 'lodash'
+// import moment from 'moment'
 import { Indicator, Toast } from 'mint-ui'
 import API from '../api'
 
@@ -31,8 +33,8 @@ const state = {
     count: 0,
     discount: 0,
     total: 0,
-    coupon: null,
-    maxCoupon: null
+    // maxCoupon: null,
+    coupon: null
   }
 }
 
@@ -63,6 +65,24 @@ const actions = {
     }).then(res => {
       if (res.code === 1) {
         commit('setBuySpecialIds', res.data)
+      }
+    })
+  },
+  serverCalCartInfo ({ commit, rootState }, goods) {
+    iwjw.ajax({
+      url: API.getUrl('homeCalculateCart'),
+      data: { goods }
+    }).then(res => {
+      if (res.code === 1) {
+        const c = find(rootState.coupon.availableCouponList, { numberCode: res.data.couponNum })
+        commit('setCart', {
+          list: state.cart.list,
+          count: state.cart.count,
+          discount: res.data.totalDiscounts,
+          total: res.data.realAmount,
+          // maxCoupon: null,
+          coupon: c
+        })
       }
     })
   },
@@ -221,7 +241,7 @@ const actions = {
       }
     })
   },
-  addToCart ({ commit, rootState }, product) {
+  addToCart ({ commit, dispatch, rootState }, product) {
     const p = find(state.cart.list, item => item.product.id === product.id)
     if (p) {
       if (p.special) {
@@ -236,10 +256,24 @@ const actions = {
       ))
     }
 
-    commit('setCart', calCartInfo(state.cart, rootState.coupons.availableCouponList))
+    const newCart = calCartInfo(state.cart, rootState.coupons.availableCouponList)
+    if (newCart) {
+      commit('setCart', newCart)
+    } else {
+      // 通过 sever 来计算 cart
+      dispatch('serverCalCartInfo', map(state.cart.list, item => {
+        return {
+          id: item.product.id,
+          price: item.product.price,
+          discountPrice: item.product.discountPrice,
+          num: item.count
+        }
+      }))
+    }
+    // commit('setCart', calCartInfo(state.cart, rootState.coupons.availableCouponList))
     commit('setPayType', state.cart.total <= rootState.user.money ? 'yue' : 'wx')
   },
-  removeFromCart ({ commit, rootState }, product) {
+  removeFromCart ({ commit, dispatch, rootState }, product) {
     const p = find(state.cart.list, item => item.product.id === product.id)
     if (p.count > 1) {
       p.count -= 1
@@ -247,7 +281,21 @@ const actions = {
       state.cart.list = filter(state.cart.list, item => item.product.id !== product.id)
     }
 
-    commit('setCart', calCartInfo(state.cart, rootState.coupons.availableCouponList))
+    const newCart = calCartInfo(state.cart, rootState.coupons.availableCouponList)
+    if (newCart) {
+      commit('setCart', newCart)
+    } else {
+      // 通过 sever 来计算 cart
+      dispatch('serverCalCartInfo', map(state.cart.list, item => {
+        return {
+          id: item.product.id,
+          price: item.product.price,
+          discountPrice: item.product.discountPrice,
+          num: item.count
+        }
+      }))
+    }
+    // commit('setCart', calCartInfo(state.cart, rootState.coupons.availableCouponList))
     commit('setPayType', state.cart.total <= rootState.user.money ? 'yue' : 'wx')
   },
   clearCart ({ commit }) {
@@ -391,6 +439,10 @@ export function calCartInfo (unCalCart, couponList) {
     return cart
   }
 
+  // TODO: 临时改的，都调用后端接口
+  return false
+
+  /*
   const discountTotal = sum(map(cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
 
   // 筛选能够使用的券，state = 1 && 有时间段的话，时间段要符合 && lowPrice <= discount
@@ -449,4 +501,5 @@ export function calCartInfo (unCalCart, couponList) {
   }
 
   return cart
+  */
 }

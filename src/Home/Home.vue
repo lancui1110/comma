@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { map } from 'lodash'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import { Swipe, SwipeItem } from 'mint-ui'
@@ -126,7 +127,21 @@ export default {
       this.$store.dispatch('coupons/getAvailableCouponList', (newCouponList) => {
         // 如果购物车里有东西，需要重新计算一下购物车数据
         if (this.cart.count) {
-          this.$store.commit('home/setCart', calCartInfo(this.cart, newCouponList))
+          const newCart = calCartInfo(this.cart, this.availableCouponList)
+          if (newCart) {
+            this.$store.commit('home/setCart', newCart)
+          } else {
+            // 通过 sever 来计算 cart
+            this.$store.dispatch('home/serverCalCartInfo', map(this.cart.list, item => {
+              return {
+                id: item.product.id,
+                price: item.product.price,
+                discountPrice: item.product.discountPrice,
+                num: item.count
+              }
+            }))
+          }
+          // this.$store.commit('home/setCart', calCartInfo(this.cart, newCouponList))
           this.$store.commit('home/setPayType', this.cart.total <= this.user.money ? 'yue' : 'wx')
         }
 

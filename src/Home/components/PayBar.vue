@@ -116,7 +116,21 @@ export default {
 
                     this.$store.commit('home/setProductList', productList)
                     // 重算 cart 信息
-                    this.$store.commit('home/setCart', calCartInfo(cart, this.availableCouponList))
+                    const newCart = calCartInfo(cart, this.availableCouponList)
+                    if (newCart) {
+                      this.$store.commit('home/setCart', newCart)
+                    } else {
+                      // 通过 sever 来计算 cart
+                      this.$store.dispatch('home/serverCalCartInfo', map(cart.list, item => {
+                        return {
+                          id: item.product.id,
+                          price: item.product.price,
+                          discountPrice: item.product.discountPrice,
+                          num: item.count
+                        }
+                      }))
+                    }
+                    // this.$store.commit('home/setCart', calCartInfo(this.cart, newCouponList))
                     this.$store.commit('home/setPayType', this.cart.total <= this.user.money ? 'yue' : 'wx')
                   }
                 })

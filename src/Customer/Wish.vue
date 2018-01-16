@@ -49,7 +49,7 @@ export default {
   },
   activated () {
     this.localPics = []
-    this.feedback = '',
+    this.feedback = ''
     this.serverPics = []
   },
   computed: {
