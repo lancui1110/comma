@@ -15,20 +15,21 @@
             :onMinus="() => removeFromCart(item.product)">
           </count-ctrl>
         </div>
-      </div>
-      <div class="coupon-info" v-show="cartDiscountTextInfo">
-        {{cartDiscountTextInfo}}
-        <!-- 红包抵扣：-{{cart.coupon.price.toFixed(2)}}元
-        <span v-if="cart.coupon && cart.maxCoupon && cart.coupon.numberCode !== cart.maxCoupon.numberCode">
-          (再购{{(cart.maxCoupon.lowPrice - this.cartDiscountAmount).toFixed(2)}}元，可用{{cart.maxCoupon.price}}元红包哦~)
-        </span> -->
-      </div>
-      <div class="pay-type" @click="showPayType = true">
-        <div class="label">支付方式</div>
-        <div class="value">
-          <i class="icon" :class="`${payType === 'wx' ? 'icon-wx' : 'icon-yue-dark'}`"></i>
-          {{payType === 'wx' ? '微信支付' : '账户余额'}}
-          <i class="icon icon-arrow-down"></i>
+
+        <div class="coupon-info" v-show="cartDiscountTextInfo">
+          {{cartDiscountTextInfo}}
+          <!-- 红包抵扣：-{{cart.coupon.price.toFixed(2)}}元
+          <span v-if="cart.coupon && cart.maxCoupon && cart.coupon.numberCode !== cart.maxCoupon.numberCode">
+            (再购{{(cart.maxCoupon.lowPrice - this.cartDiscountAmount).toFixed(2)}}元，可用{{cart.maxCoupon.price}}元红包哦~)
+          </span> -->
+        </div>
+        <div class="pay-type" @click="showPayType = true">
+          <div class="label">支付方式</div>
+          <div class="value">
+            <i class="icon" :class="`${payType === 'wx' ? 'icon-wx' : 'icon-yue-dark'}`"></i>
+            {{payType === 'wx' ? '微信支付' : '账户余额'}}
+            <i class="icon icon-arrow-down"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -112,6 +113,8 @@ export default {
   watch: {
     show (val) {
       this.isShow = val
+      this.$emit('noScroll', val)
+
       if (val) {
         this.showPayType = false
       }
@@ -179,10 +182,11 @@ export default {
       // transform: translateY(0);
       left: 0;
       width: 100%;
-      max-height: 695/@R;
-      padding: 0 40/@R 100/@R;
+      max-height: 928/@R;
+      padding: 0 40/@R 0;
       background-color: #fff;
       transition: 0.4s;
+      margin-bottom: 100/@R;
       .title {
         height: 100/@R;
         line-height: 100/@R;
@@ -191,7 +195,7 @@ export default {
         font-weight: bold;
       }
       .sel-product-list {
-        max-height: 510/@R;
+        max-height: 824/@R;
         overflow-y: auto;
       }
       .item{

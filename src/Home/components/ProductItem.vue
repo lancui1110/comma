@@ -69,7 +69,7 @@ export default {
 
 <style lang="less">
   @import "../../global/style/theme.less";
-  @itemHeight: 160/@R;
+  @itemHeight: 130/@R;
   .product-item {
     display: flex;
     min-height: @itemHeight;
@@ -82,6 +82,7 @@ export default {
       flex-shrink: 0;
       width: @itemHeight;
       height: @itemHeight;
+      margin: 0 15/@R;
       img {
         width: 100%;
         height: 100%;
@@ -101,8 +102,8 @@ export default {
       font-size: 30/@R;
     }
     .tag-wrapper {
-      height: 32/@R;
-      margin: 10/@R 0 20/@R;
+      height: 30/@R;
+      margin: 4/@R 0 12/@R;
     }
     .tag {
       display: inline-block;

@@ -34,7 +34,7 @@
     <pay-bar @toggleSelProducts="toggleSelProducts"></pay-bar>
 
     <!-- 所选商品 -->
-    <sel-products :show.sync="isShowSelProducts"></sel-products>
+    <sel-products :show.sync="isShowSelProducts" @noScroll="noScroll"></sel-products>
 
     <!-- <newuser-redbag @noScroll="noScroll"/> -->
     <popup
