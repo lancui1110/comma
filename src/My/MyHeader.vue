@@ -5,7 +5,7 @@
     </div>
     <div class="middle">
       <label>账户余额</label>
-      <span class="amount">¥<span class="num">{{user.money.toFixed(2)}}</span></span>
+      <span class="amount">¥<span class="num">{{this.money}}</span></span>
       <router-link class="recharge-btn" :to="{ name: 'recharge' }">充值有礼</router-link>
     </div>
     <div class="right">
@@ -32,6 +32,12 @@ export default {
     ...mapGetters({
       user: 'user/getUser'
     }),
+    money () {
+      if (this.user) {
+        return this.user.money.toFixed(2)
+      }
+      return 0.00
+    },
     avatar () {
       if (this.user && this.user.avatar) {
         return this.user.avatar

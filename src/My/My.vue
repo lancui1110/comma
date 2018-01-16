@@ -16,6 +16,7 @@
           </div>
           <div v-else class="list-panel coupons-list-panel">
             <coupon-item :coupon="item" v-for="(item, key) in couponList" :key="key" ></coupon-item>
+            <div class="no-more" v-show="pageEnd">没有更多记录啦~</div>
           </div>
         </mt-tab-container-item>
         <mt-tab-container-item id="order">
@@ -36,6 +37,7 @@
               </div>
               <div class="detail-btn" @click="goDetail(item)">订单明细</div>
             </div>
+            <div class="no-more" v-show="pageEnd">没有更多记录啦~</div>
           </div>
         </mt-tab-container-item>
       </mt-tab-container>
@@ -169,6 +171,12 @@ export default {
     min-height: 650/@R;
     padding: 30/@R 25/@R;
     background: @panel-gray;
+  }
+  .no-more {
+    margin: 66/@R 0 0;
+    text-align: center;
+    color: @font-gray-light;
+    font-size: 24/@R;
   }
   .footer {
     display: flex;
