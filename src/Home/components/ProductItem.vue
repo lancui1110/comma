@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     addToCart (e) {
-      if (this.data.status === '售罄') {
+      if (this.data.inventory <= 0) {
         MessageBox('商品可能售罄了', '请您在货架上确认后再购买！')
       }
       // this.$store.dispatch('home/addToCart', this.data)
@@ -196,4 +196,17 @@ export default {
     z-index: 999;
   }
 
+  .mint-msgbox {
+    .mint-msgbox-title {
+      font-size: 40/@R;
+      font-weight: normal;
+    }
+    .mint-msgbox-content {
+      font-size: 30/@R;
+      color: @font-gray-light;
+    }
+    .mint-msgbox-confirm {
+      color: #02BB00;
+    }
+  }
 </style>
