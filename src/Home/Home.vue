@@ -118,6 +118,7 @@ export default {
     this.queryAvailableCoupon()
   },
   deactivated () {
+    this.isShowSelProducts = false
     if (this.queryTimeout) {
       clearTimeout(this.queryTimeout)
     }
