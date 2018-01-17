@@ -6,7 +6,9 @@
     <div class="detail">
       <div class="title">{{data.name}}</div>
       <div class="tag-wrapper">
+        <div class="tag" style="border-color: #999; color: #999;" v-if="data.inventory <= 0">售罄</div>
         <span
+          v-else
           class="tag"
           :style="{ 'border-color': item.color, 'color': item.color }"
           v-for="(item, key) in data.goodsMarks"
