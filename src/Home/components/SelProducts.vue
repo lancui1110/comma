@@ -100,10 +100,9 @@ export default {
         res.push(`红包抵扣：-${coupon.price.toFixed(2)}元`)
       }
       if (discount) {
-        // TODO
         res.push(`商品折扣：-${(coupon ? 0 : discount).toFixed(2)}元`)
       }
-      return [].join('，')
+      return res.join('，')
     },
     canUseYue () {
       // 是否可用余额
