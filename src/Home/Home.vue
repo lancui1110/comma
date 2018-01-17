@@ -3,7 +3,7 @@
     <top-bar></top-bar>
 
     <div class="header">
-      <mt-swipe :auto="4000">
+      <mt-swipe :auto="5000" :showIndicators="bannerList.length > 1">
         <mt-swipe-item v-for="(banner, key) in bannerList" :key="key">
           <a v-if="banner" :href="banner.linkUrl">
             <img class="banner" :src="banner.picUrl"/>
