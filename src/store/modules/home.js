@@ -49,6 +49,7 @@ const actions = {
     })
   },
   getGoodsList ({ commit }) {
+    Indicator.open()
     iwjw.ajax({
       url: API.getUrl('homeGoodsList')
     }).then(res => {
@@ -57,6 +58,7 @@ const actions = {
         commit('setCategory', { current: ks[0], list: ks })
         commit('setAllProductList', res.data)
       }
+      Indicator.close()
     })
   },
   getUserBuySpecialIds ({ commit }) {
