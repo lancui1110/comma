@@ -247,7 +247,7 @@ const actions = {
   addToCart ({ commit, dispatch, rootState }, product) {
     const p = find(state.cart.list, item => item.product.id === product.id)
     if (p) {
-      if (p.special) {
+      if (p.product.special) {
         Toast('今日限购一件，超出按原价')
       }
       p.count += 1
