@@ -36,7 +36,7 @@
         rechargeList: 'recharge/rechargeList'
       })
     },
-    mounted () {
+    activated () {
       this.loadList()
     },
     methods: {
@@ -44,7 +44,7 @@
         Indicator.open()
         this.$store.dispatch('recharge/getRechargeList', {
           params: {
-            
+
           },
           cb: () => {
             this.loading = false
