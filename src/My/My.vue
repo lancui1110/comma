@@ -102,6 +102,7 @@ export default {
     }
   },
   activated () {
+    this.$store.dispatch('user/getUserInfo')  // refresh user money
     this.$store.dispatch('customer/getPhone')
     this.loadTop()
   },
