@@ -32,7 +32,8 @@ export default {
       productList: 'home/getProductList',
       availableCouponList: 'coupons/availableCouponList',
       notifyUserLogin: 'user/notifyUserLogin',
-      user: 'user/getUser'
+      user: 'user/getUser',
+      payType: 'home/payType'
     })
   },
   mounted () {
@@ -55,7 +56,8 @@ export default {
           number: this.cart.count,
           realAmount: round(this.cart.total, 2),
           totalAmount: round(sum(map(this.cart.list, item => item.count * item.product.price)), 2),
-          totalDiscounts: round(this.cart.discount, 2)
+          totalDiscounts: round(this.cart.discount, 2),
+          isWallet: this.payType === 'yue'
         }
 
         if (this.cart.coupon) {

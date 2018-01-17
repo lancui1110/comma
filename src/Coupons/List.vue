@@ -15,6 +15,15 @@
             <span class="left word">满{{item.lowPrice}}元立减</span>
             <span class="word">{{item.startDate}}~{{item.endDate}}</span>
           </div>
+
+          <div class="word" v-if="!!item.startHour">
+            <span class="left word">&nbsp;</span>
+            <span class="word">限每日{{item.startHour}}~{{item.endHour}}</span>
+          </div>
+          <div class="word" v-if="!!item.goodsTypeMap">
+            <span class="left word">&nbsp;</span>
+            <span class="word">限{{joinMap(item.goodsTypeMapnp)}}</span>
+          </div>
         </div>
         <!-- 1待使用 2已使用  4：过期 -->
         <img v-if="item.status === 4" class="state-pic" :src="require('../assets/icon_coupon_gq.png')" />
@@ -56,6 +65,10 @@ export default {
     },
     loadBottom () {
       this.$store.dispatch('coupons/loadMoreOrders', this.$refs.loadmore.onBottomLoaded)
+    },
+    joinMap (obj) {
+      if (!obj) return ''
+      return Object.values(obj).join('、')
     }
   }
 }

@@ -16,6 +16,15 @@
         <span class="left word">满{{coupon.lowPrice}}元立减</span>
         <span class="word">{{coupon.startDate}}~{{coupon.endDate}}</span>
       </div>
+
+      <div class="word limit" v-if="!!coupon.startHour">
+        <span class="left word">&nbsp;</span>
+        <span class="word">限每日{{coupon.startHour}}~{{coupon.endHour}}</span>
+      </div>
+      <div class="word limit" v-if="!!coupon.goodsTypeMap">
+        <span class="left word">&nbsp;</span>
+        <span class="word">限{{joinMap(coupon.goodsTypeMap)}}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -38,6 +47,12 @@ export default {
         4: '已过期',
         5: '返还中'
       }
+    }
+  },
+  methods: {
+    joinMap (obj) {
+      if (!obj) return ''
+      return Object.values(obj).join('、')
     }
   }
 }
@@ -102,6 +117,10 @@ export default {
     }
     .meta {
       margin-top: 15/@R;
+      color: @font-gray;
+    }
+    .limit {
+      margin-top: 7/@R;
       color: @font-gray;
     }
     .gray {
