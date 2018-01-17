@@ -89,7 +89,7 @@ export default {
       code: this.$route.query.code,
       isShowLeftMenu: false,
       isShowSelProducts: false,
-      isFixed: true,
+      isFixed: false,
       showPopup: false
     }
   },

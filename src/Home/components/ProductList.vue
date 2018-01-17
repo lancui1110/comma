@@ -22,7 +22,7 @@
         <div class="text">上拉加载</div>
       </div> -->
 
-      <router-link class="wish-btn" :to="{ name: 'wish' }">您想要的告诉我吧</router-link>
+      <router-link v-if="!isHideWish" class="wish-btn" :to="{ name: 'wish' }">您想要的告诉我吧</router-link>
       <div class="down-loaded all-loaded">
         <div class="line"></div>
         <div class="text">我是有底线的</div>
@@ -67,6 +67,10 @@ export default {
         return false
       }
       return false
+    },
+    isHideWish () {
+      const cur = this.category.current 
+      return cur === '特价商品' || cur === '我常购买'
     }
   },
   methods: {
