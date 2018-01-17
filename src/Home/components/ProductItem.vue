@@ -1,5 +1,5 @@
 <template>
-  <div class="product-item">
+  <div class="product-item" :class="{ 'sellout': data.inventory <= 0 }">
     <div class="pic">
       <img :src="data.picUrl || require('../../assets/pic_motu.png')">
     </div>
@@ -113,6 +113,12 @@ export default {
     margin-bottom: 30/@R;
     padding-right: 40/@R;
     font-size: 20/@R;
+    &.sellout {
+      .title,
+      .price {
+        color: @font-gray-light;
+      }
+    }
 
     .pic {
       flex-shrink: 0;
