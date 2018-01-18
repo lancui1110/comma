@@ -62,6 +62,7 @@ import LeftMenu from './components/LeftMenu'
 import SelProducts from './components/SelProducts'
 import NewuserRedbag from './components/NewUserRedBag'
 import Popup from './components/Popup'
+import weixin from 'weixin'
 
 import TopBar from './components/TopBar'
 
@@ -103,6 +104,7 @@ export default {
     })
   },
   mounted () {
+    weixin.init()
     this.$store.dispatch('home/setCode', this.code)
     this.$store.dispatch('home/getBanner')
     this.$store.dispatch('home/getUserBuySpecialIds')

@@ -3,14 +3,14 @@
     <div class="coupons-item" :class="{'gray': coupon.status === 2  || coupon.status === 4 || coupon.status === 5}">
       <div class="word">
         <span class="left word large red">{{coupon.price}}元</span>
-        <span class="word name">
-          {{coupon.name}}
+        <div class="flex center between word name">
+          <span>{{coupon.name}}<span>
           <!-- 1待使用 2已使用 4已过期 5返还中 -->
           <span :class="`status-btn ${coupon.status === 5 ? 'orange' : ''}`"
             v-if="coupon.status === 2 || coupon.status === 4 || coupon.status === 5">
             {{statusText[coupon.status]}}
           </span>
-        </span>
+        </div>
       </div>
       <div class="word meta">
         <span class="left word">满{{coupon.lowPrice}}元立减</span>

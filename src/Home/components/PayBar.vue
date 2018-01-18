@@ -37,7 +37,7 @@ export default {
     })
   },
   mounted () {
-    weixin.init()
+    // weixin.init()
   },
   methods: {
     addOrder () {

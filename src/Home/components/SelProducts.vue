@@ -7,7 +7,7 @@
       <div class="sel-product-list">
         <div class="item" v-for="(item, key) in cart.list" :key="key">
           <div class="name">{{item.product.name}}</div>
-          <div class="orig-price" v-if="item.product.discountPrice">{{item.product.price.toFixed(2)}}</div>
+          <div class="orig-price">{{item.product.discountPrice ? item.product.price.toFixed(2) : ' '}}</div>
           <div class="price">{{(item.product.discountPrice || item.product.price).toFixed(2)}}<span class="unit">元</span></div>
           <count-ctrl
             :num="item.count"
@@ -15,7 +15,8 @@
             :onMinus="() => removeFromCart(item.product)">
           </count-ctrl>
         </div>
-
+      </div>
+      <div class="pay-info-bottom">
         <div class="coupon-info" v-show="cartDiscountTextInfo">
           {{cartDiscountTextInfo}}
           <!-- 红包抵扣：-{{cart.coupon.price.toFixed(2)}}元
@@ -32,6 +33,7 @@
           </div>
         </div>
       </div>
+
     </div>
     <div v-show="showPayType" class="sel-products">
       <div class="title" @click="showPayType = false">
@@ -193,7 +195,8 @@ export default {
         font-weight: bold;
       }
       .sel-product-list {
-        max-height: 824/@R;
+        // max-height: 824/@R;
+        max-height: 644/@R;
         overflow-y: auto;
       }
       .item{
@@ -213,6 +216,7 @@ export default {
         .name {
           flex-grow: 1;
           min-width: 0;
+          max-width: 300/@R;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
@@ -234,7 +238,9 @@ export default {
         }
         .orig-price {
           line-height: 20/@R;
-          margin-left: 40/@R;
+          // margin-left: 20/@R;
+          text-align: right;
+          width: 88/@R;
           white-space: nowrap;
           font-size: 24/@R;
           font-family: "Helvetica";
@@ -250,8 +256,11 @@ export default {
         line-height: 42/@R;
         border-bottom: 1/@R solid #e6e6e6;
         color: @font-orange;
-        font-size: 30/@R;
+        font-size: 28/@R;
       }
+    }
+    .pay-info-bottom {
+      
     }
     .pay-type {
       display: flex;
