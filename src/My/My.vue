@@ -11,7 +11,7 @@
         <mt-tab-container-item id="coupon">
           <div v-if="!isLoading && couponList.length === 0"
             class="list-panel nodata">
-            <div class="logo"><i class="icon icon-logo-white"></i></div>
+            <div class="logo"><i class="icon icon-logo-gray"></i></div>
             <div class="word">没有优惠券可用~</div>
           </div>
           <div v-else class="list-panel coupons-list-panel">
@@ -22,7 +22,7 @@
         <mt-tab-container-item id="order">
           <div v-if="!isLoading && orderList.length === 0"
             class="list-panel nodata">
-            <div class="logo"><i class="icon icon-logo-white"></i></div>
+            <div class="logo"><i class="icon icon-logo-gray"></i></div>
             <div class="word">没有更多订单啦~</div>
           </div>
           <div v-else class="list-panel order-list-panel">
@@ -169,7 +169,7 @@ export default {
   }
 
   .list-panel {
-    min-height: 650/@R;
+    min-height: 820/@R;
     padding: 30/@R 25/@R;
     background: @panel-gray;
   }
@@ -189,20 +189,19 @@ export default {
   }
 }
 
-.nodata {
+.list-panel.nodata {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  justify-content: center;
   align-items: center;
-  min-height: 600/@R;
+  min-height: 820/@R;
+  padding-top: 120/@R;
   .logo .icon{
-    width: 96/@R;
+    width: 100/@R;
     height: 130/@R;
-    background-size: 96/@R 130/@R;
+    background-size: 100/@R 130/@R;
   }
   .word {
-    font-size: 36/@R;
+    font-size: 24/@R;
     padding: 68/@R 0 0;
     color: @font-gray-light;
   }
