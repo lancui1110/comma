@@ -1,4 +1,4 @@
-import { find, findIndex, map, filter, cloneDeep, concat, sum,
+import { find, findIndex, map, filter, cloneDeep, concat, sum, each,
   // orderBy, maxBy,
   keys } from 'lodash'
 import moment from 'moment'
@@ -48,14 +48,16 @@ const actions = {
       }
     })
   },
-  getGoodsList ({ commit }) {
-    Indicator.open()
+  getGoodsList ({ commit }, hideLoading) {
+    if (!hideLoading) {
+      Indicator.open()
+    }
     iwjw.ajax({
       url: API.getUrl('homeGoodsList')
     }).then(res => {
       if (res.code === 1) {
         const ks = keys(res.data)
-        commit('setCategory', { current: ks[0], list: ks })
+        commit('setCategory', { current: state.category.current ? state.category.current : ks[0], list: ks })
         commit('setAllProductList', res.data)
       }
       Indicator.close()
@@ -70,7 +72,7 @@ const actions = {
       }
     })
   },
-  serverCalCartInfo ({ commit, rootState }, goods) {
+  serverCalCartInfo ({ commit, dispatch, rootState }, goods) {
     iwjw.ajax({
       url: API.getUrl('homeCalculateCart'),
       method: 'POST',
@@ -78,6 +80,15 @@ const actions = {
     }).then(res => {
       if (res.code === 1) {
         const c = find(rootState.coupons.availableCouponList, { numberCode: res.data.couponNum })
+        // 购物车计算的时候，已经返回最新价格信息
+        each(res.data.goodsInfoList, g => {
+          const ci = findIndex(state.cart.list, item => item.product.id === g.id)
+          if (ci > -1 && g.price !== state.cart.list[ci].product.price) {
+            // product 价格更新了
+            state.cart.list[ci].product = g
+            dispatch('getGoodsList', true)
+          }
+        })
         commit('setCart', {
           list: state.cart.list,
           count: sum(map(state.cart.list, item => item.count)),
