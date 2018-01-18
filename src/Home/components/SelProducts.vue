@@ -94,13 +94,12 @@ export default {
       return sum(map(this.cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
     },
     cartDiscountTextInfo () {
-      const { coupon, discount } = this.cart
+      let { coupon, discount } = this.cart
       let res = []
-      if (coupon) {
+      if (coupon && coupon.price > 0) {
         res.push(`红包抵扣：-${coupon.price.toFixed(2)}元`)
-      }
-      if (discount) {
-        res.push(`商品折扣：-${(coupon ? 0 : discount).toFixed(2)}元`)
+      } else if (discount > 0) {
+        res.push(`商品折扣：-${discount.toFixed(2)}元`)
       }
       return res.join('，')
     },
@@ -251,7 +250,7 @@ export default {
         line-height: 42/@R;
         border-bottom: 1/@R solid #e6e6e6;
         color: @font-orange;
-        font-size: 24/@R;
+        font-size: 30/@R;
       }
     }
     .pay-type {
