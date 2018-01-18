@@ -252,6 +252,9 @@ const actions = {
       }
       p.count += 1
     } else {
+      if (product.special && state.buySpecialIds.indexOf(product.id) > -1) {
+        Toast('今日限购一件，超出按原价')
+      }
       state.cart.list.push(Object.assign(
         {},
         { product: cloneDeep(product) },
