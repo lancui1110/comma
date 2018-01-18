@@ -154,7 +154,9 @@ export default {
           this.goPaySuc(params.orderNum)
         } else if (res.err_msg === 'get_brand_wcpay_request:cancel') {
           // TODO: 判断 params 是否有优惠券，有的话才弹提示
-          Toast('订单未支付，优惠券将在5分钟后返还账户')
+          if (params.useCoupon) {
+            Toast(`订单未支付，优惠券将在${params.couponReturnMin}分钟后返还账户`)
+          }
         }
       })
     },
