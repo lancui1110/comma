@@ -9,8 +9,8 @@
         <span v-if="cart.count > 0" class="product-count">{{cart.count}}</span>
       </div>
       <div class="pay-info">
-        <div class="total-price">合计：{{cart.total.toFixed(2)}}元</div>
-        <div class="discounts" v-if="cart.discount">已优惠{{cart.discount.toFixed(2)}}元</div>
+        <div class="total-price">合计：{{cart.realAmount.toFixed(2)}}元</div>
+        <div class="discounts" v-if="cart.totalDiscounts">已优惠{{cart.totalDiscounts.toFixed(2)}}元</div>
       </div>
     </div>
     <div class="pay-btn" :class="{ 'active': cart.count > 0 }" @click="addOrder">去支付</div>
@@ -54,20 +54,18 @@ export default {
             num: item.count
           })),
           number: this.cart.count,
-          realAmount: round(this.cart.total, 2),
+          realAmount: round(this.cart.realAmount, 2),
           totalAmount: round(sum(map(this.cart.list, item => item.count * item.product.price)), 2),
-          totalDiscounts: round(this.cart.discount, 2),
+          totalDiscounts: round(this.cart.totalDiscounts, 2),
           isWallet: this.payType === 'yue'
         }
 
-        if (this.cart.coupon) {
-          params.couponNum = this.cart.coupon.numberCode
-          params.couponAmount = this.cart.coupon.price
+        if (this.cart.couponNum) {
+          params.couponNum = this.cart.couponNum
+          params.couponAmount = this.cart.couponAmount
         }
-        if (params.totalDiscounts && params.couponAmount) {
-          params.discountAmount = round(params.totalDiscounts - params.couponAmount, 2)
-        } else if (params.totalDiscounts) {
-          params.discountAmount = round(params.totalDiscounts, 2)
+        if (this.cart.discountAmount) {
+          params.discountAmount = round(this.cart.discountAmount, 2)
         }
 
         this.$store.dispatch('order/addOrder', {

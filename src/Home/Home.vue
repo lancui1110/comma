@@ -130,7 +130,7 @@ export default {
       this.$store.dispatch('coupons/getAvailableCouponList', (newCouponList) => {
         // 如果购物车里有东西，需要重新计算一下购物车数据
         if (this.cart.count) {
-          const newCart = calCartInfo(this.cart, this.availableCouponList)
+          const newCart = calCartInfo(this.cart, newCouponList)
           if (newCart) {
             this.$store.commit('home/setCart', newCart)
           } else {

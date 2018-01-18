@@ -31,10 +31,13 @@ const state = {
   cart: {
     list: [],
     count: 0,
-    discount: 0,
-    total: 0,
-    // maxCoupon: null,
-    coupon: null
+
+    couponAmount: 0,
+    couponNum: 0,
+    discountAmount: 0,
+    realAmount: 0,
+    totalAmount: 0,
+    totalDiscounts: 0
   }
 }
 
@@ -79,7 +82,6 @@ const actions = {
       data: goods
     }).then(res => {
       if (res.code === 1) {
-        const c = find(rootState.coupons.availableCouponList, { numberCode: res.data.couponNum })
         // 购物车计算的时候，已经返回最新价格信息
         each(res.data.goodsInfoList, g => {
           const ci = findIndex(state.cart.list, item => item.product.id === g.id)
@@ -92,10 +94,13 @@ const actions = {
         commit('setCart', {
           list: state.cart.list,
           count: sum(map(state.cart.list, item => item.count)),
-          discount: res.data.totalDiscounts,
-          total: res.data.realAmount,
-          // maxCoupon: null,
-          coupon: c
+
+          couponAmount: res.data.couponAmount,
+          couponNum: res.data.couponNum,
+          discountAmount: res.data.discountAmount,
+          realAmount: res.data.realAmount,
+          totalAmount: res.data.totalAmount,
+          totalDiscounts: res.data.totalDiscounts
         })
       }
     })
@@ -449,11 +454,16 @@ export function calCartInfo (unCalCart, couponList) {
       })
     )
 
-    cart.coupon = null
-    // cart.maxCoupon = null
-    cart.discount = originTotal - discountTotal
-    cart.total = discountTotal
-    return cart
+    return {
+      list: cart.list,
+      count: cart.count,
+      couponAmount: 0,
+      couponNum: 0,
+      discountAmount: originTotal - discountTotal,
+      realAmount: discountTotal,
+      totalAmount: originTotal,
+      totalDiscounts: originTotal - discountTotal
+    }
   }
 
   const discountTotal = sum(map(cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
@@ -478,11 +488,18 @@ export function calCartInfo (unCalCart, couponList) {
 
   // 没有合适的优惠券
   if (!matchCoupons.length) {
-    cart.coupon = null
-    // cart.maxCoupon = null
-    cart.discount = originTotal - discountTotal
-    cart.total = discountTotal
-    return cart
+    cart.totalDiscounts = originTotal - discountTotal
+    cart.realAmount = discountTotal
+    return {
+      list: cart.list,
+      count: cart.count,
+      couponAmount: 0,
+      couponNum: 0,
+      discountAmount: originTotal - discountTotal,
+      realAmount: discountTotal,
+      totalAmount: originTotal,
+      totalDiscounts: originTotal - discountTotal
+    }
   }
 
   // 调用后端接口

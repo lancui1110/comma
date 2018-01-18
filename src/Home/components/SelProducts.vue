@@ -96,12 +96,13 @@ export default {
       return sum(map(this.cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
     },
     cartDiscountTextInfo () {
-      let { coupon, discount } = this.cart
+      let { couponAmount, discountAmount } = this.cart
       let res = []
-      if (coupon && coupon.price > 0) {
-        res.push(`红包抵扣：-${coupon.price.toFixed(2)}元`)
-      } else if (discount > 0) {
-        res.push(`商品折扣：-${discount.toFixed(2)}元`)
+      if (couponAmount) {
+        res.push(`红包抵扣：-${couponAmount.toFixed(2)}元`)
+      }
+      if (discountAmount) {
+        res.push(`商品折扣：-${(discountAmount).toFixed(2)}元`)
       }
       return res.join('，')
     },
@@ -261,7 +262,7 @@ export default {
       }
     }
     .pay-info-bottom {
-      
+
     }
     .pay-type {
       display: flex;
