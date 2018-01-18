@@ -7,8 +7,9 @@
       <div class="sel-product-list">
         <div class="item" v-for="(item, key) in cart.list" :key="key">
           <div class="name">{{item.product.name}}</div>
-          <div class="orig-price">{{item.product.discountPrice ? item.product.price.toFixed(2) : '&nbsp;'}}</div>
-          <div class="price">{{(item.product.discountPrice || item.product.price).toFixed(2)}}<span class="unit">元</span></div>
+          <div class="orig-price" v-if="!item.isSpecialAndBuyed">{{item.product.discountPrice ? item.product.price.toFixed(2) : '&nbsp;'}}</div>
+          <div class="price" v-if="!item.isSpecialAndBuyed">{{(item.product.discountPrice || item.product.price).toFixed(2)}}<span class="unit">元</span></div>
+          <div class="price" v-if="item.isSpecialAndBuyed">{{item.product.price.toFixed(2)}}<span class="unit">元</span></div>
           <count-ctrl
             :num="item.count"
             :onAdd="() => addToCart(item.product)"

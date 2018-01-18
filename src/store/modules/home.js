@@ -448,6 +448,7 @@ export function calCartInfo (unCalCart, couponList) {
       map(specialList, item => {
         const isBuy = findIndex(state.buySpecialIds, b => b === item.product.id) > -1
         if (isBuy) {
+          item.isSpecialAndBuyed = true
           return item.count * item.product.price
         } else {
           return 1 * item.product.discountPrice + (item.count - 1) * item.product.price
