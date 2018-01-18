@@ -108,7 +108,7 @@ export default {
     },
     canUseYue () {
       // 是否可用余额
-      return this.user && this.user.money >= this.cart.total
+      return this.user && this.user.money >= this.cart.realAmount
     }
   },
   watch: {

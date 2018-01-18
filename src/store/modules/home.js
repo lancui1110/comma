@@ -102,6 +102,8 @@ const actions = {
           totalAmount: res.data.totalAmount,
           totalDiscounts: res.data.totalDiscounts
         })
+
+        commit('setPayType', res.data.realAmount <= rootState.user.user.money ? 'yue' : 'wx')
       }
     })
   },
@@ -281,6 +283,8 @@ const actions = {
     const newCart = calCartInfo(state.cart, rootState.coupons.availableCouponList)
     if (newCart) {
       commit('setCart', newCart)
+      console.log(555, newCart.realAmount, rootState.user)
+      commit('setPayType', newCart.realAmount <= rootState.user.user.money ? 'yue' : 'wx')
     } else {
       // 通过 sever 来计算 cart
       dispatch('serverCalCartInfo', map(state.cart.list, item => {
@@ -292,8 +296,6 @@ const actions = {
         }
       }))
     }
-    // commit('setCart', calCartInfo(state.cart, rootState.coupons.availableCouponList))
-    commit('setPayType', state.cart.total <= rootState.user.money ? 'yue' : 'wx')
   },
   removeFromCart ({ commit, dispatch, rootState }, product) {
     const p = find(state.cart.list, item => item.product.id === product.id)
@@ -306,6 +308,7 @@ const actions = {
     const newCart = calCartInfo(state.cart, rootState.coupons.availableCouponList)
     if (newCart) {
       commit('setCart', newCart)
+      commit('setPayType', newCart.realAmount <= rootState.user.user.money ? 'yue' : 'wx')
     } else {
       // 通过 sever 来计算 cart
       dispatch('serverCalCartInfo', map(state.cart.list, item => {
@@ -317,8 +320,6 @@ const actions = {
         }
       }))
     }
-    // commit('setCart', calCartInfo(state.cart, rootState.coupons.availableCouponList))
-    commit('setPayType', state.cart.total <= rootState.user.money ? 'yue' : 'wx')
   },
   clearCart ({ commit }) {
     commit('setCart', {

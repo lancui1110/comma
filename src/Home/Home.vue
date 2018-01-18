@@ -133,6 +133,7 @@ export default {
           const newCart = calCartInfo(this.cart, newCouponList)
           if (newCart) {
             this.$store.commit('home/setCart', newCart)
+            this.$store.commit('home/setPayType', newCart.realAmount <= this.user.money ? 'yue' : 'wx')
           } else {
             // 通过 sever 来计算 cart
             this.$store.dispatch('home/serverCalCartInfo', map(this.cart.list, item => {
@@ -144,8 +145,6 @@ export default {
               }
             }))
           }
-          // this.$store.commit('home/setCart', calCartInfo(this.cart, newCouponList))
-          this.$store.commit('home/setPayType', this.cart.total <= this.user.money ? 'yue' : 'wx')
         }
 
         this.queryTimes += 1
