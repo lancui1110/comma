@@ -3,8 +3,8 @@
     <div class="coupons-item" :class="{'gray': coupon.status === 2  || coupon.status === 4 || coupon.status === 5}">
       <div class="word">
         <span class="left word large red">{{coupon.price}}元</span>
-        <div class="flex center between word name">
-          <span>{{coupon.name}}<span>
+        <div class="flex between word name">
+          <span>{{coupon.name}}</span>
           <!-- 1待使用 2已使用 4已过期 5返还中 -->
           <span :class="`status-btn ${coupon.status === 5 ? 'orange' : ''}`"
             v-if="coupon.status === 2 || coupon.status === 4 || coupon.status === 5">
@@ -129,6 +129,8 @@ export default {
       }
     }
     .status-btn {
+      position: absolute;
+      right: 20/@R;
       width: 100/@R;
       height: 40/@R;
       line-height: 40/@R;

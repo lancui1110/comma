@@ -7,7 +7,7 @@
       <div class="sel-product-list">
         <div class="item" v-for="(item, key) in cart.list" :key="key">
           <div class="name">{{item.product.name}}</div>
-          <div class="orig-price">{{item.product.discountPrice ? item.product.price.toFixed(2) : ' '}}</div>
+          <div class="orig-price">{{item.product.discountPrice ? item.product.price.toFixed(2) : '&nbsp;'}}</div>
           <div class="price">{{(item.product.discountPrice || item.product.price).toFixed(2)}}<span class="unit">元</span></div>
           <count-ctrl
             :num="item.count"
@@ -216,7 +216,7 @@ export default {
         .name {
           flex-grow: 1;
           min-width: 0;
-          max-width: 300/@R;
+          width: 300/@R;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
@@ -241,6 +241,7 @@ export default {
           // margin-left: 20/@R;
           text-align: right;
           width: 88/@R;
+          min-height: 20/@R;
           white-space: nowrap;
           font-size: 24/@R;
           font-family: "Helvetica";
