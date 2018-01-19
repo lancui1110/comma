@@ -461,7 +461,7 @@ export function calCartInfo (unCalCart, couponList) {
     )
 
     // 处理都按原价买的情况
-    if（isAllSpecialBuyed) {
+    if (isAllSpecialBuyed) {
       // 可以用优惠券
       const matchCouponList = getMatchCouponList(couponList, discountTotal)
       // 没有合适的优惠券

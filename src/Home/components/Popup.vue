@@ -5,7 +5,7 @@
     <div class="modal"
       :class="`type_${popup.frontStyle}`"
       :style="{ 'background-image': `url(${popup.pic})` }">
-      <div class="btn">
+      <div class="btn" v-if="!!popup.buttonName">
         <span
           :style="{
             'color': popup.buttonFontColor,
