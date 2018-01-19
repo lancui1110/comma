@@ -325,10 +325,13 @@ const actions = {
     commit('setCart', {
       list: [],
       count: 0,
-      discount: 0,
-      total: 0,
-      coupon: null,
-      maxCoupon: null
+
+      couponAmount: 0,
+      couponNum: 0,
+      discountAmount: 0,
+      realAmount: 0,
+      totalAmount: 0,
+      totalDiscounts: 0
     })
   },
   findProductByQrCode ({ commit }, { code, cb }) {

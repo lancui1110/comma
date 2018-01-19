@@ -113,7 +113,9 @@ export default {
         this.showPopup = true
       }
     })
-    if (!this.productList.length) {
+    if (this.productList.length) {
+      this.$store.dispatch('home/getGoodsList', true)
+    } else {
       this.$store.dispatch('home/getGoodsList')
     }
     // 轮询优惠券

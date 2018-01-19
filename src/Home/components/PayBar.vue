@@ -162,7 +162,9 @@ export default {
       // reset cart
       this.$store.dispatch('home/clearCart')
 
-      location.href = `${pageConfig.siteUrl}index/pay/success?orderNum=${orderNum}`
+      setTimeout(() => {
+        location.href = `${pageConfig.siteUrl}index/pay/success?orderNum=${orderNum}`
+      }, 100)
     },
     toggleSelProducts () {
       if (this.cart.count) {
