@@ -468,7 +468,7 @@ export function calCartInfo (unCalCart, couponList) {
       // 可以用优惠券
       const matchCouponList = getMatchCouponList(couponList, discountTotal)
       // 没有合适的优惠券
-      if (!matchCouponList.length) {
+      if (!matchCouponList || !matchCouponList.length) {
         return {
           list: cart.list,
           count: cart.count,

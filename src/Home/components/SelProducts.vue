@@ -7,7 +7,7 @@
       <div class="sel-product-list">
         <div class="item" v-for="(item, key) in cart.list" :key="key">
           <div class="name">{{item.product.name}}</div>
-          <div class="orig-price" v-if="!item.isSpecialAndBuyed">{{item.product.discountPrice ? item.product.price.toFixed(2) : '&nbsp;'}}</div>
+          <div class="orig-price" :class="{nodata: !item.product.discountPrice}" v-if="!item.isSpecialAndBuyed">{{item.product.discountPrice ? item.product.price.toFixed(2) : '&nbsp;'}}</div>
           <div class="price" v-if="!item.isSpecialAndBuyed">{{(item.product.discountPrice || item.product.price).toFixed(2)}}<span class="unit">元</span></div>
           <div class="price" v-if="item.isSpecialAndBuyed">{{item.product.price.toFixed(2)}}<span class="unit">元</span></div>
           <count-ctrl
@@ -99,10 +99,10 @@ export default {
     cartDiscountTextInfo () {
       let { couponAmount, discountAmount } = this.cart
       let res = []
-      if (couponAmount) {
+      if (couponAmount > 0) {
         res.push(`红包抵扣：-${couponAmount.toFixed(2)}元`)
       }
-      if (discountAmount) {
+      if (discountAmount > 0) {
         res.push(`商品折扣：-${(discountAmount).toFixed(2)}元`)
       }
       return res.join('，')
@@ -249,6 +249,9 @@ export default {
           font-family: "Helvetica";
           color: @font-gray-light;
           text-decoration: line-through;
+          &.nodata {
+            text-decoration: none;
+          }
         }
       }
       .count-ctrl {
