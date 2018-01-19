@@ -443,6 +443,7 @@ export function calCartInfo (unCalCart, couponList) {
 
   // 有特价商品，不能使用优惠券，直接 return 算好的 cart
   if (hasSpecial) {
+    let isAllSpecialBuyed = true
     let discountTotal = sum(map(notSpecialList, item => item.count * (item.product.discountPrice || item.product.price)))
     discountTotal += sum(
       map(specialList, item => {
@@ -451,10 +452,35 @@ export function calCartInfo (unCalCart, couponList) {
           item.isSpecialAndBuyed = true
           return item.count * item.product.price
         } else {
+          if (item.special) {
+            isAllSpecialBuyed = false // 是 特价，并且又没有买过，不能用优惠券
+          }
           return 1 * item.product.discountPrice + (item.count - 1) * item.product.price
         }
       })
     )
+
+    // 处理都按原价买的情况
+    if（isAllSpecialBuyed) {
+      // 可以用优惠券
+      const matchCouponList = getMatchCouponList(couponList, discountTotal)
+      // 没有合适的优惠券
+      if (!matchCouponList.length) {
+        return {
+          list: cart.list,
+          count: cart.count,
+          couponAmount: 0,
+          couponNum: 0,
+          discountAmount: originTotal - discountTotal,
+          realAmount: discountTotal,
+          totalAmount: originTotal,
+          totalDiscounts: originTotal - discountTotal
+        }
+      } else {
+        // 发给 server 算
+        return false
+      }
+    }
 
     return {
       list: cart.list,
@@ -471,27 +497,10 @@ export function calCartInfo (unCalCart, couponList) {
   const discountTotal = sum(map(cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
 
   // 筛选能够使用的券，state = 1 && 有时间段的话，时间段要符合 && lowPrice <= discount
-  const matchCoupons = filter(couponList, item => {
-    if (item.status === 1 && item.lowPrice <= discountTotal) {
-      const { startHour, endHour } = item
-      if (startHour && endHour) {
-        const now = moment().format('hh:mm:ss')
-        if (now >= startHour && now <= endHour) {
-          return true
-        } else {
-          return false
-        }
-      } else {
-        return true
-      }
-    }
-    return false
-  })
+  const matchCoupons = getMatchCouponList(couponList, discountTotal)
 
   // 没有合适的优惠券
   if (!matchCoupons.length) {
-    cart.totalDiscounts = originTotal - discountTotal
-    cart.realAmount = discountTotal
     return {
       list: cart.list,
       count: cart.count,
@@ -538,4 +547,23 @@ export function calCartInfo (unCalCart, couponList) {
 
   return cart
   */
+}
+
+function getMatchCouponList (couponList, amount) {
+  filter(couponList, item => {
+    if (item.status === 1 && item.lowPrice <= amount) {
+      const { startHour, endHour } = item
+      if (startHour && endHour) {
+        const now = moment().format('hh:mm:ss')
+        if (now >= startHour && now <= endHour) {
+          return true
+        } else {
+          return false
+        }
+      } else {
+        return true
+      }
+    }
+    return false
+  })
 }
