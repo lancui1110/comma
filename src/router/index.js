@@ -58,33 +58,45 @@ const router = new Router({
   base: pageConfig.siteUrl + 'index',
   mode: 'history',
   routes: [
+     // 主页
     { name: 'home', path: '', component: Home },
-    { name: 'pay', path: '/pay', component: Pay },
+    // 支付
+    { name: 'pay', path: '/pay', component: Pay },  
     { name: 'paySuc', path: '/pay/success', component: PaySuccess },
+    // 验证码
     { name: 'login', path: '/login', component: Login },
+    // 个人中心
     { name: 'my', path: '/my', component: My },
-    { name: 'recharge', path: '/recharge', component: Recharge },
+    // 充值
+    { name: 'recharge', path: '/recharge', component: Recharge }, 
     { name: 'rechargeList', path: '/recharge/list', component: RechargeList },
     { name: 'agreement', path: '/recharge/agreement', component: Agreement },
+    // 订单
     { name: 'orderList', path: '/order/list', component: OrderList },
     { name: 'orderDetail', path: '/order/detail', component: OrderDetail },
-    { name: 'customerMain', path: '/customer', component: CustomerMain },
-    { name: 'customerFeedback', path: '/customer/feedBack', component: CustomerFeedback },
+    // 客服
+    { name: 'customerMain', path: '/customer', component: CustomerMain }, 
+    { name: 'customerFeedback', path: '/customer/feedBack', component: CustomerFeedback }, // 客服
     { name: 'wish', path: '/customer/wish', component: Wish },
+    // 优惠券
     { name: 'coupons', path: '/coupons', component: Coupons },
+    // 线下优惠券
     { name: 'offlineCoupon', path: '/offline/coupon', component: OfflineCoupon },
+    // 活动
     { name: 'receiveRedBag', path: '/activity/receiveRedBag', component: ReceiveRedBag },
     { name: 'recommend', path: '/activity/recommend', component: Recommend },
     { name: 'recommendForm', path: '/activity/recommendForm', component: RecommendForm },
     { name: 'recommendSuc', path: '/activity/recommendSuc', component: RecommendSuc },
-
+    
+    // 后台库存及补货管理
     { name: 'admin', path: '/admin', component: Admin },
     { name: 'myStore', path: '/admin/mystore', component: MyStore },
     { name: 'myTask', path: '/admin/mytask', component: MyTask },
     { name: 'taskDetail', path: '/admin/task/:id', component: TaskDetail },
     { name: 'handleTask', path: '/admin/handle/:taskId/:taskType', component: HandleTask },
     { name: 'adminFeedback', path: '/admin/feedBack', component: AdminFeedback },
-
+    
+    // 错误页面
     { name: 'error', path: '/error', component: Error },
 
     { path: '*', redirect: { name: 'home' } }
