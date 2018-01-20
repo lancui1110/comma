@@ -270,32 +270,23 @@ const actions = {
       }
       p.count += 1
     } else {
+      let todayBuyed
       if (product.special && state.buySpecialIds.indexOf(product.id) > -1) {
         Toast('今日限购一件，超出按原价')
+        todayBuyed = { todayBuyed: true }
       }
       state.cart.list.push(Object.assign(
         {},
         { product: cloneDeep(product) },
-        { count: 1 }
+        { count: 1 },
+        todayBuyed
       ))
     }
 
     const newCart = calCartInfo(state.cart, rootState.coupons.availableCouponList)
-    if (newCart) {
-      commit('setCart', newCart)
-      console.log(555, newCart.realAmount, rootState.user)
-      commit('setPayType', newCart.realAmount <= rootState.user.user.money ? 'yue' : 'wx')
-    } else {
-      // 通过 sever 来计算 cart
-      dispatch('serverCalCartInfo', map(state.cart.list, item => {
-        return {
-          id: item.product.id,
-          price: item.product.price,
-          discountPrice: item.product.discountPrice,
-          num: item.count
-        }
-      }))
-    }
+    console.log('add to cart:', newCart)
+    commit('setCart', newCart)
+    commit('setPayType', newCart.realAmount <= rootState.user.user.money ? 'yue' : 'wx')
   },
   removeFromCart ({ commit, dispatch, rootState }, product) {
     const p = find(state.cart.list, item => item.product.id === product.id)
@@ -306,20 +297,9 @@ const actions = {
     }
 
     const newCart = calCartInfo(state.cart, rootState.coupons.availableCouponList)
-    if (newCart) {
-      commit('setCart', newCart)
-      commit('setPayType', newCart.realAmount <= rootState.user.user.money ? 'yue' : 'wx')
-    } else {
-      // 通过 sever 来计算 cart
-      dispatch('serverCalCartInfo', map(state.cart.list, item => {
-        return {
-          id: item.product.id,
-          price: item.product.price,
-          discountPrice: item.product.discountPrice,
-          num: item.count
-        }
-      }))
-    }
+    console.log('remove to cart:', newCart)
+    commit('setCart', newCart)
+    commit('setPayType', newCart.realAmount <= rootState.user.user.money ? 'yue' : 'wx')
   },
   clearCart ({ commit }) {
     commit('setCart', {
@@ -436,6 +416,115 @@ export default {
 }
 
 export function calCartInfo (unCalCart, couponList) {
+  let totalCount = 0
+  let totalAmount = 0
+  let realAmount = 0
+  let discountAmount = 0
+  let totalDiscounts = 0
+  let couponAmount = 0
+  let couponNum = ''
+  let hasSpecial = false
+
+  each(unCalCart.list, item => {
+    const { product, count, todayBuyed } = item
+    totalCount += count
+    totalAmount += product.price * count  // 原价
+
+    if (product.special) {
+      if (!todayBuyed) {
+        hasSpecial = true
+        discountAmount += product.price - product.discountPrice
+      }
+    } else {
+      if (product.discountPrice) {
+        discountAmount += (product.price - product.discountPrice) * count
+      }
+    }
+  })
+
+  // 有特价的
+  if (hasSpecial) {
+    totalDiscounts = discountAmount
+    realAmount = totalAmount - totalDiscounts
+    return {
+      list: unCalCart.list,
+      count: totalCount,
+
+      totalAmount,
+      realAmount,
+      totalDiscounts,
+      discountAmount,
+      couponAmount,
+      couponNum
+    }
+  }
+
+  // 时间合适 && status 合适（ 1待使用 2已使用 4已过期 5返还中）
+  let matchCouponList = filter(couponList, item => {
+    const { status, startHour, endHour } = item
+    if (status === 1) {
+      if (startHour && endHour) {
+        const now = moment().format('HH:mm:ss')
+        return now >= startHour && now <= endHour
+      } else {
+        return true
+      }
+    }
+    return false
+  })
+
+  // 计算优惠券逻辑
+  realAmount = totalAmount - discountAmount
+  for (let i = 0, size = matchCouponList.length; i < size; i++) {
+    const coupon = matchCouponList[i]
+    let totalMoney = realAmount
+
+    // 如果有 goodsTypeMap，必须是 符合 的 goodsType 才计算价格
+    if (coupon.goodsTypeMap && coupon.goodsTypeMap.length) {
+      totalAmount = 0
+      each(unCalCart.list, item => {
+        if (coupon.goodsTypeMap.indexOf(item.product.goodsType)) {
+          if (item.todayBuyed) {
+            totalAmount += item.product.price
+          } else if (item.product.discountPrice) {
+            totalAmount += item.product.discountPrice
+          } else {
+            totalAmount += item.product.price
+          }
+        }
+      })
+    }
+
+    if (totalMoney < coupon.lowPrice) {
+      continue
+    }
+
+    // 如果优惠券金额大于已经的优惠额度，则使用这张
+    if (coupon.price > couponAmount) {
+      couponAmount = coupon.price
+      couponNum = coupon.id
+    }
+  }
+
+  realAmount = totalAmount - discountAmount - couponAmount
+  // 如果总金额小于0
+  if (realAmount < 0) {
+    couponAmount = totalAmount - discountAmount
+    realAmount = 0
+  }
+
+  return {
+    list: unCalCart.list,
+    count: totalCount,
+
+    totalAmount,
+    realAmount,
+    totalDiscounts,
+    discountAmount,
+    couponAmount,
+    couponNum
+  }
+/*
   const cart = cloneDeep(unCalCart)
   cart.count = sum(map(cart.list, 'count'))
   const specialList = filter(cart.list, item => item.product.special)
@@ -552,21 +641,17 @@ export function calCartInfo (unCalCart, couponList) {
   */
 }
 
-function getMatchCouponList (couponList, amount) {
-  filter(couponList, item => {
-    if (item.status === 1 && item.lowPrice <= amount) {
-      const { startHour, endHour } = item
-      if (startHour && endHour) {
-        const now = moment().format('hh:mm:ss')
-        if (now >= startHour && now <= endHour) {
-          return true
-        } else {
-          return false
-        }
-      } else {
-        return true
-      }
-    }
-    return false
-  })
-}
+// function getMatchCouponList (couponList, amount) {
+//   filter(couponList, item => {
+//     if (item.status === 1 && item.lowPrice <= amount) {
+//       const { startHour, endHour } = item
+//       if (startHour && endHour) {
+//         const now = moment().format('HH:mm:ss')
+//         return now >= startHour && now <= endHour
+//       } else {
+//         return true
+//       }
+//     }
+//     return false
+//   })
+// }

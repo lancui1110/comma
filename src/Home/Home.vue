@@ -133,20 +133,8 @@ export default {
         // 如果购物车里有东西，需要重新计算一下购物车数据
         if (this.cart.count) {
           const newCart = calCartInfo(this.cart, newCouponList)
-          if (newCart) {
-            this.$store.commit('home/setCart', newCart)
-            this.$store.commit('home/setPayType', newCart.realAmount <= this.user.money ? 'yue' : 'wx')
-          } else {
-            // 通过 sever 来计算 cart
-            this.$store.dispatch('home/serverCalCartInfo', map(this.cart.list, item => {
-              return {
-                id: item.product.id,
-                price: item.product.price,
-                discountPrice: item.product.discountPrice,
-                num: item.count
-              }
-            }))
-          }
+          this.$store.commit('home/setCart', newCart)
+          this.$store.commit('home/setPayType', newCart.realAmount <= this.user.money ? 'yue' : 'wx')
         }
 
         this.queryTimes += 1
