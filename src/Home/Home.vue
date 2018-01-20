@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import { map } from 'lodash'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import { Swipe, SwipeItem } from 'mint-ui'
