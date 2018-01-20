@@ -172,9 +172,9 @@ export default {
       this.$store.dispatch('home/clearCart')
       // hide sel panel
       this.$emit('toggleSelProducts', false)
-
       setTimeout(() => {
-        location.href = `${pageConfig.siteUrl}index/pay/success?orderNum=${orderNum}`
+        this.$router.push({ name: 'paySuc', query: { orderNum } })
+        // location.href = `${pageConfig.siteUrl}index/pay/success?orderNum=${orderNum}`
       }, 100)
     },
     toggleSelProducts () {
