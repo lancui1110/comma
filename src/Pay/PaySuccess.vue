@@ -47,7 +47,7 @@ export default {
       isShowShareWx: false // 显示微信分享
     }
   },
-  mounted () {
+  activated () {
     this.$store.dispatch('order/getOrderDetail', this.$route.query.orderNum)
 
     setTimeout(() => {
