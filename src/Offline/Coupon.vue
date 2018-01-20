@@ -49,7 +49,6 @@ export default {
   },
   data () {
     return {
-      activityId: this.$route.query.activityId || 1,
       isWaiting: false,
       waitingNum: 60,
       isSubmit: false,
@@ -67,7 +66,8 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('activity/getScanCouponActivity', {activityId: this.activityId})
+    const activityId = this.$route.query.activityId || 1
+    this.$store.dispatch('activity/getScanCouponActivity', { activityId })
   },
   methods: {
     // 发请求获取验证码
@@ -202,7 +202,7 @@ export default {
             opacity: .85;
           }
           &.small{
-            
+
           }
         }
       }
@@ -227,7 +227,7 @@ export default {
       text-align: center;
       font-weight: 500;
     }
-    
+
     .bottom {
       // .btn {
       //   width: 100%;
