@@ -23,14 +23,42 @@ import { Toast } from 'mint-ui'
 export default {
   name: 'TopBar',
   methods: {
-    scanQRCode () {
+    scanQRCode (e) {
       const self = this
       weixin.weixinScanQRCode((res) => {
         self.$store.dispatch('home/findProductByQrCode', {
           code: res,
           cb: (res) => {
             if (res.code === 1) {
-              self.$store.dispatch('home/addToCart', res.data)
+              // self.$store.dispatch('home/addToCart', res.data)
+              setTimeout(() => {
+                const initX = 60
+                const initY = 50
+                const targetX = 30
+                const targetY = screen.height - 50
+                let curvature = 0.9
+                let speed = 0.7
+
+                const ball = document.createElement('div')
+                ball.appendChild(document.createTextNode('1'))
+                ball.setAttribute('class', 'ball')
+                ball.style.top = initY + 'px'
+                ball.style.left = initX + 'px'
+                document.body.insertAdjacentElement('afterbegin', ball)
+                const p = new iwjw.Parabola({
+                  el: ball,
+                  direction: 'down',
+                  curvature: curvature,
+                  speed: speed,
+                  origin: { x: initX, y: initY },
+                  target: { x: targetX, y: targetY },
+                  onMotionDone: () => {
+                    ball.remove()
+                    self.$store.dispatch('home/addToCart', res.data)
+                  }
+                })
+                p.start()
+              }, 300)
             } else {
               Toast(res.msg)
             }
