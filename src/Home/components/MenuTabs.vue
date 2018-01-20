@@ -55,8 +55,9 @@ export default {
   methods: {
     getTopOffset () {
       setTimeout(() => {
-        if (this.$refs.leftMenu.offsetTop) {
-          this.topOffset = this.$refs.leftMenu.offsetTop
+        const topBar = document.querySelector('.top-bar')
+        if (topBar) {
+          this.topOffset = topBar.clientHeight
         } else {
           this.getTopOffset()
         }
@@ -98,6 +99,7 @@ export default {
     flex-grow: 0;
     flex-shrink: 0;
     position: relative;
+    width: 160/@R;
     min-height: 930/@R;
     background-color: #F5F5F5;
     &.nav-pos-sticky {
@@ -112,11 +114,11 @@ export default {
       flex-direction: column;
       position: relative;
       overflow: scroll;
+      width: 160/@R;
       &.fix {
         position: fixed;
-        top: 0;
+        top: 110/@R;
         left: 0;
-        width: 100%;
         z-index: 500;
       }
     }
