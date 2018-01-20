@@ -262,7 +262,7 @@ export default {
         line-height: 42/@R;
         border-bottom: 1/@R solid #e6e6e6;
         color: @font-orange;
-        font-size: 28/@R;
+        font-size: 30/@R;
       }
     }
     .pay-info-bottom {
@@ -273,7 +273,11 @@ export default {
       align-items: center;
       height: 92/@R;
       .label {
+        font-size: 30/@R;
         flex-grow: 1;
+      }
+      .value {
+        font-size: 30/@R;
       }
       .icon {
         margin-right: 10/@R;
