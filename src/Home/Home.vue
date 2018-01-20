@@ -135,7 +135,7 @@ export default {
         if (this.cart.count) {
           const newCart = calCartInfo(this.cart, newCouponList)
           this.$store.commit('home/setCart', newCart)
-          this.$store.commit('home/setPayType', newCart.realAmount <= this.user.money ? 'yue' : 'wx')
+          // this.$store.commit('home/setPayType', newCart.realAmount <= this.user.money ? 'yue' : 'wx')
         }
 
         this.queryTimes += 1
@@ -151,7 +151,11 @@ export default {
       this.isShowLeftMenu = true
     },
     toggleSelProducts (v) {
-      this.isShowSelProducts = v || !this.isShowSelProducts
+      if (v) {
+        this.isShowSelProducts = v.show
+      } else {
+        this.isShowSelProducts = !this.isShowSelProducts
+      }
     },
     noScroll (isFixed) {
       this.isFixed = isFixed
