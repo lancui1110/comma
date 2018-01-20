@@ -90,7 +90,7 @@ export default {
                     const cart = cloneDeep(this.cart)
                     each(ids, id => {
                       const newGoodInfo = find(data, { id })
-                      const ci = findIndex(cart.list, item => item.product.id === g.id)
+                      const ci = findIndex(cart.list, item => item.product.id === id)
                       if (newGoodInfo) {
                         // 更新 cart.list
                         if (ci > -1) {
