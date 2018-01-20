@@ -1,6 +1,4 @@
-import { find, findIndex, map, filter, cloneDeep, concat, sum, each,
-  // orderBy, maxBy,
-  keys } from 'lodash'
+import { find, filter, cloneDeep, concat, each, keys } from 'lodash'
 import moment from 'moment'
 import { Indicator, Toast } from 'mint-ui'
 import API from '../api'
