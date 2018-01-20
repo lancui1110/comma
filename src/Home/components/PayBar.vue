@@ -84,35 +84,56 @@ export default {
                 this.$store.dispatch('home/getGoodsByIds', {
                   ids: ids.join(','),
                   cb: (data) => {
-                    let productList = cloneDeep(this.productList)
-                    let cart = cloneDeep(this.cart)
+                    // 刷新首页商品列表
+                    this.$store.dispatch('home/getGoodsList', true)
+                    // 用返回的最新的商品信息替换购物车里面的商品
+                    const cart = cloneDeep(this.cart)
                     each(ids, id => {
-                      const p = find(data, { id })
-                      const pIndex = findIndex(productList, { id })
-                      const cIndex = findIndex(cart.list, (chr) => {
-                        return chr.product.id === id
-                      })
-                      if (p) {
-                        // 更新 productList
-                        if (pIndex > -1) {
-                          productList[pIndex] = cloneDeep(p)
-                        }
+                      const newGoodInfo = find(data, { id })
+                      const ci = findIndex(cart.list, item => item.product.id === g.id)
+                      if (newGoodInfo) {
                         // 更新 cart.list
-                        if (cIndex > -1) {
-                          cart.list[cIndex].product = cloneDeep(p)
+                        if (ci > -1) {
+                          cart.list[ci].product = cloneDeep(newGoodInfo)
                         }
                       } else {
                         // 商品下架了
-                        if (pIndex > -1) {
-                          productList.splice(pIndex, 1)
-                        }
-                        if (cIndex > -1) {
-                          cart.list.splice(cIndex, 1)
+                        if (ci > -1) {
+                          cart.list.splice(ci, 1)
                         }
                       }
                     })
 
-                    this.$store.commit('home/setProductList', productList)
+                    // let productList = cloneDeep(this.productList)
+                    // let cart = cloneDeep(this.cart)
+                    // each(ids, id => {
+                    //   const p = find(data, { id })
+                    //   const pIndex = findIndex(productList, { id })
+                    //   const cIndex = findIndex(cart.list, (chr) => {
+                    //     return chr.product.id === id
+                    //   })
+                    //   if (p) {
+                    //     // 更新 productList
+                    //     if (pIndex > -1) {
+                    //       productList[pIndex] = cloneDeep(p)
+                    //     }
+                    //     // 更新 cart.list
+                    //     if (cIndex > -1) {
+                    //       cart.list[cIndex].product = cloneDeep(p)
+                    //     }
+                    //   } else {
+                    //     // 商品下架了
+                    //     if (pIndex > -1) {
+                    //       productList.splice(pIndex, 1)
+                    //     }
+                    //     if (cIndex > -1) {
+                    //       cart.list.splice(cIndex, 1)
+                    //     }
+                    //   }
+                    // })
+
+                    // this.$store.commit('home/setProductList', productList)
+
                     // 重算 cart 信息
                     const newCart = calCartInfo(cart, this.availableCouponList)
                     this.$store.commit('home/setCart', newCart)
@@ -138,7 +159,7 @@ export default {
         if (res.err_msg === 'get_brand_wcpay_request:ok') { // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
           this.goPaySuc(params.orderNum)
         } else if (res.err_msg === 'get_brand_wcpay_request:cancel') {
-          // TODO: 判断 params 是否有优惠券，有的话才弹提示
+          // 判断 params 是否有优惠券，有的话才弹提示
           if (params.useCoupon) {
             Toast(`订单未支付，优惠券将在${params.couponReturnMin}分钟后返还账户`)
           }
@@ -149,6 +170,8 @@ export default {
     goPaySuc (orderNum) {
       // reset cart
       this.$store.dispatch('home/clearCart')
+      // hide sel panel
+      this.$emit('toggleSelProducts', false)
 
       setTimeout(() => {
         location.href = `${pageConfig.siteUrl}index/pay/success?orderNum=${orderNum}`

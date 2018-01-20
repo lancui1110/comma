@@ -106,12 +106,14 @@ export default {
     weixin.init()
     this.$store.dispatch('home/setCode', this.code)
     this.$store.dispatch('home/getBanner')
-    this.$store.dispatch('home/getUserBuySpecialIds')
     this.$store.dispatch('home/getPopup', (res) => {
       if (res.code === 1) {
         this.showPopup = true
       }
     })
+  },
+  activated () {
+    this.$store.dispatch('home/getUserBuySpecialIds')
     if (this.productList.length) {
       this.$store.dispatch('home/getGoodsList', true)
     } else {
@@ -148,8 +150,8 @@ export default {
     showLeftMenu () {
       this.isShowLeftMenu = true
     },
-    toggleSelProducts () {
-      this.isShowSelProducts = !this.isShowSelProducts
+    toggleSelProducts (v) {
+      this.isShowSelProducts = v || !this.isShowSelProducts
     },
     noScroll (isFixed) {
       this.isFixed = isFixed
