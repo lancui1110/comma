@@ -502,7 +502,7 @@ export function calCartInfo (unCalCart, couponList) {
     // 如果优惠券金额大于已经的优惠额度，则使用这张
     if (coupon.price > couponAmount) {
       couponAmount = coupon.price
-      couponNum = coupon.id
+      couponNum = coupon.numberCode
     }
   }
 
