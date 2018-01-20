@@ -104,36 +104,6 @@ export default {
                       }
                     })
 
-                    // let productList = cloneDeep(this.productList)
-                    // let cart = cloneDeep(this.cart)
-                    // each(ids, id => {
-                    //   const p = find(data, { id })
-                    //   const pIndex = findIndex(productList, { id })
-                    //   const cIndex = findIndex(cart.list, (chr) => {
-                    //     return chr.product.id === id
-                    //   })
-                    //   if (p) {
-                    //     // 更新 productList
-                    //     if (pIndex > -1) {
-                    //       productList[pIndex] = cloneDeep(p)
-                    //     }
-                    //     // 更新 cart.list
-                    //     if (cIndex > -1) {
-                    //       cart.list[cIndex].product = cloneDeep(p)
-                    //     }
-                    //   } else {
-                    //     // 商品下架了
-                    //     if (pIndex > -1) {
-                    //       productList.splice(pIndex, 1)
-                    //     }
-                    //     if (cIndex > -1) {
-                    //       cart.list.splice(cIndex, 1)
-                    //     }
-                    //   }
-                    // })
-
-                    // this.$store.commit('home/setProductList', productList)
-
                     // 重算 cart 信息
                     const newCart = calCartInfo(cart, this.availableCouponList)
                     this.$store.commit('home/setCart', newCart)
