@@ -506,6 +506,7 @@ export function calCartInfo (unCalCart, couponList) {
     }
   }
 
+  totalDiscounts = discountAmount + couponAmount
   realAmount = totalAmount - discountAmount - couponAmount
   // 如果总金额小于0
   if (realAmount < 0) {

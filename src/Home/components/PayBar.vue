@@ -10,7 +10,7 @@
       </div>
       <div class="pay-info">
         <div class="total-price">合计：{{cart.realAmount.toFixed(2)}}元</div>
-        <div class="discounts" v-if="cart.totalDiscounts">已优惠{{cart.totalDiscounts.toFixed(2)}}元</div>
+        <div class="discounts" v-show="cart.totalDiscounts">已优惠{{cart.totalDiscounts.toFixed(2)}}元</div>
       </div>
     </div>
     <div class="pay-btn" :class="{ 'active': cart.count > 0 }" @click="addOrder">去支付</div>
