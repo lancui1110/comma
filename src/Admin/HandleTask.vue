@@ -123,19 +123,19 @@ export default {
       const params = map(this.tasks, item => {
         return {
           goodsId: item.goodsId,
-          realNum: item.realNum
+          realNum: item.realNum || 0  // 可以不填，或者传0给后端, 那些商品不会处理的
         }
       })
-      let invalid = false
-      forEach(params, item => {
-        if (!item.realNum) {
-          invalid = true
-        }
-      })
-      if (invalid) {
-        Toast('有商品数量为空，请检查～')
-        return
-      }
+      // let invalid = false
+      // forEach(params, item => {
+      //   if (!item.realNum) {
+      //     invalid = true
+      //   }
+      // })
+      // if (invalid) {
+      //   Toast('有商品数量为空，请检查～')
+      //   return
+      // }
 
       this.$store.dispatch('admin/submitTask', {
         taskId: this.taskId,
