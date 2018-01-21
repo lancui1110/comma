@@ -42,7 +42,7 @@
 import { map, forEach, trim } from 'lodash'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import { Button, Toast, MessageBox } from 'mint-ui'
+import { Button, MessageBox } from 'mint-ui'
 
 Vue.component(Button.name, Button)
 
