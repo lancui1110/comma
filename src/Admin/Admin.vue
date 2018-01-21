@@ -55,7 +55,6 @@ export default {
 @import "./style.less";
 
 .admin {
-  min-height: 1000/@R;
   .task-list {
     padding: 30/@R 0;
   }

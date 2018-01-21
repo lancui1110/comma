@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { map, forEach } from 'lodash'
+import { map, forEach, trim } from 'lodash'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import { Button, Toast, MessageBox } from 'mint-ui'
@@ -77,7 +77,19 @@ export default {
     this.taskId = taskId
     this.taskType = taskType
 
-    this.$store.dispatch('admin/getFormTaskDetail', this.taskId)
+    this.$store.dispatch('admin/getFormTaskDetail', {
+      taskId: this.taskId,
+      cb: (data) => {
+        if (this.taskType === 2 || this.taskType === 4) {
+          forEach(data, item => {
+            if (item.recommendedNum && !item.realNum) {
+              item.realNum = item.recommendedNum
+            }
+          })
+          this.$store.commit('admin/setTaskDetail', data)
+        }
+      }
+    })
 
     // if (this.handleTaskParams.length > 0) { // 从反馈返回的，则不用更新数据
     //   this.$store.dispatch('admin/updateHandleTaskParams', [])
@@ -88,7 +100,7 @@ export default {
   methods: {
     handleInputEnter (index, e) {
       const nextInput = this.$refs[`input_${index + 1}`]
-      if (nextInput) {
+      if (nextInput && !trim(nextInput[0].value)) {
         nextInput[0].focus()
       }
     },
@@ -145,7 +157,7 @@ export default {
 <style lang="less">
 @import "./style.less";
 .handle-task {
-  margin-bottom: 10/@R ;
+  padding-bottom: 40/@R;
   h2 {
     height: 88/@R;
     line-height: 88/@R;
@@ -184,12 +196,13 @@ export default {
     }
     input {
       width: 200/@R;
+      padding-left: 10/@R;
     }
   }
   .mint-button {
     display: block;
     width: 90%;
-    margin: 50/@R auto;
+    margin: 40/@R auto;
     &.mint-button--primary {
       background-color: @primary;
     }
