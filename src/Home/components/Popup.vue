@@ -80,7 +80,7 @@
     .modal {
       position: relative;
       border-radius: 16/@R;
-      background-color: #fff;
+      background-color: transparent;
       background-size: 100% 100%;
       background-repeat: no-repeat;
     }
