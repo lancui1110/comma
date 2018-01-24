@@ -5,24 +5,41 @@
       扫码购物
     </div>
     <div class="logo"><img :src="require('../../assets/new_logo.png')" alt="comma"></div>
-    <router-link class="menu recharge" :to="{ name: 'recharge' }">
+    <a
+      class="menu recharge"
+      @click="checkLoginStatus('recharge')">
       <i class="icon icon-recharge"></i>
       充值
-    </router-link>
-    <router-link class="menu" :to="{ name: 'my' }">
+    </a>
+    <a
+      class="menu"
+      @click="checkLoginStatus('my')">
       <i class="icon icon-my"></i>
       我的
-    </router-link>
+    </a>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import weixin from 'weixin'
 import { Toast } from 'mint-ui'
 
 export default {
   name: 'TopBar',
+  computed: {
+    ...mapGetters({
+      user: 'user/getUser'
+    })
+  },
   methods: {
+    checkLoginStatus (to) {
+      if (this.user && this.user.mobile) {
+        this.$router.push({ name: to })
+      } else {
+        this.$router.push({ name: 'login', query: { to: 'home' } })
+      }
+    },
     scanQRCode (e) {
       const self = this
       weixin.weixinScanQRCode((res) => {
