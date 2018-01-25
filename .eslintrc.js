@@ -28,7 +28,8 @@ module.exports = {
     'func-call-spacing': 0,
     'no-unexpected-multiline': 0,
     'no-trailing-spaces': 0,
-    'eol-last': 0
+    'eol-last': 0,
+    'eqeqeq': 0
   },
   globals: Object.assign({
     localStoreage: true,

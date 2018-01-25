@@ -31,6 +31,7 @@ module.exports = {
       'weixin': resolve('src/global/wx/wxsa.js'),
       'uploadPic': resolve('src/global/wx/uploadPic.js'),
       'wxMenu': resolve('src/global/wx/menu.js'),
+      'utils': resolve('src/global/utils/index.js'),
     }
   },
   module: {

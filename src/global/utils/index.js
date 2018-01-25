@@ -22,5 +22,16 @@ export default {
     // remove divs
     outer.parentNode.removeChild(outer)
     return widthNoScroll - widthWithScroll
+  },
+  // 判断是微信app的浏览器
+  isWeixin () {
+    const ua = window.navigator.userAgent.toLowerCase()
+    return ua.match(/MicroMessenger/i) == 'micromessenger'
+  },
+  // 判断是支付宝app的浏览器
+  isAlipay () {
+    const ua = window.navigator.userAgent.toLowerCase()
+    ua.match(/Alipay/i) == 'alipay'
   }
+
 }
