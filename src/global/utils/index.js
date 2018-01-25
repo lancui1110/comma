@@ -31,7 +31,7 @@ export default {
   // 判断是支付宝app的浏览器
   isAlipay () {
     const ua = window.navigator.userAgent.toLowerCase()
-    ua.match(/Alipay/i) == 'alipay'
+    return ua.match(/Alipay/i) == 'alipay'
   }
 
 }
