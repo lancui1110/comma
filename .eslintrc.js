@@ -35,6 +35,7 @@ module.exports = {
     localStoreage: true,
     pageConfig: true,
     wx: true,
-    WeixinJSBridge: true
+    WeixinJSBridge: true,
+    ap: true,
   }, provide)
 }

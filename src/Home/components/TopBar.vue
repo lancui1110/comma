@@ -27,7 +27,7 @@ export default {
     scanQRCode (e) {
       const self = this
 
-      if (utils.isAlipay) {
+      if (utils.isAlipay()) {
         ap.scan({ type: 'bar' }, (res) => {
           self.doAfterScan(res.code)
         })

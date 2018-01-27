@@ -23,15 +23,18 @@ export default {
     outer.parentNode.removeChild(outer)
     return widthNoScroll - widthWithScroll
   },
+  getUserAgent () {
+    return window.navigator.userAgent.toLowerCase()
+  },
   // 判断是微信app的浏览器
   isWeixin () {
-    const ua = window.navigator.userAgent.toLowerCase()
-    return ua.match(/MicroMessenger/i) == 'micromessenger'
+    const ua = this.getUserAgent()
+    return (ua.match(/MicroMessenger/i) == 'micromessenger')
   },
   // 判断是支付宝app的浏览器
   isAlipay () {
-    const ua = window.navigator.userAgent.toLowerCase()
-    return ua.match(/Alipay/i) == 'alipay'
+    const ua = this.getUserAgent()
+    return (ua.match(/Alipay/i) == 'alipay')
   }
 
 }
