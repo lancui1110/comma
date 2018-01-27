@@ -146,12 +146,19 @@ export default {
       // 支付宝支付
       if (utils.isAlipay()) {
         alert('pay..alipay')
+
+        ap.pushWindow({
+          url: 'http://comma.isfeel.cn/mock/pay',
+          data: {
+            keyword: 'test',
+          }
+        })
         // 添加dom
-        const aliPayForm = params.aliPayForm
-        const oDiv = document.createElement('div')
-        oDiv.innerHTML = aliPayForm
-        document.body.appendChild(oDiv)
-        document.forms[0].submit()
+        // const aliPayForm = params.aliPayForm
+        // const oDiv = document.createElement('div')
+        // oDiv.innerHTML = aliPayForm
+        // document.body.appendChild(oDiv)
+        // document.forms[0].submit()
       }
     },
     // 支付成功页面
