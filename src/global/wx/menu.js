@@ -14,18 +14,35 @@ const menu = {
         if (utils.isAlipay()) {
           AlipayJSBridge.call('startShare', {
             // 当用户选择该数组内指定的分享渠道时，仅返回渠道名，而不是真正开始自动分享
-            'onlySelectChannel': ['ALPContact', 'ALPTimeLine', 'SMS', 'DingTalkSession', 'Favorite']
+            'onlySelectChannel': ['Weibo', 'ALPContact', 'ALPTimeLine', 'SMS', 'Weixin', 'WeixinTimeLine', 'QQ', 'QQZone','DingTalkSession', 'OpenInSafari', 'Favorite']
           }, (data) => {
             // 通过onlySelectChannel屏蔽掉自动分享功能后，自行调用shareToChannel接口进行单独分享
-            ap.share({
-              title: res.data.title,
-              content: res.data.desc,
-              url: res.data.link,
-              image: res.data.imgUrl
+            AlipayJSBridge.call('shareToChannel', {
+              name: data.channelName,
+              param: {
+                contentType: 'url',    // 选填，目前支持支持"auto",text","image","url"格式（android分享组件不支持auto）
+                title: res.data.title,
+                content: res.data.desc,
+                iconUrl: res.data.imgUrl
+                imageUrl: res.data.imgUrl
+                captureScreen: false, // 是否分享当前页面的截图
+                url: res.data.link
+              }
             }, (result) => {
-              // ap.alert(result.shareResult)
+              console.log(result)
             })
           })
+
+          // const shareConfig = {
+          //   title: res.data.title,
+          //   content: res.data.desc,
+          //   url: res.data.link,
+          //   image: res.data.imgUrl
+          // }
+          // // 下面这个，应该放到某个回调里面，不然一开始就出来了，然而文档没找到
+          // ap.share(shareConfig, (result) => {
+          //   // ap.alert(result.shareResult)
+          // })
         } else {
           const shareConfig = {
             title: res.data.title,
