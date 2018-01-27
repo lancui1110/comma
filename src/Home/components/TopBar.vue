@@ -29,17 +29,16 @@ export default {
 
       if (utils.isAlipay()) {
         ap.scan({ type: 'bar' }, (res) => {
-          alert(JSON.stringify(res))
           self.doAfterScan(res.code)
         })
       } else {
         weixin.weixinScanQRCode((res) => {
-          alert(JSON.stringify(res))
           self.doAfterScan(res)
         })
       }
     },
     doAfterScan (code) {
+      const self = this
       self.$store.dispatch('home/findProductByQrCode', {
         code,
         cb: (res) => {
