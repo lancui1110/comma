@@ -147,15 +147,23 @@ export default {
       if (utils.isAlipay()) {
         alert('pay..alipay')
 
-        ap.pushWindow({
-          url: 'http://comma.isfeel.cn/mock/pay',
-          data: {
-            keyword: 'test',
-          }
+        AlipayJSBridge.call('tradePay', {
+          tradeNO: params.aliTradeNo || '201209071234123221'
+        }, function (result) {
+          alert(result)
         })
+
+        // ap.pushWindow({
+        //   url: 'http://comma.isfeel.cn/mock/pay',
+        //   data: {
+        //     keyword: 'test'
+        //   }
+        // })
+
         // 添加dom
-        // const aliPayForm = params.aliPayForm
+        // let aliPayForm = params.aliPayForm
         // const oDiv = document.createElement('div')
+        // aliPayForm = aliPayForm.replace(/<script.*<\/script>/i, '')
         // oDiv.innerHTML = aliPayForm
         // document.body.appendChild(oDiv)
         // document.forms[0].submit()
