@@ -35,9 +35,12 @@ export default {
   },
   methods: {
     checkLoginStatus (to) {
+      alert('check login status')
       if (this.user && this.user.mobile) {
+        alert('has bind mobile')
         this.$router.push({ name: to })
       } else {
+        alert('redirect to login page')
         this.$router.push({ name: 'login', query: { to: 'home' } })
       }
     },
