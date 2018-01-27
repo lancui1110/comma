@@ -12,13 +12,19 @@ const menu = {
     }).then(res => {
       if (res && res.code === 1) {
         if (utils.isAlipay()) {
-          ap.share({
-            title: res.data.title,
-            content: res.data.desc,
-            url: res.data.link,
-            image: res.data.imgUrl,
-          }, (result) => {
-            // ap.alert(result.shareResult)
+          AlipayJSBridge.call('startShare', {
+            // 当用户选择该数组内指定的分享渠道时，仅返回渠道名，而不是真正开始自动分享
+            'onlySelectChannel': ['ALPContact', 'ALPTimeLine', 'SMS', 'DingTalkSession', 'Favorite']
+          }, function(data) {
+            // 通过onlySelectChannel屏蔽掉自动分享功能后，自行调用shareToChannel接口进行单独分享
+            ap.share({
+              title: res.data.title,
+              content: res.data.desc,
+              url: res.data.link,
+              image: res.data.imgUrl
+            }, (result) => {
+              // ap.alert(result.shareResult)
+            })
           })
         } else {
           const shareConfig = {
