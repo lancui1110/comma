@@ -38,7 +38,7 @@ export default {
     })
   },
   mounted () {
-    alert(1)
+    // alert(1)
     // weixin.init()
   },
   methods: {
@@ -141,19 +141,25 @@ export default {
             }
           }
         })
-      } 
-      
+      }
+
       // 支付宝支付
       if (utils.isAlipay()) {
         alert('pay..alipay')
         // 添加dom
         let aliPayForm = params.aliPayForm
+        alert(1)
         aliPayForm = '<form name="punchout_form" method="post" action="https://openapi.alipay.com/gateway.do?charset=UTF-8&method=alipay.trade.wap.pay&sign=0B9ytufGyiYFTWVuApMx8G6BephlU1GMzxU0h%2Bs8vis2tvuhgSHmzINlDwd7j332sJq2rzXphT9%2BKuMJwkJJN3tifWRhG9GMExDm2Qr1W21Rq2hbHsUPXmiZW7Jtsnnqm6LLIqQoheRrtoMZviO%2B9jMGERoBl1FfDX86ldrfW6P8osE208r5r1RzRnf9gummWENgy2H610Dp%2BS2S6vKgrkoVLsiDu%2FKc%2F6rT8jdQRjvEQCOC6%2BXaxOV5v7N9A5f4TCAcNckWU%2FENVg95cbkFwUDXQTkh4Po3CDgW1BqaUJjJG363GLMR8B5CVwWlOKyb9Vn6EEM5I9cxC4PCix5yMA%3D%3D&notify_url=http%3A%2F%2Fihww2013.vicp.io%2Falipay%2Fpay%2FparseOrderNotifyResult&version=1.0&app_id=2017122801296144&sign_type=RSA2&timestamp=2018-01-25+18%3A55%3A58&alipay_sdk=alipay-sdk-java-dynamicVersionNo&format=json">\n<input type="hidden" name="biz_content" value="{&quot;body&quot;:&quot;&quot;,&quot;out_trade_no&quot;:&quot;130308586210828288&quot;,&quot;passback_params&quot;:&quot;goods&quot;,&quot;product_code&quot;:&quot;QUICK_WAP_WAY&quot;,&quot;subject&quot;:&quot;逗号迷你便利（测试）&quot;,&quot;timeout_express&quot;:&quot;3m&quot;,&quot;total_amount&quot;:&quot;2.9&quot;}">\n<input type="submit" value="立即支付" style="display:none" >\n</form>\n'
+        alert(2)
         const oDiv = document.createElement('div')
+        alert(3)
         oDiv.innerHTML = aliPayForm
+        alert(4)
         document.body.appendChild(oDiv.innerHTML)
+        alert(5)
         alert(document.forms[0])
         document.forms[0].submit()
+        alert(6)
       }
     },
     // 支付成功页面

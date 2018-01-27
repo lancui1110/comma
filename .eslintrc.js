@@ -34,6 +34,8 @@ module.exports = {
   globals: Object.assign({
     localStoreage: true,
     pageConfig: true,
+    ap: true,
+    AlipayJSBridge: true,
     wx: true,
     WeixinJSBridge: true,
     ap: true,
