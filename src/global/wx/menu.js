@@ -1,5 +1,6 @@
 import API from '../../store/api'
 import weixin from './wxsa'
+import utils from '../utils'
 
 const menu = {
   // type=1 一般分享 type=2&orderNum 抢红包 type=3 申请货架
@@ -10,18 +11,28 @@ const menu = {
       data: data
     }).then(res => {
       if (res && res.code === 1) {
-        const shareConfig = {
-          title: res.data.title,
-          desc: res.data.desc,
-          imgUrl: res.data.imgUrl,
-          link: res.data.link
-        }
-        
-        weixin.init({
-          cb: () => { 
-            self.friend(shareConfig) 
+        if (utils.isAlipay()) {
+          ap.share({
+            title: res.data.title,
+            content: res.data.desc,
+            url: res.data.link,
+            image: res.data.imgUrl,
+          }, (result) => {
+            // ap.alert(result.shareResult)
+          })
+        } else {
+          const shareConfig = {
+            title: res.data.title,
+            desc: res.data.desc,
+            imgUrl: res.data.imgUrl,
+            link: res.data.link
           }
-        })
+          weixin.init({
+            cb: () => {
+              self.friend(shareConfig)
+            }
+          })
+        }
       }
       cb && cb(res)
     })
