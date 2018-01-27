@@ -148,7 +148,7 @@ export default {
       }
     }
     .img-panel {
-      margin: 30/@R 0 50/@R;
+      margin: 30/@R 0 0;
       padding: 20/@R 30/@R;
       background-color: #fff;
     }
@@ -180,7 +180,7 @@ export default {
       width: 700/@R;
       height: 97/@R;
       line-height: 97/@R;
-      margin: 0 auto;
+      margin: 50/@R auto 0;
       text-align: center;
       border-radius: 10/@R;
       color: #fff;
