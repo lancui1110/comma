@@ -38,7 +38,7 @@ export default {
     })
   },
   mounted () {
-    alert(1)
+    // alert(1)
     // weixin.init()
   },
   methods: {
@@ -127,7 +127,7 @@ export default {
       }
 
       // 微信支付
-      if (utils.isWeixin) {
+      if (utils.isWeixin()) {
         alert('weixin')
         weixin.weixinPay(params, (res) => {
           // go 支付成功
@@ -141,10 +141,10 @@ export default {
             }
           }
         })
-      } 
-      
+      }
+
       // 支付宝支付
-      if (utils.isAlipay) {
+      if (utils.isAlipay()) {
         alert('alipay')
         // 添加dom
         const aliPayForm = params.aliPayForm
