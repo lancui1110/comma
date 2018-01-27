@@ -57,10 +57,23 @@ export default {
       if (utils.isAlipay()) {
         ap.chooseImage(4 - this.localPics.length, (result) => {
           alert(JSON.stringify(result))
-          let apFilePath = result.apFilePaths || []
-          if (!apFilePath.length || !/^https?:/.test(apFilePath[0])) {
+          let apFilePaths = result.apFilePaths || []
+          if (!apFilePaths.length || !/^https?:/.test(apFilePaths[0])) {
             return
           }
+
+          ap.uploadFile({
+            url: 'http://comma.isfeel.cn/oss/upload',
+            fileType: 'image',
+            fileName: 'file',
+            filePath: apFilePaths[0],
+            success: function(res) {
+              ap.alert('上传成功 ' + JSON.stringify(res))
+            },
+            fail: function(err) {
+              ap.showToast('上传失败 ' + JSON.stringify(err))
+            }
+          })
 
           // 如下演示如何拿到base64格式的数据，可用于上传到服务器端的场景
           var image = new Image()
@@ -97,7 +110,7 @@ export default {
           image.src = result.tempFilePaths[0] || result.localIds[0]
           alert(5)
 
-          self.localPics = self.localPics.concat(apFilePath)
+          self.localPics = self.localPics.concat(apFilePaths)
         })
       } else {
         uploadPic.selectedPic((localId, serverId) => {
