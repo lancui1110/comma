@@ -23,8 +23,8 @@ const menu = {
                 contentType: 'url',    // 选填，目前支持支持"auto",text","image","url"格式（android分享组件不支持auto）
                 title: res.data.title,
                 content: res.data.desc,
-                iconUrl: res.data.imgUrl
-                imageUrl: res.data.imgUrl
+                iconUrl: res.data.imgUrl,
+                imageUrl: res.data.imgUrl,
                 captureScreen: false, // 是否分享当前页面的截图
                 url: res.data.link
               }
