@@ -37,6 +37,7 @@ module.exports = {
     ap: true,
     AlipayJSBridge: true,
     wx: true,
-    WeixinJSBridge: true
+    WeixinJSBridge: true,
+    ap: true,
   }, provide)
 }
