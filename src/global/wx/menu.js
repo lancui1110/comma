@@ -1,5 +1,6 @@
 import API from '../../store/api'
 import weixin from './wxsa'
+import utils from '../utils'
 
 const menu = {
   // type=1 一般分享 type=2&orderNum 抢红包 type=3 申请货架
@@ -10,18 +11,34 @@ const menu = {
       data: data
     }).then(res => {
       if (res && res.code === 1) {
-        const shareConfig = {
-          title: res.data.title,
-          desc: res.data.desc,
-          imgUrl: res.data.imgUrl,
-          link: res.data.link
-        }
-        
-        weixin.init({
-          cb: () => { 
-            self.friend(shareConfig) 
+        if (utils.isAlipay()) {
+          AlipayJSBridge.call('startShare', {
+            // 当用户选择该数组内指定的分享渠道时，仅返回渠道名，而不是真正开始自动分享
+            'onlySelectChannel': ['ALPContact', 'ALPTimeLine', 'SMS', 'DingTalkSession', 'Favorite']
+          }, (data) => {
+            // 通过onlySelectChannel屏蔽掉自动分享功能后，自行调用shareToChannel接口进行单独分享
+            ap.share({
+              title: res.data.title,
+              content: res.data.desc,
+              url: res.data.link,
+              image: res.data.imgUrl
+            }, (result) => {
+              // ap.alert(result.shareResult)
+            })
+          })
+        } else {
+          const shareConfig = {
+            title: res.data.title,
+            desc: res.data.desc,
+            imgUrl: res.data.imgUrl,
+            link: res.data.link
           }
-        })
+          weixin.init({
+            cb: () => {
+              self.friend(shareConfig)
+            }
+          })
+        }
       }
       cb && cb(res)
     })

@@ -22,7 +22,7 @@ import { each, map, find, findIndex, sum, round, cloneDeep } from 'lodash'
 import { mapGetters } from 'vuex'
 import { Toast } from 'mint-ui'
 import { calCartInfo } from '../../store/modules/home'
-import weixin from 'weixin' 
+import weixin from 'weixin'
 import utils from 'utils'
 
 export default {
@@ -150,7 +150,7 @@ export default {
         AlipayJSBridge.call('tradePay', {
           tradeNO: params.aliTradeNo || '201209071234123221'
         }, function (result) {
-          alert(result)
+          alert(result) 
         })
 
         // ap.pushWindow({
