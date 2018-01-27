@@ -6,7 +6,7 @@
         <span class="word">{{feedback.length}}/{{maxWords}}</span>
         <textarea v-model="feedback" cols="30" rows="10" :maxlength="maxWords" placeholder="轻轻地告诉我，您想吃什么~"></textarea>
       </div>
-      <div class="img-panel">
+      <div class="img-panel" v-show="!isAlipay">
         <div class="img-label">图片（不能说的秘密就上图吧）</div>
         <div class="addbtns">
           <div v-for="(item, key) in localPics" :key="key" class="img">
@@ -27,6 +27,7 @@ import { Toast } from 'mint-ui'
 
 import weixin from 'weixin'
 import uploadPic from 'uploadPic'
+import utils from '../global/utils'
 
 export default {
   name: 'Wish',
@@ -35,6 +36,7 @@ export default {
   data () {
     const defaultPic = require('../assets/img_upload.png')
     return {
+      isAlipay: utils.isAlipay(),
       submiting: false,
       submitSuccess: false,
       maxWords: 200,
