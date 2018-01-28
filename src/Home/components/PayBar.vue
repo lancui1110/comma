@@ -13,7 +13,7 @@
         <div class="discounts" v-show="cart.totalDiscounts">已优惠{{cart.totalDiscounts.toFixed(2)}}元</div>
       </div>
     </div>
-    <div class="pay-btn" :class="{ 'active': cart.count > 0 }" @click="addOrder">去支付11</div>
+    <div class="pay-btn" :class="{ 'active': cart.count > 0 }" @click="addOrder">去支付</div>
   </div>
 </template>
 
@@ -128,7 +128,7 @@ export default {
 
       // 微信支付
       if (utils.isWeixin()) {
-        alert('pay..weixin')
+        // alert('pay..weixin')
         weixin.weixinPay(params, (res) => {
           // go 支付成功
           if (res.err_msg === 'get_brand_wcpay_request:ok') { // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
@@ -145,19 +145,26 @@ export default {
 
       // 支付宝支付
       if (utils.isAlipay()) {
-        alert('pay..alipay')
-
+        // alert('pay..alipay')
         AlipayJSBridge.call('tradePay', {
-          tradeNO: params.aliTradeNo || '201209071234123221'
-        }, function (result) {
-          alert(result) 
+          tradeNO: params.aliTradeNo
+        }, (result) => {
+          if (result.resultCode == '9000') { // 成功
+            this.goPaySuc(params.orderNum)
+          } else {
+            // alert('cancel')
+            this.$emit('toggleSelProducts', { show: false })
+            // 判断 params 是否有优惠券，有的话才弹提示
+            if (params.useCoupon) {
+              Toast(`订单未支付，优惠券将在${params.couponReturnMin}分钟后返还账户`)
+            }
+          }
         })
 
+        // this.$store.dispatch('home/setIsGoPay', true)
         // ap.pushWindow({
         //   url: 'http://comma.isfeel.cn/mock/pay',
-        //   data: {
-        //     keyword: 'test'
-        //   }
+        //   data: {}
         // })
 
         // 添加dom
