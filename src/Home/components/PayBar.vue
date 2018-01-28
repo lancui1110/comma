@@ -13,7 +13,7 @@
         <div class="discounts" v-show="cart.totalDiscounts">已优惠{{cart.totalDiscounts.toFixed(2)}}元</div>
       </div>
     </div>
-    <div class="pay-btn" :class="{ 'active': cart.count > 0 }" @click="addOrder">去支付11</div>
+    <div class="pay-btn" :class="{ 'active': cart.count > 0 }" @click="addOrder">去支付</div>
   </div>
 </template>
 
@@ -150,7 +150,7 @@ export default {
         AlipayJSBridge.call('tradePay', {
           tradeNO: params.aliTradeNo || '201209071234123221'
         }, function (result) {
-          alert(result) 
+          alert(result)
         })
 
         // ap.pushWindow({
