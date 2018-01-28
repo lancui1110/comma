@@ -69,7 +69,7 @@ export default {
       return false
     },
     isHideWish () {
-      const cur = this.category.current 
+      const cur = this.category.current
       return cur === '特价商品' || cur === '我常购买'
     }
   },
@@ -123,7 +123,7 @@ export default {
       margin: 0 auto 60/@R;
       text-align: center;
       border-radius: 40/@R;
-      border: 1/@R solid @border-gray;
+      border: 1/@R solid @border-gray !important;
       font-size: 30/@R;
       color: @text-color;
     }
