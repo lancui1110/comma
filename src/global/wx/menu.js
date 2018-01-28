@@ -13,10 +13,22 @@ const menu = {
       if (res && res.code === 1) {
         if (utils.isAlipay()) {
           // 让 后端再 html 里面加这几个
-          // document.getElementsByTagName('meta')['Alipay:title'].content = res.data.title
-          // document.getElementsByTagName('meta')['Alipay:desc'].content = res.data.desc
-          // document.getElementsByTagName('meta')['Alipay:imgUrl'].content = res.data.imgUrl
-          // document.getElementsByTagName('meta')['Alipay:link'].content = res.data.link
+          const titleElm = document.getElementsByTagName('meta')['Alipay:title']
+          const descElm = document.getElementsByTagName('meta')['Alipay:desc']
+          const imgUrlElm = document.getElementsByTagName('meta')['Alipay:imgUrl']
+          const linkElm = document.getElementsByTagName('meta')['Alipay:link']
+          if (titleElm) {
+            titleElm.content = res.data.title
+          }
+          if (descElm) {
+            descElm.content = res.data.desc
+          }
+          if (imgUrlElm) {
+            imgUrlElm.content = res.data.imgUrl
+          }
+          if (linkElm) {
+            linkElm.content = res.data.link
+          }
 
           // AlipayJSBridge.call('startShare', {
           //   // 当用户选择该数组内指定的分享渠道时，仅返回渠道名，而不是真正开始自动分享
