@@ -23,7 +23,6 @@ import { mapGetters } from 'vuex'
 import { Toast } from 'mint-ui'
 import { calCartInfo } from '../../store/modules/home'
 import weixin from 'weixin'
-import utils from 'utils'
 
 export default {
   name: 'PayBar',
@@ -126,55 +125,19 @@ export default {
         return
       }
 
-      // 微信支付
-      if (utils.isWeixin()) {
-        // alert('pay..weixin')
-        weixin.weixinPay(params, (res) => {
-          // go 支付成功
-          if (res.err_msg === 'get_brand_wcpay_request:ok') { // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
-            this.goPaySuc(params.orderNum)
-          } else if (res.err_msg === 'get_brand_wcpay_request:cancel') {
-            this.$emit('toggleSelProducts', { show: false })
-            // 判断 params 是否有优惠券，有的话才弹提示
-            if (params.useCoupon) {
-              Toast(`订单未支付，优惠券将在${params.couponReturnMin}分钟后返还账户`)
-            }
+      // 支付
+      weixin.goPay(
+        params, 
+        (res) => { // 成功
+          this.goPaySuc(params.orderNum)
+        }, 
+        (res) => { // 失败
+          this.$emit('toggleSelProducts', { show: false })
+          // 判断 params 是否有优惠券，有的话才弹提示
+          if (params.useCoupon) {
+            Toast(`订单未支付，优惠券将在${params.couponReturnMin}分钟后返还账户`)
           }
         })
-      }
-
-      // 支付宝支付
-      if (utils.isAlipay()) {
-        // alert('pay..alipay')
-        AlipayJSBridge.call('tradePay', {
-          tradeNO: params.aliTradeNo
-        }, (result) => {
-          if (result.resultCode == '9000') { // 成功
-            this.goPaySuc(params.orderNum)
-          } else {
-            // alert('cancel')
-            this.$emit('toggleSelProducts', { show: false })
-            // 判断 params 是否有优惠券，有的话才弹提示
-            if (params.useCoupon) {
-              Toast(`订单未支付，优惠券将在${params.couponReturnMin}分钟后返还账户`)
-            }
-          }
-        })
-
-        // this.$store.dispatch('home/setIsGoPay', true)
-        // ap.pushWindow({
-        //   url: 'http://comma.isfeel.cn/mock/pay',
-        //   data: {}
-        // })
-
-        // 添加dom
-        // let aliPayForm = params.aliPayForm
-        // const oDiv = document.createElement('div')
-        // aliPayForm = aliPayForm.replace(/<script.*<\/script>/i, '')
-        // oDiv.innerHTML = aliPayForm
-        // document.body.appendChild(oDiv)
-        // document.forms[0].submit()
-      }
     },
     // 支付成功页面
     goPaySuc (orderNum) {
