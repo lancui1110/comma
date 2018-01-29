@@ -83,6 +83,7 @@ export default {
   },
   data () {
     return {
+      isAlipay: utils.isAlipay(),
       showPayType: false,
       isShow: this.show
     }
@@ -93,12 +94,9 @@ export default {
       cart: 'home/getCart',
       payType: 'home/payType'
     }),
-    isAlipay () {
-      return utils.isAlipay()
-    },
     payIcon () {
       if (this.payType === 'wx') {
-        if (this.isAlipay()) {
+        if (this.isAlipay) {
           return 'icon-alipay'
         } else {
           return 'icon-wx'
@@ -109,7 +107,7 @@ export default {
     },
     payWord () {
       if (this.payType === 'wx') {
-        if (this.isAlipay()) {
+        if (this.isAlipay) {
           return '支付宝支付'
         } else {
           return '微信支付'

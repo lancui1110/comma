@@ -88,7 +88,11 @@ export default {
         cb: (res) => {
           this.isSubmit = false
           if (res.code === 1) {
-            this.$router.replace({ name: this.$route.query.to || 'home' })
+            if (this.$route.query.to && this.$route.query.to !== 'home') {
+              this.$router.replace({ name: this.$route.query.to || 'home' })
+            } else {
+              location.href = `${pageConfig.siteUrl}index/`
+            }
           } else {
             Toast(res.msg)
           }
