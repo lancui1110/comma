@@ -28,8 +28,7 @@
         <div class="pay-type" @click="showPayType = true">
           <div class="label">支付方式</div>
           <div class="value">
-            <i class="icon" :class="`${payType === 'wx' ? 'icon-wx' : 'icon-yue-dark'}`"></i>
-            {{payType === 'wx' ? '微信支付' : '账户余额'}}
+            <i class="icon" :class="payIcon"></i> {{payWord}}
             <i class="icon icon-arrow-down"></i>
           </div>
         </div>
@@ -56,8 +55,8 @@
       </div>
       <div class="item pay-type-item" @click="changePayType('wx')">
         <div class="name">
-          <i class="icon icon-wx"></i>
-          微信支付
+          <i class="icon " :class="isAlipay ? 'icon-alipay' : 'icon-wx'"></i>
+          {{isAlipay ? '支付宝支付' : '微信支付'}}
         </div>
         <i class="icon icon-check-black" v-if="payType === 'wx'"></i>
       </div>
@@ -69,6 +68,7 @@
 import { sum, map } from 'lodash'
 import { mapGetters } from 'vuex'
 import CountCtrl from './CountCtrl'
+import utils from 'utils'
 
 export default {
   name: 'SelProducts',
@@ -93,6 +93,31 @@ export default {
       cart: 'home/getCart',
       payType: 'home/payType'
     }),
+    isAlipay () {
+      return utils.isAlipay()
+    },
+    payIcon () {
+      if (this.payType === 'wx') {
+        if (this.isAlipay()) {
+          return 'icon-alipay'
+        } else {
+          return 'icon-wx'
+        }
+      } else { // 余额
+        return 'icon-yue-dark'
+      }
+    },
+    payWord () {
+      if (this.payType === 'wx') {
+        if (this.isAlipay()) {
+          return '支付宝支付'
+        } else {
+          return '微信支付'
+        }
+      } else { // 余额
+        return '账户余额'
+      }
+    },
     cartDiscountAmount () {
       return sum(map(this.cart.list, item => item.count * (item.product.discountPrice || item.product.price)))
     },
