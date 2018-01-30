@@ -36,7 +36,12 @@ export default {
   methods: {
     checkLoginStatus (to) {
       if (this.user && this.user.mobile) {
-        this.$router.push({ name: to })
+        // this.$router.push({ name: to })
+        if (to === 'recharge') {
+          location.href = `${pageConfig.siteUrl}index/recharge`
+        } else if (to === 'my') {
+          location.href = `${pageConfig.siteUrl}index/my`
+        }
       } else {
         this.$router.push({ name: 'login' })
       }
