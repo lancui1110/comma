@@ -20,7 +20,7 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import { trim } from 'lodash'
 import { Toast } from 'mint-ui'
 
@@ -41,6 +41,11 @@ export default {
       mobile: '',
       code: ''
     }
+  },
+  computed: {
+    ...mapGetters({
+      cart: 'home/getCart'
+    })
   },
   methods: {
     handleTelChange (e) {
@@ -88,9 +93,10 @@ export default {
         cb: (res) => {
           this.isSubmit = false
           if (res.code === 1) {
-            if (this.$route.query.to && this.$route.query.to !== 'home') {
+            if (this.cart.count) {
               this.$router.replace({ name: this.$route.query.to || 'home' })
             } else {
+              // default go home page
               location.href = `${pageConfig.siteUrl}index/`
             }
           } else {

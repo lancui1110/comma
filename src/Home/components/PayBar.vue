@@ -116,7 +116,7 @@ export default {
           }
         })
       } else {
-        this.$router.push({ name: 'login', query: { to: 'home' } })
+        this.$router.push({ name: 'login' })
       }
     },
     goPay (params) {
@@ -127,10 +127,10 @@ export default {
 
       // 支付
       weixin.goPay(
-        params, 
+        params,
         (res) => { // 成功
           this.goPaySuc(params.orderNum)
-        }, 
+        },
         (res) => { // 失败
           this.$emit('toggleSelProducts', { show: false })
           // 判断 params 是否有优惠券，有的话才弹提示

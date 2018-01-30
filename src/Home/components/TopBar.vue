@@ -38,7 +38,7 @@ export default {
       if (this.user && this.user.mobile) {
         this.$router.push({ name: to })
       } else {
-        this.$router.push({ name: 'login', query: { to: 'home' } })
+        this.$router.push({ name: 'login' })
       }
     },
     scanQRCode (e) {
