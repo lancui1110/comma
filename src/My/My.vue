@@ -258,7 +258,7 @@ export default {
       height: 54/@R;
       line-height: 50/@R;
       text-align: center;
-      border: 4/@R solid @border-gray;
+      border: 1px solid @border-gray;
       border-radius: 27/@R;
       font-size: 24/@R;
     }

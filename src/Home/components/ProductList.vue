@@ -123,7 +123,7 @@ export default {
       margin: 0 auto 60/@R;
       text-align: center;
       border-radius: 40/@R;
-      border: 4/@R solid @border-gray !important;
+      border: 1px solid @border-gray !important;
       font-size: 30/@R;
       color: @text-color;
     }
