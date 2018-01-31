@@ -14,7 +14,7 @@
     </div>
     <div class="pay-tips-box">
       <p>温馨提示：首次支付需要验证您的手机号码，</p>
-      <p>通过后即可微信支付下单</p>
+      <p>通过后即可支付下单</p>
     </div>
   </div>
 </template>
