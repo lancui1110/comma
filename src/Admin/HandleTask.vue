@@ -19,8 +19,7 @@
             type="tel"
             v-model="item.realNum"
             placeholder="点击输入"
-            :ref="`input_${$index}`"
-            @blur="handleInputEnter($index, $event)">
+            :ref="`input_${$index}`">
         </div>
         <div class="field" v-else>
           <label>{{`${TypeLabel[taskType]}数量`}}</label>
