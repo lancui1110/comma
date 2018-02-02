@@ -28,8 +28,7 @@
             type="tel"
             v-model="item.realNum"
             placeholder="点击输入"
-            :ref="`input_${$index}`"
-            @blur="handleInputEnter($index, $event)">
+            :ref="`input_${$index}`">
         </div>
       </div>
     </div>
@@ -98,12 +97,12 @@ export default {
     // }
   },
   methods: {
-    handleInputEnter (index, e) {
-      const nextInput = this.$refs[`input_${index + 1}`]
-      if (nextInput && !trim(nextInput[0].value)) {
-        nextInput[0].focus()
-      }
-    },
+    // handleInputEnter (index, e) {
+    //   const nextInput = this.$refs[`input_${index + 1}`]
+    //   if (nextInput && !trim(nextInput[0].value)) {
+    //     nextInput[0].focus()
+    //   }
+    // },
     toFeedBack () {
       MessageBox({
         title: '提示',
