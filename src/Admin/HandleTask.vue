@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { map, forEach, trim } from 'lodash'
+import { map, forEach } from 'lodash'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import { Button, MessageBox } from 'mint-ui'
