@@ -6,7 +6,7 @@
     <div class="middle">
       <label>账户余额</label>
       <span class="amount">¥<span class="num">{{this.money}}</span></span>
-      <router-link class="recharge-btn" :to="{ name: 'recharge' }">充值有礼</router-link>
+      <!-- <router-link class="recharge-btn" :to="{ name: 'recharge' }">充值有礼</router-link> -->
     </div>
     <div class="right">
       <a :href="`${baseUrl}/customer/feedBack`">

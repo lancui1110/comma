@@ -5,12 +5,12 @@
       扫码购物
     </div>
     <div class="logo"><img :src="require('../../assets/new_logo.png')" alt="comma"></div>
-    <a
+    <!-- <a
       class="menu recharge"
       @click="checkLoginStatus('recharge')">
       <i class="icon icon-recharge"></i>
       充值
-    </a>
+    </a> -->
     <a
       class="menu"
       @click="checkLoginStatus('my')">
